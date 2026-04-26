@@ -1,47 +1,53 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = { title: "Outreach" };
 
 const items = [
   {
+    href: "/outreach/abc-2023",
     title: "ABC 2023",
     body:
-      "Photos and materials from the ABC 2023 school/event. Replace with a short description and link to a gallery.",
+      "International workshop of the Ascona B-DNA Consortium — sequence-dependent physical properties of DNA, multiscale methods, force fields and protein–DNA interactions.",
   },
   {
+    href: "/outreach/arn-for-export",
     title: "ARN for Export",
     body:
-      "Public engagement project on RNA biology. Add description and links.",
+      "Interdisciplinary art-and-science installation visualizing extracellular RNA — a collaboration with sculptors, audiovisual artists and biologists across Uruguayan institutions.",
   },
   {
+    href: "/outreach/sonification",
     title: "Sonification",
     body:
-      "Translating molecular data into sound — a creative dissemination format. Add description and links.",
+      "Translating molecular dynamics of DNA into music. A pilot composition mapping DNA–ion interactions to piano and violin notes, in collaboration with composer Nicolás Molla.",
   },
 ];
 
-export default function OutreachPage() {
+export default function OutreachIndex() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20">
-      <h1 className="font-serif text-4xl font-semibold tracking-tight">
+    <div className="mx-auto max-w-6xl px-6 py-24">
+      <h1 className="font-serif text-4xl font-semibold tracking-tight text-ink">
         Outreach
       </h1>
-      <p className="mt-4 max-w-prose text-ink/80">
-        We share science through teaching, public talks, and creative
-        collaborations.
+      <p className="mt-5 max-w-prose leading-relaxed text-muted">
+        We share science through teaching, public engagement, and creative
+        collaborations across art, music, and exhibitions.
       </p>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
-        {items.map((item) => (
-          <article
-            key={item.title}
-            className="rounded-lg border border-black/10 bg-white p-6"
+      <div className="mt-14 grid gap-6 md:grid-cols-2">
+        {items.map((it) => (
+          <Link
+            key={it.href}
+            href={it.href}
+            className="group relative overflow-hidden rounded-lg border border-border bg-surface p-7 transition hover:border-accent"
           >
-            <h2 className="font-serif text-xl font-semibold">{item.title}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink/80">
-              {item.body}
-            </p>
-          </article>
+            <span className="absolute left-0 top-0 h-full w-0.5 bg-accent opacity-0 transition group-hover:opacity-100" />
+            <h2 className="font-serif text-xl font-semibold text-ink group-hover:text-accent">
+              {it.title} →
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{it.body}</p>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,76 +1,87 @@
 import type { Metadata } from "next";
+import {
+  getPublications,
+  groupByYear,
+  formatVenue,
+  type Publication,
+} from "@/lib/publications";
 
 export const metadata: Metadata = { title: "Publications" };
 
-type Pub = {
-  year: number;
-  authors: string;
-  title: string;
-  venue: string;
-  doi?: string;
-};
-
-// Replace with real publication list. Sorted newest first.
-const pubs: Pub[] = [
-  {
-    year: 2025,
-    authors: "Author A, Author B, Dans P. D.",
-    title: "Placeholder title — replace with real entry",
-    venue: "Journal Name, Vol(Issue), pp.",
-    doi: "10.0000/placeholder",
-  },
-];
-
 export default function PublicationsPage() {
+  const groups = groupByYear(getPublications());
+
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20">
-      <h1 className="font-serif text-4xl font-semibold tracking-tight">
+    <div className="mx-auto max-w-5xl px-6 py-24">
+      <h1 className="font-serif text-4xl font-semibold tracking-tight text-ink">
         Publications
       </h1>
-      <p className="mt-4 max-w-prose text-ink/80">
-        A selection of recent work. Full list available on{" "}
+      <p className="mt-5 max-w-prose leading-relaxed text-muted">
+        Peer-reviewed work from DansLab and collaborators. Full list also on{" "}
         <a
-          href="https://scholar.google.com/"
+          href="https://scholar.google.es/citations?hl=es&user=7gFOImQAAAAJ&view_op=list_works"
           className="text-accent underline-offset-4 hover:underline"
           target="_blank"
           rel="noreferrer"
         >
           Google Scholar
-        </a>{" "}
-        and{" "}
-        <a
-          href="https://orcid.org/"
-          className="text-accent underline-offset-4 hover:underline"
-          target="_blank"
-          rel="noreferrer"
-        >
-          ORCID
         </a>
         .
       </p>
 
-      <ul className="mt-12 divide-y divide-black/10">
-        {pubs.map((p, i) => (
-          <li key={i} className="py-6">
-            <p className="text-sm text-ink/60">{p.year}</p>
-            <h2 className="mt-1 font-serif text-lg font-semibold leading-snug">
-              {p.title}
+      <div className="mt-16 space-y-16">
+        {groups.map(([year, pubs]) => (
+          <section key={year}>
+            <h2 className="sticky top-16 z-10 -mx-6 bg-bg/85 px-6 py-2 font-serif text-2xl font-semibold tracking-tight text-ink backdrop-blur">
+              {year}
             </h2>
-            <p className="mt-1 text-sm text-ink/80">{p.authors}</p>
-            <p className="mt-1 text-sm italic text-ink/70">{p.venue}</p>
-            {p.doi && (
-              <a
-                href={`https://doi.org/${p.doi}`}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 inline-block text-sm text-accent underline-offset-4 hover:underline"
-              >
-                doi:{p.doi}
-              </a>
-            )}
-          </li>
+            <ul className="mt-4 divide-y divide-border">
+              {pubs.map((p, i) => (
+                <PubItem key={i} p={p} />
+              ))}
+            </ul>
+          </section>
         ))}
-      </ul>
+      </div>
     </div>
+  );
+}
+
+function PubItem({ p }: { p: Publication }) {
+  return (
+    <li className="py-7">
+      <h3 className="font-serif text-base font-semibold leading-snug text-ink md:text-lg">
+        {p.title}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{p.authors}</p>
+      <p className="mt-1 text-sm italic text-subtle">{formatVenue(p)}</p>
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+        {p.note && (
+          <span className="rounded border border-border px-2 py-0.5 text-subtle">
+            {p.note}
+          </span>
+        )}
+        {p.doi && (
+          <a
+            href={`https://doi.org/${p.doi}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-accent underline-offset-4 hover:underline"
+          >
+            doi
+          </a>
+        )}
+        {p.pdf && (
+          <a
+            href={p.pdf}
+            target="_blank"
+            rel="noreferrer"
+            className="text-accent underline-offset-4 hover:underline"
+          >
+            pdf
+          </a>
+        )}
+      </div>
+    </li>
   );
 }

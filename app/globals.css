@@ -5,16 +5,23 @@
 :root {
   --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
   --font-serif: "Source Serif 4", "Georgia", serif;
+  color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
+  background: #0a0a0a;
 }
 
 body {
-  @apply bg-white text-ink antialiased;
+  @apply bg-bg text-ink antialiased;
 }
 
 a {
   @apply transition-colors;
+}
+
+::selection {
+  background: #dc2626;
+  color: #ffffff;
 }

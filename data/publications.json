@@ -1,0 +1,506 @@
+[
+  {
+    "year": 2025,
+    "authors": "Rodrigo Galindo-Murillo, Akansksha Manghrani, Daniel R. Roe, Olivia Love, Pablo D. Dans, Thomas E. Cheatham III, Christina Bergonzo",
+    "title": "Parameterizing modified nucleic acids for molecular simulations in the AMBER MD software environment",
+    "journal": "Living Journal of Computational Molecular Science",
+    "volume": "6",
+    "issue": "1",
+    "pages": "4545",
+    "doi": "10.33011/livecoms.6.1.4545"
+  },
+  {
+    "year": 2025,
+    "authors": "Gabriela da Rosa, Mauro de Castro, Victor Miguel García Velásquez, Santiago Pintos, Jimena Benedetto, Leandro Grille, Sofia Valla, Luis Miguel Alvarez Sala, Victoria Calzada, Pablo D. Dans",
+    "title": "Aptamers Meet Structural Bioinformatics, Computational Chemistry and Artificial Intelligence",
+    "journal": "WIREs Computational Molecular Science",
+    "doi": "10.1002/wcms.70050",
+    "note": "Corresponding author"
+  },
+  {
+    "year": 2024,
+    "authors": "Olivia Love, Rodrigo Galindo-Murillo, Daniel R. Roe, Pablo D. Dans, Thomas E. Cheatham III, Christina Bergonzo",
+    "title": "modXNA: A Modular Approach to Parametrization of Modified Nucleic Acids for Use with Amber Force Fields",
+    "journal": "Journal of Chemical Theory and Computation",
+    "volume": "20",
+    "pages": "9354-9363",
+    "pdf": "https://drive.google.com/file/d/1RlHWSlDCPB6LnJSRuRUUVbW9quCTqNP1/view?usp=sharing"
+  },
+  {
+    "year": 2024,
+    "authors": "Gabriela da Rosa, Leandro Grille, Pablo D. Dans",
+    "title": "Ramachandran-like Conformational Space for DNA",
+    "journal": "Journal of Chemical Information and Modeling",
+    "volume": "64",
+    "pages": "8339-8348",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1Qu4EKUThJXz0TVoeDqqyeTf0e6ohZex7/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "authors": "John H. Maddocks, Pablo D. Dans, Thomas H. Cheatham III, Sarah Harris, Charlie Laughton, Modesto Orozco, Lois Pollack, Wilma K. Olson",
+    "title": "Multiscale simulations of DNA from electrons to nucleosomes",
+    "journal": "Biophysical Reviews",
+    "doi": "10.1007/s12551-024-01204-7",
+    "pdf": "https://drive.google.com/file/d/1xaiR_4x1GEO1t2jN67zBpCgrN6ykP5AI/view?usp=drive_link"
+  },
+  {
+    "year": 2024,
+    "authors": "Pablo D. Dans",
+    "title": "Multiscale simulations of DNA from electrons to nucleosomes: 22 years of the Ascona B-DNA Consortium",
+    "journal": "Biophysical Reviews",
+    "doi": "10.1007/s12551-024-01194-6",
+    "pdf": "https://drive.google.com/file/d/1B9QcQ-_VxRS0dC-DKGA5jHRZIfGpLMAV/view?usp=sharing"
+  },
+  {
+    "year": 2023,
+    "authors": "Wilma K. Olson, John H. Maddocks, Pablo D. Dans, Thomas H. Cheatham III, Sarah Harris, Charlie Laughton, Modesto Orozco, Lois Pollack",
+    "title": "An open call for contributions to a special issue of Biophysical Reviews focused on multiscale simulations of DNA from electrons to nucleosomes",
+    "journal": "Biophysical Reviews",
+    "volume": "15",
+    "issue": "6",
+    "pages": "1901-1902",
+    "pdf": "https://drive.google.com/file/d/1B9QcQ-_VxRS0dC-DKGA5jHRZIfGpLMAV/view?usp=sharing"
+  },
+  {
+    "year": 2023,
+    "authors": "N. Parisis, Pablo D. Dans, M. Jbara, B. Singh, D. Schusi-Tiffoche, et al.",
+    "title": "Histone H3 serine-57 is a CHK1 substrate whose phosphorylation affects DNA repair",
+    "journal": "Nature Communications",
+    "volume": "14",
+    "issue": "1",
+    "pages": "5104",
+    "pdf": "https://drive.google.com/file/d/1OzpBdp4NW9vUE4FSSgXKk8jBW8AbXxs6/view?usp=drive_link"
+  },
+  {
+    "year": 2023,
+    "authors": "Leandro Grille, Diego Gallego, Leonardo Darré, Gabriela da Rosa, Federica Battistini, Modesto Orozco, Pablo D. Dans",
+    "title": "The Pseudo-Torsional Space of RNA",
+    "journal": "RNA Journal",
+    "volume": "29",
+    "issue": "12",
+    "pages": "1896-1909",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1CDaW7_jjj7K2OpVHivQ5250wN6-arUtt/view?usp=sharing"
+  },
+  {
+    "year": 2023,
+    "authors": "Gabriela Llauger, Roberto Melero, Demián Monti, Gabriela Sycz, Cristián Huck-Iriart, María L. Cerutti, Sebastián Klinke, Evelyn Mikkelsen, Ariel Tijman, Rocío Arranz, Victoria Alfonso, Sofía M. Arellano, Fernando A. Goldbaum, Yann G. J. Sterckx, José-María Carazo, Sergio B. Kaufman, Pablo D. Dans, Mariana del Vas, Lisandro H. Otero",
+    "title": "A fijivirus major viroplasm protein shows RNA-stimulated ATPase activity by adopting pentameric and hexameric assemblies of dimers",
+    "journal": "mBio",
+    "pages": "e00023-23",
+    "pdf": "https://drive.google.com/file/d/1Pc4IqS3IhQIE5iooUZfeQ87hYRFMsJBC/view?usp=drive_link"
+  },
+  {
+    "year": 2022,
+    "authors": "Maria Victoria Neguembor, Diana Buitrago, Rafael Lema, Juan Pablo Arcon, Jürgen Walther, Ximena Garate, Laura Martin, Pablo Romero, Marta Gut, Julie Blanc, Jumana AlHaj Abed, Melike Lakadamyali, Chao-ting Wu, Isabelle Brun Heath, Modesto Orozco, Pablo D. Dans, Maria Pia Cosma",
+    "title": "MioS, an integrated imaging and modeling strategy to resolve gene folding at basepair resolution",
+    "journal": "Nature Structural and Molecular Biology",
+    "volume": "29",
+    "issue": "10",
+    "pages": "1011-1023",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1SmK1N9JF4p-dB2LSfOJx5JAInPgc5WVj/view?usp=drive_link"
+  },
+  {
+    "year": 2022,
+    "authors": "Benjamin Martin, Pablo D. Dans, Milosz Wieczor, Nuria Villegas, Isabelle Brun-Heath, Federica Battistini, Montserrat Terrazas, Modesto Orozco",
+    "title": "Molecular basis of Arginine and Lysine DNA sequence-dependent thermo-stability modulation",
+    "journal": "PLOS Computational Biology",
+    "doi": "10.1371/journal.pcbi.1009749",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/18kXncV05Yy_DCphs5PmpmwxzYD4Tzo3s/view?usp=drive_link"
+  },
+  {
+    "year": 2021,
+    "authors": "Gabriela da Rosa, Leandro Grille, Victoria Calzada, ABC consortium, Pablo D. Dans",
+    "title": "Sequence-Dependent Structural Properties of B-DNA: What Have We Learned in 40 Years?",
+    "journal": "Biophysical Reviews",
+    "doi": "10.1007/s12551-021-00893-8",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1H2qZ0X3uFlsV83MB4EtqFqG_4dGj8_b-/view?usp=drive_link"
+  },
+  {
+    "year": 2021,
+    "authors": "Federica Battistini, Pablo D. Dans, Montserrat Terrazas, Chiara L. Castellazzi, Guillem Portella, Mireia Labrador, Núria Villegas, Isabelle Brun-Heath, Irene Gómez-Pinto, Carlos González, Modesto Orozco",
+    "title": "The Impact of the Hydroxymethylcytosine Epigenetic Signature on DNA Structure and Function",
+    "journal": "PLOS Computational Biology",
+    "volume": "17",
+    "pages": "e1009547",
+    "doi": "10.1371/journal.pcbi.1009547",
+    "pdf": "https://drive.google.com/file/d/1LID0mkHoHseQg6O59n0dVU183Xi8B44b/view?usp=drive_link"
+  },
+  {
+    "year": 2021,
+    "authors": "Diana Buitrago, Mireia Labrador, Juan Pablo Arcon, Rafael Lema, Oscar Flores, Anna Esteve-Codina, Julie Blanc, Nuria Villegas, David Bellido, Marta Gut, Pablo D. Dans, Simon C. Heath, Ivo Gut, Isabelle Brun Heath, Modesto Orozco",
+    "title": "Impact of DNA methylation on 3D genome structure",
+    "journal": "Nature Communications",
+    "volume": "12",
+    "pages": "3243",
+    "doi": "10.1038/s41467-021-23142-8",
+    "pdf": "https://drive.google.com/file/d/1cv6nvgmbOmKGe-IjyJDb5DSkIT1fc6ra/view?usp=drive_link"
+  },
+  {
+    "year": 2021,
+    "authors": "Susana Rodríguez-Decuadro, Gabriela da Rosa, Santiago Radío, Mariana Barraco-Vega, Ana Maria Benko-Iseppon, Pablo D. Dans, Pablo Smircich, Gianna Cecchetto",
+    "title": "Antimicrobial peptides in the seedling transcriptome of the tree legume Peltophorum dubium",
+    "journal": "Biochimie",
+    "doi": "10.1016/j.biochi.2020.11.005",
+    "pdf": "https://drive.google.com/file/d/1xW11S2Wf41JFnpchkUQDWYJQ1O9rBqcD/view?usp=drive_link"
+  },
+  {
+    "year": 2020,
+    "authors": "Ruifang Zheng, Gabriela da Rosa, Pablo D. Dans, R. Daniel Peluffo",
+    "title": "Molecular Determinants for Nitric Oxide Regulation of the Murine Cationic Amino Acid Transporter CAT-2A",
+    "journal": "Biochemistry",
+    "doi": "10.1021/acs.biochem.0c00729",
+    "pdf": "https://drive.google.com/file/d/1vqs7ByIJHb88xHVzAk7lnsG507ZWjHD7/view?usp=drive_link"
+  },
+  {
+    "year": 2020,
+    "authors": "Jürgen Walther, Pablo D. Dans, Alexandra Balaceanu, Adam Hospital, Genís Bayarri, Modesto Orozco",
+    "title": "A Multi-Modal Coarse-Grain Model of DNA Flexibility Mappable to the Atomistic Level",
+    "journal": "Nucleic Acids Research",
+    "doi": "10.1093/nar/gkaa015",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1Zyit1sk5DYy579esyYdaV5mlifAIZyn_/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Pablo D. Dans, Alexandra Balaceanu, Marco Pasi, Alessandro S. P. Patelli, Daiva Petkevičiūtė, Jürgen Walther, Adam Hospital, Richard Lavery, John Maddocks, Modesto Orozco",
+    "title": "The Static and Dynamic Structural Heterogeneities of B-DNA: Extending Calladine-Dickerson rules",
+    "journal": "Nucleic Acids Research",
+    "doi": "10.1093/nar/gkz905",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1oj0G2ebCHA8l9qc5Pauxj4bLLroC9Z9X/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Maxime Janin, Vanessa Ortiz-Barahona, Manuel Castro de Moura, Anna Martínez-Cardús, Pere Llinàs-Arias, Marta Soler, Daphna Nachmani, Joffrey Pelletier, Ulrike Schumann, et al., Pablo D. Dans, Modesto Orozco, et al., Manel Esteller",
+    "title": "Epigenetic Loss of RNA Methyltransferase NSUN5 in Glioma Targets Ribosomes to Drive a Stress Adaptive Translational Program Associated with Long-Term Survival",
+    "journal": "Acta Neuropathologica",
+    "doi": "10.1007/s00401-019-02062-4",
+    "pdf": "https://drive.google.com/file/d/1w4o9d4QQPimWIq-H-sLY5szL2p_x9d5w/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Susana Rodriguez, Pablo D. Dans, María Alejandra Borba, Ana María Benko-Iseppon, Gianna Cecchetto",
+    "title": "Gene Isolation of a New Legume Defensin with a Broad Spectrum of Antimicrobial Activity",
+    "journal": "Planta",
+    "doi": "10.1007/s00425-019-03260-w",
+    "pdf": "https://drive.google.com/file/d/1Re7Auyu8d7SMMAEzCv2IEnAwat7WnQx2/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Federica Battistini, Adam Hospital, Diana Buitrago, Pablo D. Dans, Josep Lluis Gelpi, Modesto Orozco",
+    "title": "How B-DNA Dynamics Decipher Sequence-selective Protein Recognition",
+    "journal": "Journal of Molecular Biology",
+    "doi": "10.1016/j.jmb.2019.07.021",
+    "pdf": "https://drive.google.com/file/d/1g_n2GhxvJvotNPYzsltEWMQmAlHq9105/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Diego Gallego, Leonardo Darré, Pablo D. Dans, Modesto Orozco",
+    "title": "VeriNA3d: An R Package for the Data Mining of Nucleic Acids",
+    "journal": "Bioinformatics – Application Notes",
+    "doi": "10.1093/bioinformatics/btz553",
+    "note": "Corresponding author",
+    "pdf": "https://drive.google.com/file/d/1kByNiGil5n55N4zc8L-0FUQ-XfJgpLdx/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Alexandra Balaceanu, Diana Buitrago, Jürgen Walther, Pablo D. Dans, Modesto Orozco",
+    "title": "Modulation of the Helical Properties of DNA: Next-To-Nearest Neighbour Effects and Beyond",
+    "journal": "Nucleic Acids Research",
+    "doi": "10.1093/nar/gkz255",
+    "pdf": "https://drive.google.com/file/d/1l-GMyBSEHNaury9m3vetW1gYpTOuJFUv/view?usp=drive_link"
+  },
+  {
+    "year": 2019,
+    "authors": "Antonia Kuzmanic, Pablo D. Dans, Modesto Orozco",
+    "title": "An in-depth look at DNA crystals through the prism of molecular dynamics simulations",
+    "journal": "CHEM (Cell Press)",
+    "doi": "10.1016/j.chempr.2018.12.007",
+    "pdf": "https://drive.google.com/file/d/1cohckFi7SZlt3sXKw4MKHOoeYitwqEp7/view?usp=drive_link"
+  },
+  {
+    "year": 2018,
+    "authors": "Pablo D. Dans, Diego Gallego, Alexandra Balaceanu, Leonardo Darré, Hansel Gómez, Modesto Orozco",
+    "title": "Modeling, Simulations, and Bioinformatics at the Service of RNA Structure",
+    "journal": "CHEM (Cell Press)",
+    "doi": "10.1016/j.chempr.2018.09.015",
+    "pdf": "https://drive.google.com/file/d/1SRlaSITHLCX6UvncVDxisi5N1L1fONb4/view?usp=drive_link"
+  },
+  {
+    "year": 2018,
+    "authors": "Elizabeth Sweeny, Anuradha Singh, Ritu Chakravarti, Osiris Martinez-Guzman, Arushi Saini, Mohammad Haque, Greer Garee, Pablo D. Dans, Luciana Hannibal, Amit Reddi, Dennis Stuehr",
+    "title": "Glyceraldehyde 3-phosphate dehydrogenase is a chaperone that allocates labile heme in cells",
+    "journal": "Journal of Biological Chemistry",
+    "doi": "10.1074/jbc.RA118.004169",
+    "pdf": "https://drive.google.com/file/d/1DxbUZDvRxw6wR_Xn1KrT91Dtqds-yUPX/view?usp=drive_link"
+  },
+  {
+    "year": 2018,
+    "authors": "Alexandra Balaceanu, Alberto Pérez, Pablo D. Dans, Modesto Orozco",
+    "title": "Allosterism and Signal Transfer in DNA",
+    "journal": "Nucleic Acids Research",
+    "doi": "10.1093/nar/gky549",
+    "pdf": "https://drive.google.com/file/d/11jYPryEKfYBbh1HAWFeu16T6HWZqBtti/view?usp=drive_link"
+  },
+  {
+    "year": 2018,
+    "authors": "Susana Rodríguez-Decuadro, Mariana Barraco-Vega, Pablo D. Dans, Valesca Pandolfi, Ana Maria Benko-Iseppon, Gianna Cecchetto",
+    "title": "Antimicrobial and structural insights of a new snakin-like peptide isolated from Peltophorum dubium (Fabaceae)",
+    "journal": "Amino Acids",
+    "doi": "10.1007/s00726-018-2598-3",
+    "pdf": "https://drive.google.com/file/d/1eAmjVOEdBXfpIeF9ZQExm2EuIUmq5VLM/view?usp=drive_link"
+  },
+  {
+    "year": 2017,
+    "authors": "Pablo D. Dans, Ivan Ivani, Adam Hospital, Guillem Portella, Carlos González, Modesto Orozco",
+    "title": "How accurate are accurate force-fields for B-DNA?",
+    "journal": "Nucleic Acids Research",
+    "volume": "45",
+    "issue": "7",
+    "pages": "4217-4230",
+    "pdf": "https://drive.google.com/file/d/1H05quj6R1xPIEtEZxogvs0rWyPFnSjUF/view?usp=drive_link"
+  },
+  {
+    "year": 2017,
+    "authors": "Hansel Gómez, Jürgen Walther, Leonardo Darré, Ivan Ivani, Pablo D. Dans, Modesto Orozco",
+    "title": "Molecular Modeling of Nucleic Acids — in Computational Tools for Chemical Biology",
+    "journal": "Royal Society of Chemistry (book chapter)",
+    "pdf": "https://drive.google.com/file/d/1qKqfNnqBK0qE9pBhT2BmpZby7zZFCUwW/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "Alexandra Balaceanu, Marco Pasi, Pablo D. Dans, Adam Hospital, Richard Lavery, Modesto Orozco",
+    "title": "The role of unconventional hydrogen bonds in determining BII propensities in B-DNA",
+    "journal": "Journal of Physical Chemistry Letters",
+    "volume": "8",
+    "issue": "1",
+    "pages": "21-28",
+    "note": "First co-author",
+    "pdf": "https://drive.google.com/file/d/1MzHR3m6w0uE7itk3Ri3QeOlmctVjV9af/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "Leonardo Darré, Ivan Ivani, Pablo D. Dans, Hansel Gómez, Adam Hospital, Modesto Orozco",
+    "title": "Small Details Matter: the Importance of the 2'-Hydroxyl in RNA",
+    "journal": "Journal of the American Chemical Society",
+    "volume": "138",
+    "issue": "50",
+    "pages": "16355-16363",
+    "pdf": "https://drive.google.com/file/d/10RZC7AnGREwlGdRPpFGXK10SkZMMqhLG/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "Pablo D. Dans, L. Danilāne, Ivan Ivani, Tomáš Dršata, Filip Lankaš, Adam Hospital, Jürgen Walther, Ricard Illa Pujagut, Federica Battistini, Josep Lluis Gelpí, Richard Lavery, Modesto Orozco",
+    "title": "Long-timescale dynamics of the Drew-Dickerson dodecamer",
+    "journal": "Nucleic Acids Research",
+    "volume": "44",
+    "issue": "9",
+    "pages": "4052-4066",
+    "pdf": "https://drive.google.com/file/d/1-g0NgjqqzVL7PolEH5dBV3rk1tXWs78f/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "A. Saint-Léger, C. Bello-Cabrera, Pablo D. Dans, A. G. Torres, E. M. Novoa, N. Camacho, M. Orozco, F. A. Kondrashov, L. Ribas de Pouplana",
+    "title": "Saturation of recognition elements blocks evolution of new tRNA identities",
+    "journal": "Science Advances",
+    "volume": "2",
+    "issue": "4",
+    "pages": "e1501860",
+    "pdf": "https://drive.google.com/file/d/1yMPeZobcWtDjz_paJ68qxtKtnXzXHEzE/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "Adam Hospital, Pau Andrio, Cesare Cugnasco, Laia Codó, Yolanda Becerra, Pablo D. Dans, Federica Battistini, Jordi Torres, Ramon Goni, Modesto Orozco, et al.",
+    "title": "BIGNASim: a NoSQL database structure and analysis portal for nucleic acids simulation data",
+    "journal": "Nucleic Acids Research",
+    "volume": "44",
+    "issue": "D1",
+    "pages": "D272-8",
+    "pdf": "https://drive.google.com/file/d/1R1O3kQzTBmUg8hDoLsjO1gDqz0hjPljt/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "Pablo D. Dans, Jürgen Walther, Hansel Gómez, Modesto Orozco",
+    "title": "Multiscale simulation of DNA",
+    "journal": "Current Opinion in Structural Biology",
+    "volume": "37",
+    "pages": "29-45",
+    "pdf": "https://drive.google.com/file/d/1D8psUHJGNJC4DQ6UlKJhH0RG2pmOyUoy/view?usp=drive_link"
+  },
+  {
+    "year": 2016,
+    "authors": "Ivan Ivani, Pablo D. Dans, Agnes Noy, Alberto Pérez, Ignacio Faustino, Adam Hospital, Jürgen Walther, Pau Andrio, Ramon Goni, Alexandra Balaceanu, et al.",
+    "title": "Parmbsc1: a refined force field for DNA simulations",
+    "journal": "Nature Methods",
+    "volume": "13",
+    "issue": "1",
+    "pages": "55-58",
+    "note": "First co-author",
+    "pdf": "https://drive.google.com/file/d/1iL9BGuSb1xyTHfdzPuCMS-cr6raDgHFB/view?usp=drive_link"
+  },
+  {
+    "year": 2015,
+    "authors": "Santiago Signorelli, Pablo D. Dans, E. Laura Coitiño, Omar Borsani, Jorge Monza",
+    "title": "Connecting proline and γ-aminobutyric acid in stressed plants through non-enzymatic reactions",
+    "journal": "PLoS One",
+    "volume": "10",
+    "issue": "3",
+    "pages": "e0115349",
+    "pdf": "https://drive.google.com/file/d/1rHsKYkLHbydUkWi7Et-gx5RSH7B7Exlt/view?usp=drive_link"
+  },
+  {
+    "year": 2015,
+    "authors": "Giulia Rossetti, Pablo D. Dans, Irene Gómez-Pinto, Ivan Ivani, Carlos González, Modesto Orozco",
+    "title": "The structural impact of DNA mismatches",
+    "journal": "Nucleic Acids Research",
+    "volume": "43",
+    "issue": "8",
+    "pages": "4309-4321",
+    "note": "First co-author",
+    "pdf": "https://drive.google.com/file/d/1hTfU2-o5Cs4ItrrOKuhodPMf3EVarxgU/view?usp=drive_link"
+  },
+  {
+    "year": 2014,
+    "authors": "Ana Cuervo, Pablo D. Dans, José L. Carrascosa, Modesto Orozco, Gabriel Gomila, Laura Fumagalli",
+    "title": "Direct measurement of the dielectric polarization properties of DNA",
+    "journal": "Proceedings of the National Academy of Sciences USA",
+    "volume": "111",
+    "issue": "35",
+    "pages": "E3624-30",
+    "note": "First co-author",
+    "pdf": "https://drive.google.com/file/d/1QptgsxYq5jdzGzlVqmJE8P5s3lmFIy7Q/view?usp=drive_link"
+  },
+  {
+    "year": 2014,
+    "authors": "Pablo D. Dans, Ignacio Faustino, Federica Battistini, Krystyna Zakrzewska, Richard Lavery, Modesto Orozco",
+    "title": "Unraveling the sequence-dependent polymorphic behavior of d(CpG) steps in B-DNA",
+    "journal": "Nucleic Acids Research",
+    "volume": "42",
+    "issue": "19",
+    "pages": "11304-11320",
+    "pdf": "https://drive.google.com/file/d/1BndEsI6kyRSON8RiIcSbto1RSgYxcKTi/view?usp=drive_link"
+  },
+  {
+    "year": 2014,
+    "authors": "Marco Pasi, John H. Maddocks, David Beveridge, Thomas C. Bishop, David A. Case, Thomas Cheatham, Pablo D. Dans, B. Jayaram, Filip Lankaš, Charles Laughton, et al.",
+    "title": "μABC: a systematic microsecond molecular dynamics study of tetranucleotide sequence effects in B-DNA",
+    "journal": "Nucleic Acids Research",
+    "volume": "42",
+    "issue": "19",
+    "pages": "12272-12283",
+    "pdf": "https://drive.google.com/file/d/17N6z4RjE_5HSf-22i1z0l4HbBcmGdPmp/view?usp=drive_link"
+  },
+  {
+    "year": 2013,
+    "authors": "Pablo D. Dans, Leonardo Darré, Matias R. Machado, Ari Zeida, Astrid F. Brandner, Sergio Pantano",
+    "title": "Assessing the Accuracy of the SIRAH Force Field to Model DNA at Coarse Grain Level",
+    "journal": "Advances in Bioinformatics and Computational Biology (book chapter)",
+    "pages": "71-81",
+    "pdf": "https://drive.google.com/file/d/1L37-gK2fQu9wl-BBAhXRipM6jy9TIXuw/view?usp=drive_link"
+  },
+  {
+    "year": 2012,
+    "authors": "Ari Zeida, Matías Rodrigo Machado, Pablo D. Dans, Sergio Pantano",
+    "title": "Breathing, bubbling, and bending: DNA flexibility from multi-microsecond simulations",
+    "journal": "Physical Review E",
+    "volume": "86",
+    "issue": "2",
+    "pages": "021903",
+    "pdf": "https://drive.google.com/file/d/14PtykvnTY4Ay1gszrWGcQRLtNRI25xRL/view?usp=drive_link"
+  },
+  {
+    "year": 2012,
+    "authors": "Pablo D. Dans, Alberto Pérez, Ignacio Faustino, Richard Lavery, Modesto Orozco",
+    "title": "Exploring polymorphisms in B-DNA helical conformations",
+    "journal": "Nucleic Acids Research",
+    "volume": "40",
+    "issue": "21",
+    "pages": "10668-10678",
+    "pdf": "https://drive.google.com/file/d/12c2bJdycMZzRMlhF2VjxXBw677W4fjub/view?usp=drive_link"
+  },
+  {
+    "year": 2011,
+    "authors": "Matías Rodrigo Machado, Pablo D. Dans, Sergio Pantano",
+    "title": "A hybrid all-atom/coarse grain model for multiscale simulations of DNA",
+    "journal": "Physical Chemistry Chemical Physics",
+    "volume": "13",
+    "issue": "40",
+    "pages": "18134-18144",
+    "pdf": "https://drive.google.com/file/d/1UjqPa52Cg-ORwNfVk0y5UdTJnkiAutt4/view?usp=drive_link"
+  },
+  {
+    "year": 2011,
+    "authors": "Daniel I. Perez, Valle Palomo, Concepción Pérez, Carmen Gil, Pablo D. Dans, F. Javier Luque, Santiago Conde, Ana Martínez",
+    "title": "Switching reversibility to irreversibility in glycogen synthase kinase 3 inhibitors: clues for specific design of new compounds",
+    "journal": "Journal of Medicinal Chemistry",
+    "volume": "54",
+    "issue": "12",
+    "pages": "4042-4056",
+    "pdf": "https://drive.google.com/file/d/1eJMWo2yT5A0uBTokMoNWn1AF07ZiQkLv/view?usp=drive_link"
+  },
+  {
+    "year": 2010,
+    "authors": "Leonardo Darré, Matias R. Machado, Pablo D. Dans, Fernando E. Herrera, Sergio Pantano",
+    "title": "Another Coarse Grain Model for Aqueous Solvation: WAT FOUR?",
+    "journal": "Journal of Chemical Theory and Computation",
+    "volume": "6",
+    "issue": "12",
+    "pages": "3793-3807",
+    "pdf": "https://drive.google.com/file/d/1LgLQpgzbBruy6HFkgJ8bOV5dhMdjDTlF/view?usp=drive_link"
+  },
+  {
+    "year": 2010,
+    "authors": "Pablo D. Dans, Ari Zeida, Matías R. Machado, Sergio Pantano",
+    "title": "A coarse grained model for atomic-detailed DNA simulations with explicit electrostatics",
+    "journal": "Journal of Chemical Theory and Computation",
+    "volume": "6",
+    "issue": "5",
+    "pages": "1711-1725",
+    "pdf": "https://drive.google.com/file/d/1jIc_7iAUS64jaWvWb0eNifFg6xr9iMkz/view?usp=drive_link"
+  },
+  {
+    "year": 2010,
+    "authors": "Matias R. Machado, Pablo D. Dans, Sergio Pantano",
+    "title": "Isoform-specific determinants in the HP1 binding to histone 3: insights from molecular simulations",
+    "journal": "Amino Acids",
+    "volume": "38",
+    "issue": "5",
+    "pages": "1571-1581",
+    "pdf": "https://drive.google.com/file/d/1Q1lGUC8eo4t3Q-b8urIm5Ab_isJ-m15U/view?usp=drive_link"
+  },
+  {
+    "year": 2010,
+    "authors": "Alex De Marco, Pablo D. Dans, Anna Knezevich, Paolo Maiuri, Sergio Pantano, Alessandro Marcello",
+    "title": "Subcellular localization of the interaction between the human immunodeficiency virus transactivator Tat and the nucleosome assembly protein 1",
+    "journal": "Amino Acids",
+    "volume": "38",
+    "issue": "5",
+    "pages": "1583-1593",
+    "pdf": "https://drive.google.com/file/d/1UVVMwOD__CZMfNJbmZxLaIPAeVGb5Bfk/view?usp=drive_link"
+  },
+  {
+    "year": 2009,
+    "authors": "Pablo D. Dans, E. Laura Coitiño",
+    "title": "Density functional theory characterization and descriptive analysis of cisplatin and related compounds",
+    "journal": "Journal of Chemical Information and Modeling",
+    "volume": "49",
+    "issue": "6",
+    "pages": "1407-1419",
+    "pdf": "https://drive.google.com/file/d/1JsFkY3appx_3B-tFToEkxhyOiBfl4bnF/view?usp=drive_link"
+  },
+  {
+    "year": 2008,
+    "authors": "Pablo D. Dans, Alejandro Crespo, Darío A. Estrin, E. Laura Coitiño",
+    "title": "Structural and Energetic Study of Cisplatin and Derivatives: Comparison of the Performance of Density Functional Theory Implementations",
+    "journal": "Journal of Chemical Theory and Computation",
+    "volume": "4",
+    "issue": "5",
+    "pages": "740-750",
+    "pdf": "https://drive.google.com/file/d/1PxobKJr4lLj5rUeeMeM7JAhvQ9IEuUIE/view?usp=drive_link"
+  }
+]

@@ -23,24 +23,43 @@ Outputs static HTML/CSS/JS to `out/`.
 
 ## Deployment
 
-A GitHub Actions workflow ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) builds the site and publishes it to GitHub Pages on every push to `main`.
+A GitHub Actions workflow ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) builds the site and publishes it to GitHub Pages on every push to `main`. The custom domain `www.danslab.xyz` is configured via [public/CNAME](public/CNAME).
 
-The custom domain `www.danslab.xyz` is configured via [public/CNAME](public/CNAME).
+## Editing content
 
-## Structure
+Most content is data-driven — no React knowledge needed.
+
+| What                | Edit this                                                                  |
+| ------------------- | -------------------------------------------------------------------------- |
+| Lab members         | [members/members.csv](members/members.csv) and [past_members.csv](members/past_members.csv) |
+| Publications        | [data/publications.json](data/publications.json)                           |
+| Member photos       | drop into [public/members/](public/members/)                               |
+| Outreach galleries  | drop optimized images into [public/outreach/&lt;slug&gt;/](public/outreach/) |
+| Page text & layout  | the matching file under [app/](app/)                                       |
+
+See [members/README.md](members/README.md) and [public/outreach/README.md](public/outreach/README.md) for details and image-optimization guidance.
+
+## Project layout
 
 ```
-app/                Routes (App Router): home, research, members, publications, outreach, contact
-components/         Shared UI (Nav, Footer)
-public/             Static assets served at site root (logo, favicon, CNAME, .nojekyll)
+app/                Routes (App Router)
+  page.tsx          Home
+  research/         Research lines
+  members/          Members (reads CSVs)
+  publications/     Publications (reads data/publications.json)
+  outreach/         Outreach index + sub-pages with galleries
+  contact/          Contact
+components/         Shared UI (Nav, Footer, MemberCard, Gallery)
+data/               Site data (publications.json)
+lib/                Build-time loaders (members, publications, gallery)
+members/            Members CSVs
+public/             Static assets served at site root
+  members/          Member portrait photos
+  outreach/         Outreach galleries (per-slug folders)
+  CNAME             Custom domain for GitHub Pages
+  .nojekyll         Disables Jekyll on Pages
 ```
 
-## Migration notes
+## Migration sources (gitignored)
 
-Source material for the migration from the old Google Site lives in:
-
-- `figures/` — historical images, logos, banners
-- `members/` — member photos
-- `danslab-googlesite/` — Drive folder mirror
-
-These directories are **gitignored** — they are working sources, not site content. Move anything that should ship into `public/` and reference it from a page.
+The folders `figures/` and `danslab-googlesite/` hold the original Google Site material (raw photos, mol files, etc.). They are not part of the published site — anything that should ship must be moved into `public/` explicitly. See [`.gitignore`](.gitignore).

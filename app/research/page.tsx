@@ -27,24 +27,25 @@ const lines = [
 
 export default function ResearchPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20">
-      <h1 className="font-serif text-4xl font-semibold tracking-tight">
+    <div className="mx-auto max-w-6xl px-6 py-24">
+      <h1 className="font-serif text-4xl font-semibold tracking-tight text-ink">
         Research
       </h1>
-      <p className="mt-4 max-w-prose text-ink/80">
+      <p className="mt-5 max-w-prose leading-relaxed text-muted">
         Our work spans scales — from individual base pairs to chromatin
         domains — combining physics-based simulations with data-driven
         modeling.
       </p>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
+      <div className="mt-14 grid gap-6 md:grid-cols-2">
         {lines.map((l) => (
           <article
             key={l.title}
-            className="rounded-lg border border-black/10 bg-white p-6"
+            className="group relative overflow-hidden rounded-lg border border-border bg-surface p-7 transition hover:border-accent"
           >
-            <h2 className="font-serif text-xl font-semibold">{l.title}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink/80">{l.body}</p>
+            <span className="absolute left-0 top-0 h-full w-0.5 bg-accent opacity-0 transition group-hover:opacity-100" />
+            <h2 className="font-serif text-xl font-semibold text-ink">{l.title}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{l.body}</p>
           </article>
         ))}
       </div>
