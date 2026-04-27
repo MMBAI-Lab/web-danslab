@@ -1,7 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
-import Papa from "papaparse";
 import type { Lang } from "@/lib/i18n";
+import en from "@/data/collaborators.en.json";
+import es from "@/data/collaborators.es.json";
 
 export type CollaboratorStatus = "ongoing" | "past";
 
@@ -14,29 +13,28 @@ export type Collaborator = {
   url: string;
 };
 
-function loadCsv(file: string): Collaborator[] {
-  const filePath = path.join(process.cwd(), "data", "collaborators", file);
-  if (!fs.existsSync(filePath)) return [];
-  const raw = fs.readFileSync(filePath, "utf8");
-  const parsed = Papa.parse<Record<string, string>>(raw, {
-    header: true,
-    skipEmptyLines: "greedy",
-    transform: (v) => (typeof v === "string" ? v.trim() : v),
-  });
-  return (parsed.data || [])
-    .filter((row) => row.name && row.name.length > 0)
-    .map((row) => ({
-      title: row.title ?? "",
-      name: row.name ?? "",
-      institution: row.institution ?? "",
-      project: row.project ?? "",
-      status: (row.status === "past" ? "past" : "ongoing") as CollaboratorStatus,
-      url: row.url ?? "",
+type RawCollaborator = Omit<Collaborator, "status"> & { status: string };
+
+const RAW: Record<Lang, RawCollaborator[]> = {
+  en: en as RawCollaborator[],
+  es: es as RawCollaborator[],
+};
+
+function normalize(items: RawCollaborator[]): Collaborator[] {
+  return items
+    .filter((c) => c.name && c.name.length > 0)
+    .map((c) => ({
+      title: c.title ?? "",
+      name: c.name,
+      institution: c.institution ?? "",
+      project: c.project ?? "",
+      status: (c.status === "past" ? "past" : "ongoing") as CollaboratorStatus,
+      url: c.url ?? "",
     }));
 }
 
 export function getCollaborators(lang: Lang): Collaborator[] {
-  return loadCsv(`collaborators.${lang}.csv`);
+  return normalize(RAW[lang]);
 }
 
 export function partitionByStatus(items: Collaborator[]): {

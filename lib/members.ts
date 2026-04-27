@@ -1,7 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-import Papa from "papaparse";
 import type { Lang } from "@/lib/i18n";
+import currentEn from "@/data/members.en.json";
+import currentEs from "@/data/members.es.json";
+import pastEn from "@/data/past_members.en.json";
+import pastEs from "@/data/past_members.es.json";
 
 export type Member = {
   title: string;
@@ -34,18 +35,6 @@ const CURRENT_ORDER: string[] = [
   "Gastón Leal",
 ];
 
-function loadCsv(file: string): Member[] {
-  const filePath = path.join(process.cwd(), "data", "members", file);
-  if (!fs.existsSync(filePath)) return [];
-  const raw = fs.readFileSync(filePath, "utf8");
-  const parsed = Papa.parse<Member>(raw, {
-    header: true,
-    skipEmptyLines: "greedy",
-    transform: (v) => (typeof v === "string" ? v.trim() : v),
-  });
-  return (parsed.data || []).filter((row) => row.name && row.name.length > 0);
-}
-
 function rankByName(name: string, order: string[]): number {
   const idx = order.indexOf(name);
   return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
@@ -55,8 +44,18 @@ function lastName(name: string): string {
   return name.split(/\s+/).pop() ?? "";
 }
 
+const CURRENT: Record<Lang, Member[]> = {
+  en: currentEn as Member[],
+  es: currentEs as Member[],
+};
+
+const PAST: Record<Lang, Member[]> = {
+  en: pastEn as Member[],
+  es: pastEs as Member[],
+};
+
 export function getCurrentMembers(lang: Lang = "en"): Member[] {
-  return loadCsv(`members.${lang}.csv`).sort((a, b) => {
+  return [...CURRENT[lang]].sort((a, b) => {
     const ra = rankByName(a.name, CURRENT_ORDER);
     const rb = rankByName(b.name, CURRENT_ORDER);
     if (ra !== rb) return ra - rb;
@@ -65,7 +64,7 @@ export function getCurrentMembers(lang: Lang = "en"): Member[] {
 }
 
 export function getPastMembers(lang: Lang = "en"): Member[] {
-  return loadCsv(`past_members.${lang}.csv`).sort((a, b) =>
+  return [...PAST[lang]].sort((a, b) =>
     lastName(a.name).localeCompare(lastName(b.name))
   );
 }

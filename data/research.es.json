@@ -1,0 +1,146 @@
+[
+  {
+    "title": "CEIBOS — Centro de Estudios Interdisciplinarios de Biodiversidad Orientado a aplicaciones en Salud",
+    "kind": "Centro Interdisciplinario (EI)",
+    "duration": "2021–2025",
+    "role": "Co-coordinador",
+    "scope": "Uruguay",
+    "summary": "Centro interdisciplinario de la UdelaR de 5 años. Coordinadora: Dra. Sonia Rodríguez Giordano (DEPBIO, Facultad de Química, UdelaR). Co-coordinadores: Dr. Pablo Dans (CENUR Litoral Norte, Salto, UdelaR) y Dr. Carlos Testuri (INCO, Facultad de Ingeniería, UdelaR).",
+    "url": "https://ceibos.ei.udelar.edu.uy/"
+  },
+  {
+    "title": "HexABC — Ascona B-DNA Consortium",
+    "kind": "Consorcio internacional",
+    "duration": "2021–2026",
+    "role": "Miembro del consorcio",
+    "scope": "Suiza · Lituania · Polonia · España · Alemania · EE. UU. · Reino Unido · Uruguay · Francia",
+    "summary": "El esfuerzo más reciente del consorcio ABC: caracterización sistemática de las propiedades físicas de los 2080 hexanucleótidos únicos a partir de 950 simulaciones MD all-atom de 10 μs.",
+    "url": "https://mmb.irbbarcelona.org/webdev/slim/ABC/public/"
+  },
+  {
+    "title": "ABSarbo — Estrategias basadas en aptámeros contra arbovirus",
+    "kind": "Proyecto EULAC-ANII",
+    "duration": "2023–2025",
+    "role": "Co-coordinador",
+    "scope": "Uruguay (sede) · Perú · México · España · Austria · Alemania",
+    "summary": "Herramientas biotecnológicas basadas en aptámeros contra arbovirus. Responsable: Dra. Calzada (Facultad de Ciencias, UdelaR). Consorcio de 6 países.",
+    "url": "https://www.rediba.org/about-4"
+  },
+  {
+    "title": "Espacio conformacional de aptámeros de ADN",
+    "kind": "Proyecto CSIC I+D",
+    "duration": "2023–2025",
+    "role": "Responsable principal",
+    "scope": "Uruguay · EE. UU.",
+    "summary": "Predicción estructural y dinámica de motivos inusuales de ADN — espacio conformacional de aptámeros. Socios: CENUR Litoral Norte (Salto), Facultad de Ciencias, Institut Pasteur de Montevideo, Facultad de Medicina, University of Florida.",
+    "url": ""
+  },
+  {
+    "title": "ProAgricultura — Acumulación de prolina en plantas",
+    "kind": "Proyecto CSIC I+D",
+    "duration": "2022–2024",
+    "role": "Integrante del equipo",
+    "scope": "Uruguay",
+    "summary": "Estudio multidisciplinario de los beneficios de la acumulación de prolina en plantas. Responsable: Dr. Santiago Signorelli, Facultad de Agronomía, UdelaR.",
+    "url": ""
+  },
+  {
+    "title": "¿Sueñan las IA con fluorinasas? — Enzimas diseñadas por IA",
+    "kind": "Proyecto FCE",
+    "duration": "2024–2026",
+    "role": "Integrante del grupo",
+    "scope": "Uruguay",
+    "summary": "Inteligencia artificial como fuente de nuevas enzimas para la síntesis biocatalítica de compuestos fluorados. Responsable: Dra. Paola Panizza, Facultad de Química, UdelaR.",
+    "url": ""
+  },
+  {
+    "title": "Modelo coarse-grained de ADN para MD de cromatina",
+    "kind": "Proyecto de doctorado (PEDECIBA Química / UdelaR)",
+    "duration": "en curso",
+    "role": "Co-director",
+    "scope": "Uruguay",
+    "summary": "Tesis doctoral de MSc Gabriela da Rosa: un nuevo modelo coarse-grained de ADN para simulaciones de dinámica molecular de cromatina. Co-directora: Dra. Gianna Cecchetto (Facultad de Química). Beca CAP.",
+    "url": ""
+  },
+  {
+    "title": "Ingeniería in silico de aminasas reductivas",
+    "kind": "Proyecto de maestría (UdelaR / ANII)",
+    "duration": "2020–2023",
+    "role": "Co-director",
+    "scope": "Uruguay",
+    "summary": "Tesis de Maestría en Biotecnología de Lic. Gonzalo Lopez. Ingeniería in silico y experimental de aminasas reductivas, aplicada a la obtención de radiotrazadores para diagnóstico PET de enfermedades neurodegenerativas. Co-directoras: Dra. Paola Panizza, Dra. Sonia Rodriguez (Facultad de Química).",
+    "url": ""
+  },
+  {
+    "title": "ATPasa × peroxinitrito",
+    "kind": "Proyecto CENUR–UBA",
+    "duration": "2023–2024",
+    "role": "Integrante del grupo",
+    "scope": "Argentina · Uruguay",
+    "summary": "Efecto del peroxinitrito sobre la actividad y estructura de ATPasas. Coordinador: Prof. Daniel Peluffo (UBA / CENUR Litoral Norte).",
+    "url": ""
+  },
+  {
+    "title": "Organización y dinámica 3D del genoma de Trypanosoma cruzi",
+    "kind": "Proyecto FCE",
+    "duration": "2023–2024",
+    "role": "Integrante del grupo",
+    "scope": "Uruguay",
+    "summary": "Responsable: Dra. Florencia Viraqué (Institut Pasteur de Montevideo) con el CENUR Litoral Norte.",
+    "url": ""
+  },
+  {
+    "title": "Receptores de células T y homing tisular",
+    "kind": "Proyecto Crick Institute",
+    "duration": "2023–2025",
+    "role": "Integrante del grupo",
+    "scope": "Reino Unido · Uruguay",
+    "summary": "Rol de los receptores de células T (TCR) en la asociación celular con sus tejidos blanco. Responsable: Dra. Leticia Monin (Crick Institute) con el CENUR Litoral Norte.",
+    "url": ""
+  },
+  {
+    "title": "MODxNA — Parámetros de ácidos nucleicos modificados para AMBER",
+    "kind": "Colaboración internacional",
+    "duration": "2023–2024",
+    "role": "Integrante del grupo",
+    "scope": "EE. UU. · Uruguay",
+    "summary": "Base de datos con miles de parámetros de bases modificadas de ADN/ARN para el campo de fuerzas AMBER. Socios: University of Utah, University of Maryland, IONIS Pharmaceuticals y CENUR Litoral Norte.",
+    "url": ""
+  },
+  {
+    "title": "Aptámeros contra Trypanosoma cruzi",
+    "kind": "Colaboración REDIBA",
+    "duration": "2023–2024",
+    "role": "Integrante del grupo",
+    "scope": "Perú · Uruguay",
+    "summary": "Desarrollo de aptámeros contra T. cruzi. Responsable: Dr. Pohl Milón (Universidad Peruana de Ciencias Aplicadas) con el CENUR Litoral Norte. Miembros de REDIBA.",
+    "url": "https://www.rediba.org"
+  },
+  {
+    "title": "Aptámeros contra Her2 (cáncer de mama)",
+    "kind": "REDIBA / L'Oréal Uruguay",
+    "duration": "2022–2024",
+    "role": "Integrante del grupo",
+    "scope": "Uruguay",
+    "summary": "Desarrollo de aptámeros contra el receptor Her2 en cáncer de mama. Co-financiado por L'Oréal Uruguay. Responsable: Dra. Calzada (Facultad de Ciencias, UdelaR) con el CENUR Litoral Norte. Miembros de REDIBA.",
+    "url": "https://www.rediba.org"
+  },
+  {
+    "title": "Música desde la molécula de la vida",
+    "kind": "Proyecto de divulgación",
+    "duration": "2022–2026",
+    "role": "Coordinador",
+    "scope": "Uruguay",
+    "summary": "Proyecto a 5 años sobre música a partir de simulaciones MD de duplexes de ADN, en colaboración con Nicolás Molla (productor y compositor) y el CENUR Litoral Norte.",
+    "url": ""
+  },
+  {
+    "title": "ARN de transferencia y arte plástico (ARN for Export)",
+    "kind": "Proyecto de divulgación",
+    "duration": "2022–2024",
+    "role": "Coordinador",
+    "scope": "Uruguay",
+    "summary": "Exposición itinerante de arte plástico sobre la estructura de los ARN de transferencia (tRNAs) liberados al espacio intercelular. Colaboración con Mariana Barraco (pintora, docente y creadora) y el CENUR Litoral Norte.",
+    "url": ""
+  }
+]
