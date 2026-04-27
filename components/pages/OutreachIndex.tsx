@@ -1,6 +1,6 @@
 import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
-import FloatingBases from "@/components/FloatingBases";
+import NeuralNetwork from "@/components/NeuralNetwork";
 import { OUTREACH_INDEX } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
 
@@ -8,7 +8,7 @@ export default function OutreachIndex({ lang }: { lang: Lang }) {
   const c = OUTREACH_INDEX[lang];
   return (
     <>
-      <FloatingBases className="fixed inset-0 z-0 opacity-50" density={0.9} />
+      <NeuralNetwork className="fixed inset-0 z-0 opacity-60" density={1} />
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-24">
       <FadeIn>
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">

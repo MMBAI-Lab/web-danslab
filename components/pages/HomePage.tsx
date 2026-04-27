@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import DnaHelix from "@/components/DnaHelix";
 import MoleculeRain from "@/components/MoleculeRain";
 import FadeIn from "@/components/FadeIn";
@@ -6,6 +7,7 @@ import MemberCard from "@/components/MemberCard";
 import { getCurrentMembers } from "@/lib/members";
 import { localizePath, type Lang } from "@/lib/i18n";
 import { HOME } from "@/data/content/home";
+import { asset } from "@/lib/asset";
 
 function GitHubMark() {
   return (
@@ -201,6 +203,41 @@ export default function HomePage({ lang }: { lang: Lang }) {
           </div>
         </section>
       )}
+
+      {/* Floating lab logo, gentle zoom in/out */}
+      <section className="relative overflow-hidden border-t border-border bg-bg">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(40rem 24rem at 50% 50%, rgba(220,38,38,0.10), transparent 60%)",
+          }}
+        />
+        <div className="relative flex items-center justify-center px-6 py-32 md:py-40">
+          <Image
+            src={asset("/figures/WEBDansLab_logoBLACK.png")}
+            alt="DansLab"
+            width={520}
+            height={520}
+            className="logo-breathe h-auto w-[60%] max-w-[520px] object-contain logo-mark"
+          />
+        </div>
+        <style>{`
+          :root[data-theme="dark"] .logo-mark { filter: invert(1) hue-rotate(180deg); }
+          .logo-breathe {
+            animation: logo-breathe 7s ease-in-out infinite;
+            transform-origin: center;
+            will-change: transform;
+          }
+          @keyframes logo-breathe {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50%      { transform: scale(1.06) translateY(-6px); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .logo-breathe { animation: none; }
+          }
+        `}</style>
+      </section>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Gallery from "@/components/Gallery";
 import FadeIn from "@/components/FadeIn";
-import FloatingBases from "@/components/FloatingBases";
+import NeuralNetwork from "@/components/NeuralNetwork";
 import { listGalleryImages } from "@/lib/gallery";
 import { ARN } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
@@ -11,7 +11,7 @@ export default function ArnPage({ lang }: { lang: Lang }) {
   const images = listGalleryImages("outreach/arn-for-export");
   return (
     <>
-      <FloatingBases className="fixed inset-0 z-0 opacity-35" density={0.6} />
+      <NeuralNetwork className="fixed inset-0 z-0 opacity-50" density={0.8} />
       <div className="relative z-10 mx-auto max-w-5xl px-6 py-24">
       <FadeIn>
         <Link
