@@ -123,8 +123,24 @@ export default function AbcPage({ lang }: { lang: Lang }) {
             {c.committees_heading}
           </h2>
           <div className="mt-6 grid gap-8 md:grid-cols-2">
-            <CommitteeList title={c.scientific} people={COMMITTEE_SCIENTIFIC} />
-            <CommitteeList title={c.organizing} people={COMMITTEE_ORGANIZING} />
+            <CommitteeList
+              title={c.scientific}
+              featured={{
+                name: "John Maddocks",
+                photo: "/figures/JohnMaddocks.jpg",
+                affiliation: "EPFL Lausanne CH",
+              }}
+              people={COMMITTEE_SCIENTIFIC}
+            />
+            <CommitteeList
+              title={c.organizing}
+              featured={{
+                name: "Pablo D. Dans",
+                photo: "/figures/PabloDans.jpg",
+                affiliation: "UdelaR Salto UY",
+              }}
+              people={COMMITTEE_ORGANIZING}
+            />
           </div>
         </FadeIn>
 
@@ -246,18 +262,46 @@ export default function AbcPage({ lang }: { lang: Lang }) {
   );
 }
 
+type Featured = {
+  name: string;
+  photo: string;
+  affiliation: string;
+};
+
 function CommitteeList({
   title,
+  featured,
   people,
 }: {
   title: string;
+  featured: Featured;
   people: [string, string][];
 }) {
+  const rest = people.filter(([n]) => n !== featured.name);
   return (
     <div className="rounded-lg border border-border bg-surface p-6">
       <h3 className="font-serif text-lg font-semibold text-ink">{title}</h3>
-      <ul className="mt-4 space-y-2 text-sm text-muted">
-        {people.map(([name, country]) => (
+
+      <div className="mt-5 flex flex-col items-center gap-2 border-b border-border pb-5">
+        <div className="relative h-24 w-24 flex-none overflow-hidden rounded-full border border-border bg-elevated">
+          <Image
+            src={asset(featured.photo)}
+            alt={featured.name}
+            fill
+            sizes="96px"
+            className="object-cover"
+          />
+        </div>
+        <p className="mt-1 font-serif text-base font-semibold text-ink">
+          {featured.name}
+        </p>
+        <p className="text-xs uppercase tracking-widest text-subtle">
+          {featured.affiliation}
+        </p>
+      </div>
+
+      <ul className="mt-5 space-y-2 text-sm text-muted">
+        {rest.map(([name, country]) => (
           <li key={name} className="flex items-center justify-between">
             <span>{name}</span>
             <span className="text-xs uppercase tracking-widest text-subtle">
