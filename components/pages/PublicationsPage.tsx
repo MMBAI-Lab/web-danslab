@@ -1,9 +1,11 @@
+import { Fragment } from "react";
 import FloatingBases from "@/components/FloatingBases";
 import {
   getNumberedGroups,
   formatVenue,
   type NumberedPublication,
 } from "@/lib/publications";
+import { isLabAuthor, splitAuthors } from "@/lib/lab-authors";
 import { COMMON } from "@/data/content/common";
 import type { Lang } from "@/lib/i18n";
 
@@ -28,7 +30,7 @@ export default function PublicationsPage({ lang }: { lang: Lang }) {
         <div className="mt-16 space-y-14">
           {groups.map(([year, pubs]) => (
             <section key={year}>
-              <h2 className="sticky top-16 z-10 -mx-6 bg-bg/85 px-6 py-2 font-serif text-2xl font-semibold tracking-tight text-ink backdrop-blur">
+              <h2 className="sticky top-16 z-10 -mx-6 bg-bg/85 px-6 py-2 font-serif text-2xl font-semibold tracking-tight text-accent backdrop-blur">
                 {year}
               </h2>
               <ol className="mt-4 ml-2 space-y-7 md:ml-6">
@@ -54,7 +56,9 @@ function PubItem({ p, index }: { p: NumberedPublication; index: number }) {
         <h3 className="font-serif text-base font-semibold leading-snug text-ink md:text-lg">
           {p.title}
         </h3>
-        <p className="mt-1 text-sm leading-relaxed text-muted">{p.authors}</p>
+        <p className="mt-1 text-sm leading-relaxed text-muted">
+          <Authors value={p.authors} />
+        </p>
         <p className="mt-1 text-sm italic text-subtle">{formatVenue(p)}</p>
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
           {p.note && (
@@ -85,5 +89,31 @@ function PubItem({ p, index }: { p: NumberedPublication; index: number }) {
         </div>
       </div>
     </li>
+  );
+}
+
+function Authors({ value }: { value: string }) {
+  const parts = splitAuthors(value);
+  return (
+    <>
+      {parts.map((author, i) => {
+        const isLab = isLabAuthor(author);
+        const sep = i < parts.length - 1 ? ", " : "";
+        return (
+          <Fragment key={i}>
+            <span
+              className={
+                isLab
+                  ? "text-ink underline decoration-accent decoration-2 underline-offset-2"
+                  : ""
+              }
+            >
+              {author}
+            </span>
+            {sep}
+          </Fragment>
+        );
+      })}
+    </>
   );
 }
