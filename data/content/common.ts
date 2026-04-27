@@ -84,7 +84,7 @@ const en: CommonDict = {
     team_heading: "Team",
     past_heading: "Past members",
     intro:
-      "The team behind DansLab — researchers, students, and collaborators working at the intersection of physics, biology, and computation.",
+      "The team behind DansLab — researchers and students working at the intersection of physics, biology, and computation.",
     email: "email",
     scholar: "google scholar",
   },
@@ -144,7 +144,7 @@ const es: CommonDict = {
     team_heading: "Equipo",
     past_heading: "Integrantes previos",
     intro:
-      "El equipo de DansLab — investigadores, estudiantes y colaboradores trabajando en la intersección de la física, la biología y la computación.",
+      "El equipo de DansLab — investigadores y estudiantes trabajando en la intersección de la física, la biología y la computación.",
     email: "correo",
     scholar: "google scholar",
   },
