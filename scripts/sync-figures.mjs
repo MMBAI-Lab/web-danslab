@@ -36,6 +36,15 @@ async function processFile(src, dst) {
     return { kind: "copied" };
   }
 
+  // Animated images (multi-page WebP) get copied as-is — re-encoding through
+  // sharp's default pipeline would flatten them to the first frame. Need
+  // `animated: true` here so sharp actually reports the page count.
+  const probe = await sharp(src, { animated: true }).metadata();
+  if ((probe.pages ?? 1) > 1) {
+    fs.copyFileSync(src, dst);
+    return { kind: "copied" };
+  }
+
   let pipeline = sharp(src, { failOnError: false }).rotate(); // honor EXIF
   const meta = await pipeline.metadata();
   const longest = Math.max(meta.width || 0, meta.height || 0);

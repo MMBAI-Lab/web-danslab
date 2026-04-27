@@ -97,10 +97,6 @@ export default function HomePage({ lang }: { lang: Lang }) {
               {c.about_paragraphs.map((p, i) => (
                 <p key={i} dangerouslySetInnerHTML={{ __html: p }} />
               ))}
-              <p
-                className="text-sm text-subtle"
-                dangerouslySetInnerHTML={{ __html: c.about_cite_html }}
-              />
             </div>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">

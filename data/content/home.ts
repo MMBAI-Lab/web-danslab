@@ -12,7 +12,6 @@ export type HomeContent = {
   about_title: string;
   about_paragraphs: string[];
   about_pillars: { kicker: string; title: string }[];
-  about_cite_html: string;
   whatwedo_eyebrow: string;
   whatwedo_title: string;
   whatwedo_cards: { title: string; body: string }[];
@@ -52,7 +51,6 @@ const en: HomeContent = {
       title: "From basic discovery to treatments",
     },
   ],
-  about_cite_html: `Dans et al. <em>Curr. Op. Struct. Bio.</em>, 37, 29–45 (2016) · <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1D8psUHJGNJC4DQ6UlKJhH0RG2pmOyUoy/view">PDF</a>`,
   whatwedo_eyebrow: "What we do",
   whatwedo_title: "From electrons to nucleosomes.",
   whatwedo_cards: [
@@ -122,7 +120,6 @@ const es: HomeContent = {
       title: "Del descubrimiento básico a los tratamientos",
     },
   ],
-  about_cite_html: `Dans et al. <em>Curr. Op. Struct. Bio.</em>, 37, 29–45 (2016) · <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1D8psUHJGNJC4DQ6UlKJhH0RG2pmOyUoy/view">PDF</a>`,
   whatwedo_eyebrow: "Qué hacemos",
   whatwedo_title: "De los electrones a los nucleosomas.",
   whatwedo_cards: [
