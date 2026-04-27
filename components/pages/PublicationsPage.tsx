@@ -1,15 +1,14 @@
 import FloatingBases from "@/components/FloatingBases";
 import {
-  getPublications,
-  groupByYear,
+  getNumberedGroups,
   formatVenue,
-  type Publication,
+  type NumberedPublication,
 } from "@/lib/publications";
 import { COMMON } from "@/data/content/common";
 import type { Lang } from "@/lib/i18n";
 
 export default function PublicationsPage({ lang }: { lang: Lang }) {
-  const groups = groupByYear(getPublications());
+  const groups = getNumberedGroups();
   const labels = COMMON[lang];
 
   return (
@@ -33,8 +32,8 @@ export default function PublicationsPage({ lang }: { lang: Lang }) {
                 {year}
               </h2>
               <ol className="mt-4 ml-2 space-y-7 md:ml-6">
-                {pubs.map((p, i) => (
-                  <PubItem key={i} p={p} index={i + 1} />
+                {pubs.map((p) => (
+                  <PubItem key={p.index} p={p} index={p.index} />
                 ))}
               </ol>
             </section>
@@ -45,7 +44,7 @@ export default function PublicationsPage({ lang }: { lang: Lang }) {
   );
 }
 
-function PubItem({ p, index }: { p: Publication; index: number }) {
+function PubItem({ p, index }: { p: NumberedPublication; index: number }) {
   return (
     <li className="flex gap-4">
       <span className="w-7 flex-none pt-1 text-right font-mono text-xs text-subtle">
