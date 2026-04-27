@@ -1,7 +1,16 @@
 import Image from "next/image";
 import type { Member } from "@/lib/members";
+import { COMMON } from "@/data/content/common";
+import type { Lang } from "@/lib/i18n";
 
-export default function MemberCard({ member }: { member: Member }) {
+export default function MemberCard({
+  member,
+  lang = "en",
+}: {
+  member: Member;
+  lang?: Lang;
+}) {
+  const labels = COMMON[lang].members;
   const hasPhoto = member.photo && member.photo.length > 0;
   const initials = member.name
     .split(/\s+/)
@@ -64,7 +73,7 @@ export default function MemberCard({ member }: { member: Member }) {
                 href={`mailto:${member.email}`}
                 className="text-accent underline-offset-4 hover:underline"
               >
-                email
+                {labels.email}
               </a>
             )}
             {member.scholar && (
@@ -74,7 +83,7 @@ export default function MemberCard({ member }: { member: Member }) {
                 rel="noreferrer"
                 className="text-accent underline-offset-4 hover:underline"
               >
-                google scholar
+                {labels.scholar}
               </a>
             )}
           </div>

@@ -1,21 +1,32 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
+import LangSwitch from "@/components/LangSwitch";
+import { detectLang, localizePath } from "@/lib/i18n";
+import { COMMON } from "@/data/content/common";
 
-const links = [
-  { href: "/research", label: "Research" },
-  { href: "/members", label: "Members" },
-  { href: "/publications", label: "Publications" },
-  { href: "/outreach", label: "Outreach" },
-  { href: "/contact", label: "Contact" },
+const SECTIONS = [
+  { path: "research", key: "research" as const },
+  { path: "members", key: "members" as const },
+  { path: "publications", key: "publications" as const },
+  { path: "outreach", key: "outreach" as const },
+  { path: "contact", key: "contact" as const },
 ];
 
 export default function Nav() {
+  const pathname = usePathname() || "/";
+  const lang = detectLang(pathname);
+  const dict = COMMON[lang].nav;
+  const home = localizePath(lang, "/");
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
-          href="/"
+          href={home}
           className="flex items-center gap-3 text-ink hover:text-accent"
         >
           <Image
@@ -30,22 +41,27 @@ export default function Nav() {
             DansLab
           </span>
         </Link>
-        <div className="flex items-center gap-7">
-          <ul className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="hover:text-ink">
-                  {l.label}
+        <div className="flex items-center gap-5 md:gap-7">
+          <ul className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
+            {SECTIONS.map((s) => (
+              <li key={s.path}>
+                <Link
+                  href={localizePath(lang, `/${s.path}`)}
+                  className="hover:text-ink"
+                >
+                  {dict[s.key]}
                 </Link>
               </li>
             ))}
           </ul>
+          <LangSwitch />
           <ThemeToggle />
         </div>
       </nav>
-      {/* invert the logo only in dark theme so the black artwork reads as light */}
+      {/* On dark theme, invert + hue-rotate so the black artwork reads as light
+          while preserving the red nucleus (red ↔ red under hue-rotate(180deg)). */}
       <style>{`
-        :root[data-theme="dark"] .logo-mark { filter: invert(1); }
+        :root[data-theme="dark"] .logo-mark { filter: invert(1) hue-rotate(180deg); }
       `}</style>
     </header>
   );

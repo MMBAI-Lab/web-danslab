@@ -4,5 +4,5 @@ import ArnPage from "@/components/pages/ArnPage";
 export const metadata: Metadata = { title: "ARN for Export" };
 
 export default function Page() {
-  return <ArnPage lang="en" />;
+  return <ArnPage lang="es" />;
 }
