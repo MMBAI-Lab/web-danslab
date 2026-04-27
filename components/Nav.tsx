@@ -7,6 +7,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import LangSwitch from "@/components/LangSwitch";
 import { detectLang, localizePath } from "@/lib/i18n";
 import { COMMON } from "@/data/content/common";
+import { asset } from "@/lib/asset";
 
 const SECTIONS = [
   { path: "research", key: "research" as const },
@@ -30,7 +31,7 @@ export default function Nav() {
           className="flex items-center gap-3 text-ink hover:text-accent"
         >
           <Image
-            src="/figures/WEBDansLab_logoBLACK.png"
+            src={asset("/figures/WEBDansLab_logoBLACK.png")}
             alt="DansLab"
             width={36}
             height={36}

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "DansLab",
     type: "website",
   },
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/favicon.ico` },
 };
 
 // Inline script: read saved theme (or fall back to dark) and apply it on

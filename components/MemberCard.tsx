@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Member } from "@/lib/members";
 import { COMMON } from "@/data/content/common";
 import type { Lang } from "@/lib/i18n";
+import { asset } from "@/lib/asset";
 
 export default function MemberCard({
   member,
@@ -27,7 +28,7 @@ export default function MemberCard({
         <div className="relative h-20 w-20 flex-none overflow-hidden rounded-full border border-border bg-elevated">
           {hasPhoto ? (
             <Image
-              src={member.photo}
+              src={asset(member.photo)}
               alt={member.name}
               fill
               sizes="80px"
