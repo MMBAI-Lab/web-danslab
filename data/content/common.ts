@@ -173,7 +173,7 @@ const es: CommonDict = {
     role_label: "Rol",
   },
   contact: {
-    title: "Escribinos.",
+    title: "Comunicate con nosotros",
     eyebrow: "Contacto",
     address_heading: "Dirección",
     pi_heading: "Investigador principal",
