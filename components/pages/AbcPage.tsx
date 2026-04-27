@@ -57,6 +57,13 @@ const SQUARE_PHOTOS = [
   { src: "/figures/20230419_082154.jpg", alt: "ABC 2023 conference moment (3)" },
 ];
 
+const SPONSORS = [
+  { src: "/figures/ETHzurich_logo.png", alt: "ETH Zürich", href: "https://ethz.ch/" },
+  { src: "/figures/SFC_logo.png", alt: "Swiss Federation of Chemists", href: "" },
+  { src: "/figures/CECAM_logo.png", alt: "CECAM", href: "https://www.cecam.org/" },
+  { src: "/figures/EPFL_logo.png", alt: "EPFL", href: "https://www.epfl.ch/" },
+];
+
 const BOA_URL =
   "https://drive.google.com/file/d/1cwKLrWRJpAYltc6Yk-khOLOTVOrOOcGs/view?usp=drive_link";
 
@@ -193,6 +200,46 @@ export default function AbcPage({ lang }: { lang: Lang }) {
               </div>
             ))}
           </div>
+        </FadeIn>
+
+        <FadeIn>
+          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+            {c.sponsors_heading}
+          </h2>
+          <div className="sponsors mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+            {SPONSORS.map((s) => {
+              const logo = (
+                <Image
+                  src={asset(s.src)}
+                  alt={s.alt}
+                  width={220}
+                  height={80}
+                  className="sponsor-logo h-14 w-auto object-contain md:h-16"
+                />
+              );
+              return s.href ? (
+                <a
+                  key={s.src}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block transition hover:opacity-80"
+                  aria-label={s.alt}
+                >
+                  {logo}
+                </a>
+              ) : (
+                <div key={s.src} aria-label={s.alt}>
+                  {logo}
+                </div>
+              );
+            })}
+          </div>
+          <style>{`
+            :root[data-theme="dark"] .sponsors .sponsor-logo {
+              filter: invert(1) hue-rotate(180deg);
+            }
+          `}</style>
         </FadeIn>
       </div>
     </>
