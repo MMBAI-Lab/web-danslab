@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import DnaHelix from "@/components/DnaHelix";
 import MoleculeRain from "@/components/MoleculeRain";
+import BacteriaOutline from "@/components/BacteriaOutline";
 import FadeIn from "@/components/FadeIn";
 import MemberCard from "@/components/MemberCard";
 import { getCurrentMembers } from "@/lib/members";
@@ -23,7 +24,6 @@ function GitHubMark() {
   );
 }
 
-
 export default function HomePage({ lang }: { lang: Lang }) {
   const c = HOME[lang];
   const members = getCurrentMembers(lang);
@@ -32,6 +32,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
 
   return (
     <>
+      {/* HERO */}
       <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0"
@@ -82,6 +83,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
         </div>
       </section>
 
+      {/* ABOUT */}
       <section className="border-b border-border bg-bg">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-[2fr_1fr]">
           <FadeIn>
@@ -100,7 +102,24 @@ export default function HomePage({ lang }: { lang: Lang }) {
                 dangerouslySetInnerHTML={{ __html: c.about_cite_html }}
               />
             </div>
+
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              {c.about_pillars.map((pillar) => (
+                <article
+                  key={pillar.kicker}
+                  className="rounded-lg border border-border bg-surface p-5 transition hover:border-accent"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+                    {pillar.kicker}
+                  </p>
+                  <p className="mt-2 font-serif text-base font-semibold leading-snug text-ink">
+                    {pillar.title}
+                  </p>
+                </article>
+              ))}
+            </div>
           </FadeIn>
+
           <FadeIn delay={0.1}>
             <div className="rounded-lg border border-border bg-surface p-6">
               <h3 className="font-serif text-lg font-semibold text-ink">
@@ -126,8 +145,10 @@ export default function HomePage({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      <section className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+      {/* WHAT WE DO — bacteria silhouette behind */}
+      <section className="relative overflow-hidden border-b border-border bg-surface">
+        <BacteriaOutline className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-90" />
+        <div className="relative mx-auto max-w-6xl px-6 py-24">
           <FadeIn>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
               {c.whatwedo_eyebrow}
@@ -136,10 +157,10 @@ export default function HomePage({ lang }: { lang: Lang }) {
               {c.whatwedo_title}
             </h2>
           </FadeIn>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {c.whatwedo_cards.map((card, i) => (
-              <FadeIn key={card.title} delay={i * 0.08}>
-                <article className="group relative h-full overflow-hidden rounded-lg border border-border bg-bg p-7 transition hover:border-accent">
+              <FadeIn key={card.title} delay={Math.min(i * 0.06, 0.3)}>
+                <article className="group relative h-full overflow-hidden rounded-lg border border-border bg-bg/80 p-7 backdrop-blur-sm transition hover:border-accent">
                   <span className="absolute left-0 top-0 h-full w-0.5 bg-accent opacity-0 transition group-hover:opacity-100" />
                   <h3 className="font-serif text-xl font-semibold text-ink">
                     {card.title}
@@ -159,7 +180,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
                 href={c.whatwedo_repo_url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-ink transition hover:border-accent hover:text-accent"
+                className="inline-flex items-center gap-2 rounded-md border border-border bg-bg/80 px-3 py-1.5 text-ink backdrop-blur-sm transition hover:border-accent hover:text-accent"
               >
                 <GitHubMark />
                 <span className="font-mono text-xs">
@@ -171,9 +192,20 @@ export default function HomePage({ lang }: { lang: Lang }) {
         </div>
       </section>
 
+      {/* CURRENT STAFF — lab logo behind, original colors, no glow */}
       {pi && (
-        <section className="bg-bg">
-          <div className="mx-auto max-w-6xl px-6 py-24">
+        <section className="relative overflow-hidden bg-bg">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <Image
+              src={asset("/figures/WEBDansLab_logoBLACK.png")}
+              alt=""
+              width={900}
+              height={900}
+              className="staff-logo h-auto w-[80%] max-w-[900px] select-none object-contain"
+              aria-hidden="true"
+            />
+          </div>
+          <div className="relative mx-auto max-w-6xl px-6 py-24">
             <FadeIn>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
                 {c.staff_eyebrow}
@@ -201,43 +233,23 @@ export default function HomePage({ lang }: { lang: Lang }) {
               ))}
             </div>
           </div>
+          <style>{`
+            .staff-logo {
+              opacity: 0.10;
+              animation: staff-logo-breathe 8s ease-in-out infinite;
+              transform-origin: center;
+              will-change: transform, opacity;
+            }
+            @keyframes staff-logo-breathe {
+              0%, 100% { transform: scale(1); opacity: 0.08; }
+              50%      { transform: scale(1.05); opacity: 0.13; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .staff-logo { animation: none; }
+            }
+          `}</style>
         </section>
       )}
-
-      {/* Floating lab logo, gentle zoom in/out */}
-      <section className="relative overflow-hidden border-t border-border bg-bg">
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(40rem 24rem at 50% 50%, rgba(220,38,38,0.10), transparent 60%)",
-          }}
-        />
-        <div className="relative flex items-center justify-center px-6 py-32 md:py-40">
-          <Image
-            src={asset("/figures/WEBDansLab_logoBLACK.png")}
-            alt="DansLab"
-            width={520}
-            height={520}
-            className="logo-breathe h-auto w-[60%] max-w-[520px] object-contain logo-mark"
-          />
-        </div>
-        <style>{`
-          :root[data-theme="dark"] .logo-mark { filter: invert(1) hue-rotate(180deg); }
-          .logo-breathe {
-            animation: logo-breathe 7s ease-in-out infinite;
-            transform-origin: center;
-            will-change: transform;
-          }
-          @keyframes logo-breathe {
-            0%, 100% { transform: scale(1) translateY(0); }
-            50%      { transform: scale(1.06) translateY(-6px); }
-          }
-          @media (prefers-reduced-motion: reduce) {
-            .logo-breathe { animation: none; }
-          }
-        `}</style>
-      </section>
     </>
   );
 }

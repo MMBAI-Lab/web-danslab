@@ -71,7 +71,7 @@ const en: CommonDict = {
     rights:
       "DansLab — Molecular Modeling, Bioinformatics & AI.",
     affiliation:
-      "Department of Biological Sciences (DCB), CENUR Litoral Norte, Universidad de la República, Salto, Uruguay.",
+      "Department of Biological Sciences (DCB), Regional University Center (CENUR) Litoral Norte, University of the Republic, Salto, Uruguay.",
   },
   cta: {
     explore: "Explore our research",

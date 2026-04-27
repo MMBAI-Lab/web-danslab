@@ -11,6 +11,7 @@ export type HomeContent = {
   about_eyebrow: string;
   about_title: string;
   about_paragraphs: string[];
+  about_pillars: { kicker: string; title: string }[];
   about_cite_html: string;
   whatwedo_eyebrow: string;
   whatwedo_title: string;
@@ -39,7 +40,17 @@ const en: HomeContent = {
     "A multiscale view of macromolecules in their biological context.",
   about_paragraphs: [
     `The Dans Lab, also known as the <strong class="text-ink">Molecular Modeling, Bioinformatics and AI (MMBAI)</strong> group, is part of the <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://dcb.litoralnorte.udelar.edu.uy/">Department of Biological Sciences (DCB)</a> at the <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://www.litoralnorte.udelar.edu.uy/">Regional University Center (CENUR)</a> in Salto, <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://udelar.edu.uy/">University of the Republic (UdelaR)</a>, located in the northern riverside region of Uruguay (Litoral Norte).`,
-    "At the Dans Lab we are driven by a deep fascination with macromolecules' complex and dynamic roles within their biological contexts. We employ molecular modeling, in silico simulations, and structural bioinformatics to explore these intricate processes, adopting a multiscale perspective to uncover new insights.",
+    `At the Dans Lab we are driven by a deep fascination with macromolecules' complex and dynamic roles within their biological contexts. We employ molecular modeling, in silico simulations, structural bioinformatics, and genome-wide data mining to explore these intricate processes, adopting a multiscale perspective to uncover new insights. Our lab is centered on <strong class="text-ink">Nucleic Acids</strong> (structure, dynamics and oligo-based therapies) and <strong class="text-ink">Bacterial Resistance</strong> (basic mechanisms and applied treatments). 90% of the work at DansLab is theoretical (in silico), but we also run a wet-lab facility where some experiments are carried out.`,
+  ],
+  about_pillars: [
+    {
+      kicker: "Nucleic acids",
+      title: "From structure and dynamics to oligo-based therapeutics",
+    },
+    {
+      kicker: "Bacterial resistance",
+      title: "From basic discovery to treatments",
+    },
   ],
   about_cite_html: `Dans et al. <em>Curr. Op. Struct. Bio.</em>, 37, 29–45 (2016) · <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1D8psUHJGNJC4DQ6UlKJhH0RG2pmOyUoy/view">PDF</a>`,
   whatwedo_eyebrow: "What we do",
@@ -56,6 +67,18 @@ const en: HomeContent = {
     {
       title: "AI for biomolecules",
       body: "Geometric deep learning and generative models to predict structure, dynamics, and interactions of nucleic acids and proteins.",
+    },
+    {
+      title: "Genome-wide data mining",
+      body: "Mining of bacterial genomes to identify resistance determinants, virulence factors, and signatures of horizontal gene transfer across pathogens.",
+    },
+    {
+      title: "QM calculations",
+      body: "Quantum mechanics and DFT calculations to derive atomic charges and parameters that feed all-atom force-field development for nucleic acids and modified bases.",
+    },
+    {
+      title: "Molecular modeling",
+      body: "Docking, interaction potentials, homology modeling, and 2D/3D structure prediction and visualization of macromolecular complexes.",
     },
   ],
   whatwedo_repo_label: "Open code, datasets and tools we share with the community",
@@ -87,7 +110,17 @@ const es: HomeContent = {
     "Una mirada multiescala de las macromoléculas en su contexto biológico.",
   about_paragraphs: [
     `El Dans Lab, también conocido como el grupo de <strong class="text-ink">Modelado Molecular, Bioinformática e IA (MMBAI)</strong>, es parte del <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://dcb.litoralnorte.udelar.edu.uy/">Departamento de Ciencias Biológicas (DCB)</a> del <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://www.litoralnorte.udelar.edu.uy/">Centro Universitario Regional (CENUR)</a> en Salto, <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://udelar.edu.uy/">Universidad de la República (UdelaR)</a>, en el Litoral Norte de Uruguay.`,
-    "En el Dans Lab nos mueve una profunda fascinación por los roles complejos y dinámicos de las macromoléculas en sus contextos biológicos. Empleamos modelado molecular, simulaciones in silico y bioinformática estructural para explorar estos procesos, adoptando una perspectiva multiescala que nos permite descubrir nuevas claves.",
+    `En el Dans Lab nos mueve una profunda fascinación por los roles complejos y dinámicos de las macromoléculas en sus contextos biológicos. Empleamos modelado molecular, simulaciones in silico, bioinformática estructural y minería de datos a escala genómica para explorar estos procesos, adoptando una perspectiva multiescala que nos permite descubrir nuevas claves. Nuestro laboratorio se centra en <strong class="text-ink">Ácidos Nucleicos</strong> (estructura, dinámica y terapias basadas en oligonucleótidos) y en <strong class="text-ink">Resistencia Bacteriana</strong> (mecanismos básicos y tratamientos aplicados). El 90% del trabajo en DansLab es teórico (in silico), aunque también contamos con un laboratorio húmedo donde se realizan algunos experimentos.`,
+  ],
+  about_pillars: [
+    {
+      kicker: "Ácidos nucleicos",
+      title: "De la estructura y dinámica a las terapias basadas en oligonucleótidos",
+    },
+    {
+      kicker: "Resistencia bacteriana",
+      title: "Del descubrimiento básico a los tratamientos",
+    },
   ],
   about_cite_html: `Dans et al. <em>Curr. Op. Struct. Bio.</em>, 37, 29–45 (2016) · <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1D8psUHJGNJC4DQ6UlKJhH0RG2pmOyUoy/view">PDF</a>`,
   whatwedo_eyebrow: "Qué hacemos",
@@ -104,6 +137,18 @@ const es: HomeContent = {
     {
       title: "IA para biomoléculas",
       body: "Deep learning geométrico y modelos generativos para predecir estructura, dinámica e interacciones de ácidos nucleicos y proteínas.",
+    },
+    {
+      title: "Minería de datos genómicos",
+      body: "Minería de genomas bacterianos para identificar determinantes de resistencia, factores de virulencia y señales de transferencia horizontal de genes entre patógenos.",
+    },
+    {
+      title: "Cálculos QM",
+      body: "Cálculos de mecánica cuántica y DFT para derivar cargas atómicas y parámetros que alimentan el desarrollo de campos de fuerzas all-atom para ácidos nucleicos y bases modificadas.",
+    },
+    {
+      title: "Modelado molecular",
+      body: "Docking, potenciales de interacción, modelado por homología y predicción/visualización 2D/3D de complejos macromoleculares.",
     },
   ],
   whatwedo_repo_label: "Código, datasets y herramientas que compartimos con la comunidad",

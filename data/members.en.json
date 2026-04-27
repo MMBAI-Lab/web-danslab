@@ -2,7 +2,7 @@
   {
     "title": "Prof. Dr.",
     "name": "Pablo D. Dans",
-    "role1": "Associate Professor and head of MMBAI",
+    "role1": "Professor and head of Molecular Modeling, Bioinformatics & AI (MMBAI)",
     "institution1": "University of the Republic",
     "role2": "Associate researcher",
     "institution2": "Institut Pasteur of Montevideo",
@@ -21,7 +21,7 @@
     "email": "gertra13a@gmail.com",
     "scholar": "https://scholar.google.es/citations?hl=es&user=jwEl_RAAAAAJ",
     "photo": "/figures/GermanTraglia.jpg",
-    "comment": ""
+    "comment": "Supervised by Pablo Dans."
   },
   {
     "title": "Dr.",
@@ -52,24 +52,24 @@
     "name": "Gonzalo Lopez",
     "role1": "PhD student in Biotechnology (Faculty of Sciences)",
     "institution1": "MMBAI (since 2021) - University of the Republic",
-    "role2": "",
-    "institution2": "",
+    "role2": "Research Assistant (Faculty of Chemistry)",
+    "institution2": "University of the Republic",
     "email": "gonzalomlp147@gmail.com",
     "scholar": "",
     "photo": "/figures/GonzaloLopez.jpg",
-    "comment": "Co-directed with Prof. Sonia Rodriguez and Prof. Paola Panizza (Faculty of Chemistry). ANII fellowship."
+    "comment": "Co-directed by Pablo Dans with Prof. Sonia Rodriguez and Prof. Paola Panizza (Faculty of Chemistry). ANII fellowship."
   },
   {
     "title": "Lic (candidate).",
     "name": "Santiago Pintos",
-    "role1": "Degree in Biochemistry student (Facultad de Ciencias UdelaR)",
+    "role1": "Degree in Biochemistry student (Faculty of Sciences)",
     "institution1": "MMBAI (since 2023) - University of the Republic",
     "role2": "",
     "institution2": "",
     "email": "spintos@fcien.edu.uy",
     "scholar": "",
     "photo": "/figures/SantiagoPintos.jpg",
-    "comment": "Directed by Prof. Victoria Calzada."
+    "comment": "Co-directed by Pablo Dans with Dr. Victoria Calzada (Faculty of Sciences)."
   },
   {
     "title": "Lic.",
@@ -81,7 +81,7 @@
     "email": "mageteliz@gmail.com",
     "scholar": "",
     "photo": "/figures/MageTeliz.jpg",
-    "comment": "Co-directed by Pablo Dans with Prof. Paola Panizza (Faculty of Chemistry)."
+    "comment": "Co-directed by Pablo Dans with Prof. Paola Panizza (Faculty of Chemistry). CAP fellowship."
   },
   {
     "title": "MSc.",
@@ -100,18 +100,18 @@
     "name": "Denisse Mavis Sánchez",
     "role1": "PhD student of Applied Science",
     "institution1": "National University of Misiones - Argentina",
-    "role2": "Researcher at MMBAI (since 2025)",
+    "role2": "Researcher at MMBAI (since 2026)",
     "institution2": "University of the Republic",
     "email": "",
     "scholar": "",
     "photo": "/figures/DenisseMavisSánchez.jpg",
-    "comment": "Co-directed by Germán Traglia."
+    "comment": "Directed by Germán Traglia."
   },
   {
     "title": "Lic (candidate).",
     "name": "Paulina Boiani",
-    "role1": "Degree in Human Biology student",
-    "institution1": "University of the Republic",
+    "role1": "Degree in Human Biology student (CENUR LN)",
+    "institution1": "MMBAI (since 2026) - University of the Republic",
     "role2": "",
     "institution2": "",
     "email": "boianipaulina@gmail.com",
@@ -122,8 +122,8 @@
   {
     "title": "Lic (candidate).",
     "name": "Sofía Almirón",
-    "role1": "Degree in Human Biology student",
-    "institution1": "University of the Republic",
+    "role1": "Degree in Human Biology student (CENUR LN)",
+    "institution1": "MMBAI (since 2026) - University of the Republic",
     "role2": "",
     "institution2": "",
     "email": "sofyalmi3@gmail.com",
