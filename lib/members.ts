@@ -15,6 +15,23 @@ export type Member = {
   comment: string;
 };
 
+// Display order for current members. Anyone not in this list goes to the
+// end, sorted alphabetically by last name.
+const CURRENT_ORDER: string[] = [
+  "Pablo D. Dans",
+  "Germán Traglia",
+  "Leandro Grille",
+  "Victor Miguel Garcia Velasquez",
+  "Rafael Sauto",
+  "Gabriela da Rosa",
+  "Gonzalo Lopez",
+  "Denisse Mavis Sánchez",
+  "Mage Teliz",
+  "Santiago Pintos",
+  "Paulina Boiani",
+  "Sofía Almirón",
+];
+
 function loadCsv(file: string): Member[] {
   const filePath = path.join(process.cwd(), "members", file);
   if (!fs.existsSync(filePath)) return [];
@@ -27,22 +44,27 @@ function loadCsv(file: string): Member[] {
   return (parsed.data || []).filter((row) => row.name && row.name.length > 0);
 }
 
+function rankByName(name: string, order: string[]): number {
+  const idx = order.indexOf(name);
+  return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+}
+
+function lastName(name: string): string {
+  return name.split(/\s+/).pop() ?? "";
+}
+
 export function getCurrentMembers(): Member[] {
-  const members = loadCsv("members.csv");
-  // PI (Pablo D. Dans) first, rest alphabetical by last name.
-  return members.sort((a, b) => {
-    if (/Pablo\s+D\.?\s+Dans/i.test(a.name)) return -1;
-    if (/Pablo\s+D\.?\s+Dans/i.test(b.name)) return 1;
-    const lastA = a.name.split(/\s+/).pop() ?? "";
-    const lastB = b.name.split(/\s+/).pop() ?? "";
-    return lastA.localeCompare(lastB);
+  return loadCsv("members.csv").sort((a, b) => {
+    const ra = rankByName(a.name, CURRENT_ORDER);
+    const rb = rankByName(b.name, CURRENT_ORDER);
+    if (ra !== rb) return ra - rb;
+    // Both unknown to the explicit list → alphabetical by last name.
+    return lastName(a.name).localeCompare(lastName(b.name));
   });
 }
 
 export function getPastMembers(): Member[] {
   return loadCsv("past_members.csv").sort((a, b) =>
-    (a.name.split(/\s+/).pop() ?? "").localeCompare(
-      b.name.split(/\s+/).pop() ?? ""
-    )
+    lastName(a.name).localeCompare(lastName(b.name))
   );
 }
