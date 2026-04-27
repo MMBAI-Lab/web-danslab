@@ -19,7 +19,35 @@ export default function ResearchPage({ lang }: { lang: Lang }) {
               "radial-gradient(50rem 28rem at 90% 0%, rgba(220,38,38,0.18), transparent 65%)",
           }}
         />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1.6fr_1fr] md:items-center">
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1fr_1.6fr] md:items-center">
+          <FadeIn delay={0.1}>
+            <figure className="relative mx-auto w-full max-w-md">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={asset("/figures/yeast_movie1.gif")}
+                alt="HiC-biased MD simulation of a haploid yeast nucleus"
+                className="yeast-loop block h-auto w-full select-none"
+                loading="lazy"
+              />
+              <figcaption className="mt-3 text-xs text-subtle">
+                HiC-biased MD simulation of a haploid yeast nucleus.
+              </figcaption>
+              <style>{`
+                .yeast-loop {
+                  animation: yeast-bob 9s ease-in-out infinite;
+                  will-change: transform;
+                }
+                @keyframes yeast-bob {
+                  0%, 100% { transform: translateY(0); }
+                  50%      { transform: translateY(-6px); }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                  .yeast-loop { animation: none; }
+                }
+              `}</style>
+            </figure>
+          </FadeIn>
+
           <div className="min-w-0">
             <FadeIn>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
@@ -41,35 +69,6 @@ export default function ResearchPage({ lang }: { lang: Lang }) {
               </div>
             </FadeIn>
           </div>
-
-          <FadeIn delay={0.1}>
-            <figure className="relative mx-auto w-full max-w-md">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={asset("/figures/yeast_movie1.gif")}
-                alt="HiC-biased MD simulation of a haploid yeast nucleus"
-                className="yeast-loop block h-auto w-full select-none"
-                loading="lazy"
-              />
-              <figcaption className="mt-3 text-xs text-subtle">
-                HiC-biased MD simulation of a haploid yeast nucleus.
-              </figcaption>
-              <style>{`
-                .yeast-loop {
-                  filter: drop-shadow(0 0 24px rgb(var(--accent) / 0.18));
-                  animation: yeast-bob 9s ease-in-out infinite;
-                  will-change: transform;
-                }
-                @keyframes yeast-bob {
-                  0%, 100% { transform: translateY(0); }
-                  50%      { transform: translateY(-6px); }
-                }
-                @media (prefers-reduced-motion: reduce) {
-                  .yeast-loop { animation: none; }
-                }
-              `}</style>
-            </figure>
-          </FadeIn>
         </div>
       </section>
 

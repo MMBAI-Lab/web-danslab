@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Recolor yeast_movie1_web3.gif into the site's red palette using sharp's
- * pipeline (which preserves the multi-page structure of the input), and
- * write both an animated GIF and an animated WebP into data/figures/.
+ * Convert the original yeast_movie1_web3.gif (white-background DNA-loop
+ * chromatin animation) to an animated, transparent-background version
+ * with the original colors. Writes data/figures/yeast_movie1.{gif,webp}.
  *
- * Note: full chroma-keying via sharp's joinChannel kills the animation,
- * so the white background ends up as the lightest tone of the red ramp.
- * The page wraps the result in a bordered, dark-tinted card that contains
- * the visual neatly without needing transparency.
+ * How: build a 1-channel alpha mask = (255 - luminance) for every frame,
+ * keep the source RGB unchanged, and joinChannel them. Sharp preserves
+ * the multi-page structure as long as the alpha buffer is supplied raw
+ * with the full stacked dimensions of the animated source.
  *
  * Run when the source changes:
  *   node scripts/recolor-yeast.mjs
@@ -29,7 +29,6 @@ const DST_GIF = path.join(repoRoot, "data", "figures", "yeast_movie1.gif");
 const DST_WEBP = path.join(repoRoot, "data", "figures", "yeast_movie1.webp");
 
 const TARGET_W = 600;
-const ACCENT = { r: 220, g: 38, b: 38 };
 
 const meta = await sharp(SRC, { animated: true }).metadata();
 console.log(
@@ -38,21 +37,35 @@ console.log(
   )} → ${TARGET_W}×?`
 );
 
-const recolor = () =>
+// 1-channel alpha = inverted luminance, raw, multi-page stacked.
+const alphaBuf = await sharp(SRC, { animated: true })
+  .resize({ width: TARGET_W })
+  .greyscale()
+  .negate({ alpha: false })
+  .extractChannel(0)
+  .raw()
+  .toBuffer({ resolveWithObject: true });
+
+// Pipeline factory: original RGB (animated) + the raw alpha mask = animated RGBA.
+const transparent = () =>
   sharp(SRC, { animated: true })
     .resize({ width: TARGET_W })
     .removeAlpha()
-    .modulate({ saturation: 0 })           // → grayscale (preserves luminance)
-    .linear(0.85, -10)                     // gently darken everything
-    .tint({ r: ACCENT.r, g: ACCENT.g, b: ACCENT.b });
+    .joinChannel(alphaBuf.data, {
+      raw: {
+        width: alphaBuf.info.width,
+        height: alphaBuf.info.height,
+        channels: 1,
+      },
+    });
 
-await recolor()
+await transparent()
   .webp({ quality: 80, effort: 4, loop: 0, delay: meta.delay })
   .toFile(DST_WEBP);
 console.log(`[recolor-yeast] wrote ${path.relative(repoRoot, DST_WEBP)}`);
 
 try {
-  await recolor()
+  await transparent()
     .gif({ delay: meta.delay, loop: 0 })
     .toFile(DST_GIF);
   console.log(`[recolor-yeast] wrote ${path.relative(repoRoot, DST_GIF)}`);

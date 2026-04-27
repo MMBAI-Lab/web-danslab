@@ -141,9 +141,10 @@ export default function HomePage({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      {/* WHAT WE DO — bacteria silhouette behind */}
+      {/* WHAT WE DO — bacteria silhouettes behind */}
       <section className="relative overflow-hidden border-b border-border bg-surface">
-        <BacteriaOutline className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-90" />
+        <BacteriaOutline className="absolute -left-[8%] top-[6%] h-[34%] w-[55%]" />
+        <BacteriaOutline className="absolute -right-[10%] bottom-[8%] h-[34%] w-[55%] rotate-180" />
         <div className="relative mx-auto max-w-6xl px-6 py-24">
           <FadeIn>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
@@ -156,7 +157,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {c.whatwedo_cards.map((card, i) => (
               <FadeIn key={card.title} delay={Math.min(i * 0.06, 0.3)}>
-                <article className="group relative h-full overflow-hidden rounded-lg border border-border bg-bg/80 p-7 backdrop-blur-sm transition hover:border-accent">
+                <article className="group relative h-full overflow-hidden rounded-lg border border-border bg-bg/70 p-7 backdrop-blur-sm transition hover:border-accent">
                   <span className="absolute left-0 top-0 h-full w-0.5 bg-accent opacity-0 transition group-hover:opacity-100" />
                   <h3 className="font-serif text-xl font-semibold text-ink">
                     {card.title}
