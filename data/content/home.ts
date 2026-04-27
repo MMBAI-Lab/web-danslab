@@ -52,7 +52,7 @@ const en: HomeContent = {
     },
   ],
   whatwedo_eyebrow: "What we do",
-  whatwedo_title: "From electrons to nucleosomes.",
+  whatwedo_title: "From electrons, through chromosomes, to whole cells and bacteria.",
   whatwedo_cards: [
     {
       title: "Molecular dynamics",
@@ -121,7 +121,7 @@ const es: HomeContent = {
     },
   ],
   whatwedo_eyebrow: "Qué hacemos",
-  whatwedo_title: "De los electrones a los nucleosomas.",
+  whatwedo_title: "De los electrones, pasando por los cromosomas, hasta las células completas y las bacterias.",
   whatwedo_cards: [
     {
       title: "Dinámica molecular",

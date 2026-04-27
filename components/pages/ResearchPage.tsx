@@ -3,7 +3,6 @@ import NeuralNetwork from "@/components/NeuralNetwork";
 import { RESEARCH } from "@/data/content/research";
 import { getResearchProjects, type ResearchProject } from "@/lib/research";
 import type { Lang } from "@/lib/i18n";
-import { asset } from "@/lib/asset";
 
 export default function ResearchPage({ lang }: { lang: Lang }) {
   const c = RESEARCH[lang];
@@ -19,56 +18,26 @@ export default function ResearchPage({ lang }: { lang: Lang }) {
               "radial-gradient(50rem 28rem at 90% 0%, rgba(220,38,38,0.18), transparent 65%)",
           }}
         />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1fr_1.6fr] md:items-center">
-          <FadeIn delay={0.1}>
-            <figure className="relative mx-auto w-full max-w-md">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={asset("/figures/yeast_movie1.gif")}
-                alt="HiC-biased MD simulation of a haploid yeast nucleus"
-                className="yeast-loop block h-auto w-full select-none"
-                loading="lazy"
-              />
-              <figcaption className="mt-3 text-xs text-subtle">
-                HiC-biased MD simulation of a haploid yeast nucleus.
-              </figcaption>
-              <style>{`
-                .yeast-loop {
-                  animation: yeast-bob 9s ease-in-out infinite;
-                  will-change: transform;
-                }
-                @keyframes yeast-bob {
-                  0%, 100% { transform: translateY(0); }
-                  50%      { transform: translateY(-6px); }
-                }
-                @media (prefers-reduced-motion: reduce) {
-                  .yeast-loop { animation: none; }
-                }
-              `}</style>
-            </figure>
+        <div className="relative mx-auto max-w-5xl px-6 py-24">
+          <FadeIn>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
+              {c.eyebrow}
+            </p>
+            <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-ink md:text-5xl">
+              {c.title}
+            </h1>
           </FadeIn>
-
-          <div className="min-w-0">
-            <FadeIn>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
-                {c.eyebrow}
-              </p>
-              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-                {c.title}
-              </h1>
-            </FadeIn>
-            <FadeIn delay={0.05}>
-              <div className="mt-10 max-w-prose space-y-5 leading-relaxed text-muted">
-                {c.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-                <p
-                  className="text-sm text-subtle"
-                  dangerouslySetInnerHTML={{ __html: c.cover_caption_html }}
-                />
-              </div>
-            </FadeIn>
-          </div>
+          <FadeIn delay={0.05}>
+            <div className="mt-10 max-w-prose space-y-5 leading-relaxed text-muted">
+              {c.paragraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+              <p
+                className="text-sm text-subtle"
+                dangerouslySetInnerHTML={{ __html: c.cover_caption_html }}
+              />
+            </div>
+          </FadeIn>
         </div>
       </section>
 
