@@ -25,7 +25,7 @@ export default function ContactPage({ lang }: { lang: Lang }) {
               {c.address_heading}
             </h2>
             <p className="mt-3 leading-relaxed">
-              Molecular Modeling, Bioinformatics &amp; AI (MMBAI) group
+              {c.address_lab_name}
               <br />
               Plataforma de investigación
               <br />

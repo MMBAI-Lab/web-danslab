@@ -49,6 +49,7 @@ export type CommonDict = {
     title: string;
     eyebrow: string;
     address_heading: string;
+    address_lab_name: string;
     pi_heading: string;
     join_heading: string;
     join_body: string;
@@ -114,6 +115,7 @@ const en: CommonDict = {
     title: "Get in touch.",
     eyebrow: "Contact",
     address_heading: "Address",
+    address_lab_name: "Molecular Modeling, Bioinformatics & AI (MMBAI) group",
     pi_heading: "Principal Investigator",
     join_heading: "Joining the lab",
     join_body:
@@ -176,6 +178,7 @@ const es: CommonDict = {
     title: "Comunicate con nosotros",
     eyebrow: "Contacto",
     address_heading: "Dirección",
+    address_lab_name: "Grupo de Modelado Molecular, Bioinformática & IA (MMBAI)",
     pi_heading: "Investigador principal",
     join_heading: "Unirse al laboratorio",
     join_body:
