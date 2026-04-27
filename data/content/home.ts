@@ -15,6 +15,9 @@ export type HomeContent = {
   whatwedo_eyebrow: string;
   whatwedo_title: string;
   whatwedo_cards: { title: string; body: string }[];
+  whatwedo_repo_label: string;
+  whatwedo_repo_url: string;
+  whatwedo_repo_url_label: string;
   staff_eyebrow: string;
   staff_title: string;
   staff_link: string;
@@ -55,6 +58,9 @@ const en: HomeContent = {
       body: "Geometric deep learning and generative models to predict structure, dynamics, and interactions of nucleic acids and proteins.",
     },
   ],
+  whatwedo_repo_label: "Open code, datasets and tools we share with the community",
+  whatwedo_repo_url: "https://github.com/MMBAI-Lab",
+  whatwedo_repo_url_label: "github.com/MMBAI-Lab",
   staff_eyebrow: "Current staff",
   staff_title: "The team behind the science.",
   staff_link: "All members →",
@@ -100,6 +106,9 @@ const es: HomeContent = {
       body: "Deep learning geométrico y modelos generativos para predecir estructura, dinámica e interacciones de ácidos nucleicos y proteínas.",
     },
   ],
+  whatwedo_repo_label: "Código, datasets y herramientas que compartimos con la comunidad",
+  whatwedo_repo_url: "https://github.com/MMBAI-Lab",
+  whatwedo_repo_url_label: "github.com/MMBAI-Lab",
   staff_eyebrow: "Equipo actual",
   staff_title: "El equipo detrás de la ciencia.",
   staff_link: "Ver todo el equipo →",
