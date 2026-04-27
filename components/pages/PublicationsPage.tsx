@@ -104,7 +104,7 @@ function Authors({ value }: { value: string }) {
             <span
               className={
                 isLab
-                  ? "text-ink underline decoration-accent decoration-2 underline-offset-2"
+                  ? "text-ink underline decoration-red-900/80 decoration-2 underline-offset-2"
                   : ""
               }
             >
