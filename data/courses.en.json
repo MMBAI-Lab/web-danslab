@@ -1,0 +1,124 @@
+[
+  {
+    "title": "Biomolecular Modeling School (CELFI–MINCyT)",
+    "kind": "Postgraduate intensive school",
+    "institution": "School of Exact and Natural Sciences, University of Buenos Aires (CELFI / MINCyT)",
+    "country": "Argentina",
+    "years": "2016–present",
+    "role": "Lecturer (2016–2022); lecturer and co-organizer (2022–present)",
+    "summary": "Two-week postgraduate school on biomolecular modeling, supported by Argentina's Ministry of Science, Technology and Productive Innovation (MINCyT) through the Latin American Center for Interdisciplinary Training (CELFI). Originally the Advanced Computational Simulation in Chemistry / Biomolecules School.",
+    "lead": "Prof. Darío Estrin (founder)",
+    "status": "ongoing",
+    "url": "https://sites.google.com/view/emb24"
+  },
+  {
+    "title": "Biophysics",
+    "kind": "Undergraduate course",
+    "institution": "Biology and Biochemistry Cycle (CBB), CENUR Litoral Norte, University of the Republic",
+    "country": "Uruguay",
+    "years": "2020–present",
+    "role": "Problem-solving classes on the Interactions, Cooperativity and Allosterism module since 2020; lectures and problem-solving since 2021",
+    "summary": "Initial-cycle (2nd semester) biophysics course.",
+    "lead": "Prof. Daniel Peluffo",
+    "status": "ongoing"
+  },
+  {
+    "title": "DNA Biophysics",
+    "kind": "Postgraduate course (PEDECIBA Biology)",
+    "institution": "CENUR Litoral Norte, University of the Republic",
+    "country": "Uruguay",
+    "years": "2021",
+    "role": "Co-coordinator; in charge of the 'Structural and physicochemical aspects of DNA' module",
+    "summary": "Postgraduate course on the biophysics of DNA.",
+    "lead": "Drs. Daniel Peluffo, Deborah J. Keszenman and Leonel Malacrida (co-coordinators)",
+    "status": "past"
+  },
+  {
+    "title": "Structural and physicochemical aspects of DNA",
+    "kind": "Postgraduate course",
+    "institution": "School of Exact and Natural Sciences, University of Buenos Aires",
+    "country": "Argentina",
+    "years": "2022",
+    "role": "Course in charge",
+    "summary": "Postgraduate course on the structural and physicochemical properties of DNA.",
+    "status": "past"
+  },
+  {
+    "title": "Introduction to Biological Sciences (1st semester)",
+    "kind": "Undergraduate course",
+    "institution": "Biology and Biochemistry Cycle (CBB), CENUR Litoral Norte, University of the Republic",
+    "country": "Uruguay",
+    "years": "2023–present",
+    "role": "Lecture and group discussion on 'the origin of life'",
+    "summary": "First-semester introductory course on biological sciences.",
+    "lead": "Dr. Nélida Rodríguez (course coordinator)",
+    "status": "ongoing"
+  },
+  {
+    "title": "Structural biophysics of nucleic acids",
+    "kind": "Postgraduate course",
+    "institution": "Department of Physics, School of Exact and Natural Sciences, University of Buenos Aires",
+    "country": "Argentina",
+    "years": "2024",
+    "role": "Guest lecture",
+    "summary": "Postgraduate course on the structural biophysics of nucleic acids.",
+    "lead": "Dr. Mónica Pickholz",
+    "status": "past"
+  },
+  {
+    "title": "Molecular and Cellular Bioengineering",
+    "kind": "Undergraduate (Biology) and postgraduate course (PEDECIBA Biology)",
+    "institution": "Faculty of Sciences, University of the Republic",
+    "country": "Uruguay",
+    "years": "2024–present",
+    "role": "Two lectures on nucleic acid structure and replication",
+    "summary": "Course on molecular and cellular bioengineering offered jointly at undergraduate and postgraduate level.",
+    "lead": "Drs. María Ana Duhagón, Leticia Pérez Díaz and Beatriz Garat",
+    "status": "ongoing"
+  },
+  {
+    "title": "Structural Biology in Medicine",
+    "kind": "Postgraduate course (MSc in Bioinformatics)",
+    "institution": "CEINBIO, Faculty of Medicine, University of the Republic",
+    "country": "Uruguay",
+    "years": "2024",
+    "role": "Lecture and computational practical on multiscale modeling of nucleic acids",
+    "summary": "Course on structural biology with applications to medicine, part of the MSc in Bioinformatics.",
+    "lead": "Dr. Ari Zeida",
+    "status": "past"
+  },
+  {
+    "title": "Genomics",
+    "kind": "Undergraduate course",
+    "institution": "Biology and Biochemistry Cycle (CBB), CENUR Litoral Norte, University of the Republic",
+    "country": "Uruguay",
+    "years": "2024–present",
+    "role": "Two lectures and a group discussion — genome structure and size, organization, and methods integration",
+    "summary": "Undergraduate course on genomics.",
+    "lead": "Dr. Nélida Rodríguez",
+    "status": "ongoing"
+  },
+  {
+    "title": "Scientific Methodology II",
+    "kind": "Undergraduate course (Medicine, 6th year)",
+    "institution": "Faculty of Medicine, University of the Republic",
+    "country": "Uruguay",
+    "years": "2024–present",
+    "role": "Year-long mentoring of six students through an original research project, from conception to final report and poster",
+    "summary": "Senior medical-school course on scientific methodology and original research.",
+    "lead": "Dr. Silvina Bartesaghi",
+    "status": "ongoing"
+  },
+  {
+    "title": "1st Regional Course on Aptamers",
+    "kind": "Satellite course of the REDIBA meeting",
+    "institution": "Iberoamerican Aptamer Network (REDIBA), Medellín",
+    "country": "Colombia",
+    "years": "2024",
+    "role": "Two one-hour lectures on nucleic acid biophysics and structure prediction",
+    "summary": "Satellite course at the meeting of the Iberoamerican Aptamer Network (REDIBA).",
+    "lead": "Dr. Victoria Calzada",
+    "status": "past",
+    "url": "https://www.rediba.org/"
+  }
+]

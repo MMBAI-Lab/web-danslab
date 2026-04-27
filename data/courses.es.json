@@ -1,0 +1,124 @@
+[
+  {
+    "title": "Escuela de Modelado de Biomoléculas (CELFI–MINCyT)",
+    "kind": "Escuela intensiva de posgrado",
+    "institution": "Facultad de Ciencias Exactas y Naturales, Universidad de Buenos Aires (CELFI / MINCyT)",
+    "country": "Argentina",
+    "years": "2016–presente",
+    "role": "Docente (2016–2022); docente y co-organizador (2022–presente)",
+    "summary": "Escuela de posgrado de dos semanas en modelado de biomoléculas, financiada por el Ministerio de Ciencia, Tecnología e Innovación Productiva (MINCyT) de Argentina a través del Centro Latinoamericano de Formación Interdisciplinaria (CELFI). Anteriormente Escuela de Simulación Computacional Avanzada en Química / de Biomoléculas.",
+    "lead": "Prof. Darío Estrin (fundador)",
+    "status": "ongoing",
+    "url": "https://sites.google.com/view/emb24"
+  },
+  {
+    "title": "Biofísica",
+    "kind": "Curso de grado",
+    "institution": "Ciclo de Biología y Bioquímica (CBB), CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2020–presente",
+    "role": "Clases de resolución de problemas del módulo de Interacciones, Cooperatividad y Alosterismo desde 2020; clases teóricas y de resolución de problemas desde 2021",
+    "summary": "Curso de biofísica del ciclo inicial (2do semestre).",
+    "lead": "Prof. Daniel Peluffo",
+    "status": "ongoing"
+  },
+  {
+    "title": "Biofísica del ADN",
+    "kind": "Curso de posgrado (PEDECIBA Biología)",
+    "institution": "CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2021",
+    "role": "Co-responsable; a cargo del módulo 'Aspectos estructurales y fisicoquímicos del ADN'",
+    "summary": "Curso de posgrado sobre la biofísica del ADN.",
+    "lead": "Dres. Daniel Peluffo, Deborah J. Keszenman y Leonel Malacrida (co-responsables)",
+    "status": "past"
+  },
+  {
+    "title": "Aspectos estructurales y fisicoquímicos del ADN",
+    "kind": "Curso de posgrado",
+    "institution": "Facultad de Ciencias Exactas y Naturales, Universidad de Buenos Aires",
+    "country": "Argentina",
+    "years": "2022",
+    "role": "Responsable del curso",
+    "summary": "Curso de posgrado sobre las propiedades estructurales y fisicoquímicas del ADN.",
+    "status": "past"
+  },
+  {
+    "title": "Introducción a las Ciencias Biológicas (1er semestre)",
+    "kind": "Curso de grado",
+    "institution": "Ciclo de Biología y Bioquímica (CBB), CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2023–presente",
+    "role": "Clase teórica y discusión grupal sobre 'el origen de la vida'",
+    "summary": "Curso introductorio de ciencias biológicas del primer semestre.",
+    "lead": "Dra. Nélida Rodríguez (responsable y coordinadora)",
+    "status": "ongoing"
+  },
+  {
+    "title": "Biofísica estructural de ácidos nucleicos",
+    "kind": "Curso de posgrado",
+    "institution": "Departamento de Física, Facultad de Ciencias Exactas y Naturales, Universidad de Buenos Aires",
+    "country": "Argentina",
+    "years": "2024",
+    "role": "Clase teórica invitada",
+    "summary": "Curso de posgrado sobre la biofísica estructural de ácidos nucleicos.",
+    "lead": "Dra. Mónica Pickholz",
+    "status": "past"
+  },
+  {
+    "title": "Bioingeniería Molecular y Celular",
+    "kind": "Curso de licenciatura (Cs. Biológicas) y de posgrado (PEDECIBA Biología)",
+    "institution": "Facultad de Ciencias, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2024–presente",
+    "role": "Dos clases teóricas sobre estructura de ácidos nucleicos y replicación",
+    "summary": "Curso sobre bioingeniería molecular y celular dictado conjuntamente a nivel de grado y posgrado.",
+    "lead": "Dras. María Ana Duhagón, Leticia Pérez Díaz y Beatriz Garat",
+    "status": "ongoing"
+  },
+  {
+    "title": "Biología Estructural en Medicina",
+    "kind": "Curso de posgrado (Maestría en Bioinformática)",
+    "institution": "CEINBIO, Facultad de Medicina, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2024",
+    "role": "Clase teórica y práctico computacional sobre modelado multiescala de ácidos nucleicos",
+    "summary": "Curso sobre biología estructural aplicada a la medicina, parte de la Maestría en Bioinformática.",
+    "lead": "Dr. Ari Zeida",
+    "status": "past"
+  },
+  {
+    "title": "Genómica",
+    "kind": "Curso de grado",
+    "institution": "Ciclo de Biología y Bioquímica (CBB), CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2024–presente",
+    "role": "Dos clases teóricas y una discusión grupal — estructura y tamaño de los genomas, organización e integración de métodos",
+    "summary": "Curso de grado en genómica.",
+    "lead": "Dra. Nélida Rodríguez",
+    "status": "ongoing"
+  },
+  {
+    "title": "Metodología Científica II",
+    "kind": "Curso de grado (Medicina, 6º año)",
+    "institution": "Facultad de Medicina, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2024–presente",
+    "role": "Seguimiento durante todo el año de seis estudiantes y elaboración de un trabajo de investigación desde su concepción hasta el informe y póster final",
+    "summary": "Curso de medicina de 6º año sobre metodología científica e investigación original.",
+    "lead": "Dra. Silvina Bartesaghi",
+    "status": "ongoing"
+  },
+  {
+    "title": "1er Curso Regional de Aptámeros",
+    "kind": "Curso satélite del encuentro REDIBA",
+    "institution": "Red Iberoamericana de Aptámeros (REDIBA), Medellín",
+    "country": "Colombia",
+    "years": "2024",
+    "role": "Dos clases de una hora sobre biofísica de ácidos nucleicos y predicción de estructuras",
+    "summary": "Curso satélite del encuentro de la Red Iberoamericana de Aptámeros (REDIBA).",
+    "lead": "Dra. Victoria Calzada",
+    "status": "past",
+    "url": "https://www.rediba.org/"
+  }
+]

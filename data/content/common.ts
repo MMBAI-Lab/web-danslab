@@ -41,6 +41,9 @@ export type CommonDict = {
   courses: {
     intro: string;
     empty: string;
+    ongoing_heading: string;
+    past_heading: string;
+    role_label: string;
   };
   contact: {
     title: string;
@@ -101,8 +104,11 @@ const en: CommonDict = {
   },
   courses: {
     intro:
-      "Teaching activities — undergraduate courses, postgraduate seminars and short workshops.",
+      "Teaching activities — undergraduate courses, postgraduate schools, short courses and seminars at home and abroad.",
     empty: "We will publish our upcoming and past courses here soon.",
+    ongoing_heading: "Ongoing courses",
+    past_heading: "Past courses",
+    role_label: "Role",
   },
   contact: {
     title: "Get in touch.",
@@ -160,8 +166,11 @@ const es: CommonDict = {
   },
   courses: {
     intro:
-      "Actividades de docencia — cursos de grado, seminarios de posgrado y talleres breves.",
+      "Actividades de docencia — cursos de grado, escuelas de posgrado, cursos breves y seminarios en el país y en el exterior.",
     empty: "Pronto vamos a publicar nuestros cursos pasados y por venir.",
+    ongoing_heading: "Cursos en curso",
+    past_heading: "Cursos previos",
+    role_label: "Rol",
   },
   contact: {
     title: "Escribinos.",
