@@ -120,9 +120,11 @@ function CourseCard({
         )}
       </div>
       <p className="mt-3 text-sm leading-relaxed text-muted">{c.institution}</p>
-      <p className="mt-2 text-sm leading-relaxed text-muted">
-        <span className="text-ink">{roleLabel}:</span> {c.role}
-      </p>
+      {c.role && (
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          <span className="text-ink">{roleLabel}:</span> {c.role}
+        </p>
+      )}
       {c.summary && (
         <p className="mt-3 text-sm leading-relaxed text-muted">{c.summary}</p>
       )}
