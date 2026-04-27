@@ -96,16 +96,20 @@ function fmtAuthors(raw) {
 // --- Apply skip/duplicate rules from a quick review of the source file --
 const SKIP_KEYS = new Set([
   // preprint / abstract / SSRN / poster duplicates of fully published items:
-  "quinn2018human", // appears twice (line 552 dup of full Sci Rep version; we keep first)
   "kalbfleisch2024rt2t", // RT2T preprint, kept the published "ruminant" Nature Genetics one
   "mezcord2023characterization", // Preprints version of mezcord2023induced
   "luu2025comprehensive", // preprint of luu2025spontaneous
   "luu2026p", // poster abstract
   "moheb6571421nutrient", // SSRN preprint
   "montalvo2025identification", // 1-page abstract; full paper is montalvo2025identificacion
+  // Google Scholar artifact: re-export of ramirez2014plasmid as a 2020 book
+  // chapter with a shuffled, corrupted title; same paper.
+  "ramirez2020plasmid",
 ]);
 
-let seenQuinn = false; // keep only the first quinn2018human (full Sci Rep)
+// quinn2018human appears twice in the .bib (lines 338 and 552) — same paper.
+// Keep the first one only.
+let seenQuinn = false;
 
 function bibToPublication(entry) {
   if (SKIP_KEYS.has(entry.key)) return null;
