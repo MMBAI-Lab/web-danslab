@@ -39,6 +39,24 @@ export default function ContactPage({ lang }: { lang: Lang }) {
               <br />
               Uruguay
             </p>
+
+            <div className="map-frame mt-6 overflow-hidden rounded-lg border border-border">
+              <iframe
+                title="DansLab — Google Maps"
+                src="https://www.google.com/maps?q=Gral.+Rivera+1350,+Salto,+Uruguay&z=16&output=embed"
+                width="100%"
+                height="320"
+                style={{ border: 0, display: "block" }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+            <style>{`
+              :root[data-theme="dark"] .map-frame iframe {
+                filter: invert(0.92) hue-rotate(180deg) saturate(0.55);
+              }
+            `}</style>
           </section>
         </FadeIn>
 
