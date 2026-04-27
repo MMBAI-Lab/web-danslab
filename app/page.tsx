@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DnaHelix from "@/components/DnaHelix";
-import SequenceTicker from "@/components/SequenceTicker";
+import MoleculeRain from "@/components/MoleculeRain";
 import FadeIn from "@/components/FadeIn";
 import MemberCard from "@/components/MemberCard";
 import { getCurrentMembers } from "@/lib/members";
@@ -22,8 +22,8 @@ export default function HomePage() {
               "radial-gradient(60rem 32rem at 75% -15%, rgba(220,38,38,0.22), transparent 60%), radial-gradient(45rem 24rem at -5% 110%, rgba(220,38,38,0.12), transparent 60%)",
           }}
         />
-        <SequenceTicker className="absolute inset-x-0 top-1/2 -translate-y-1/2 opacity-60" />
-        <DnaHelix className="absolute -right-12 top-1/2 hidden h-[120%] -translate-y-1/2 opacity-50 md:block md:w-[520px]" />
+        <MoleculeRain className="absolute inset-0 opacity-60" density={0.85} />
+        <DnaHelix className="absolute -right-16 top-1/2 hidden h-[130%] -translate-y-1/2 opacity-60 md:block md:w-[560px]" />
 
         <div className="relative mx-auto max-w-6xl px-6 py-32 md:py-44">
           <FadeIn>

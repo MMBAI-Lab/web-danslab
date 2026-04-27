@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { href: "/research", label: "Research" },
@@ -22,23 +23,30 @@ export default function Nav() {
             alt="DansLab"
             width={36}
             height={36}
-            className="h-9 w-9 object-contain invert"
+            className="h-9 w-9 object-contain logo-mark"
             priority
           />
           <span className="font-serif text-xl font-semibold tracking-tight">
             DansLab
           </span>
         </Link>
-        <ul className="flex items-center gap-7 text-sm font-medium text-muted">
-          {links.map((l) => (
-            <li key={l.href}>
-              <Link href={l.href} className="hover:text-ink">
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-7">
+          <ul className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="hover:text-ink">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ThemeToggle />
+        </div>
       </nav>
+      {/* invert the logo only in dark theme so the black artwork reads as light */}
+      <style>{`
+        :root[data-theme="dark"] .logo-mark { filter: invert(1); }
+      `}</style>
     </header>
   );
 }

@@ -1,7 +1,6 @@
 /**
  * Animated DNA double helix — pure SVG, no JS animation.
- * Use as a decorative background element. Pointer-events disabled,
- * aria-hidden so screen readers ignore it.
+ * Uses theme tokens (--accent, --ink) so it adapts to light/dark.
  */
 export default function DnaHelix({ className = "" }: { className?: string }) {
   const bases = Array.from({ length: 26 });
@@ -13,16 +12,40 @@ export default function DnaHelix({ className = "" }: { className?: string }) {
     >
       <defs>
         <linearGradient id="strand1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#dc2626" stopOpacity="0.0" />
-          <stop offset="20%" stopColor="#dc2626" stopOpacity="0.85" />
-          <stop offset="80%" stopColor="#dc2626" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#dc2626" stopOpacity="0.0" />
+          <stop
+            offset="0%"
+            style={{ stopColor: "rgb(var(--accent))", stopOpacity: 0 }}
+          />
+          <stop
+            offset="20%"
+            style={{ stopColor: "rgb(var(--accent))", stopOpacity: 0.85 }}
+          />
+          <stop
+            offset="80%"
+            style={{ stopColor: "rgb(var(--accent))", stopOpacity: 0.85 }}
+          />
+          <stop
+            offset="100%"
+            style={{ stopColor: "rgb(var(--accent))", stopOpacity: 0 }}
+          />
         </linearGradient>
         <linearGradient id="strand2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#e5e5e5" stopOpacity="0.0" />
-          <stop offset="20%" stopColor="#e5e5e5" stopOpacity="0.65" />
-          <stop offset="80%" stopColor="#e5e5e5" stopOpacity="0.65" />
-          <stop offset="100%" stopColor="#e5e5e5" stopOpacity="0.0" />
+          <stop
+            offset="0%"
+            style={{ stopColor: "rgb(var(--ink))", stopOpacity: 0 }}
+          />
+          <stop
+            offset="20%"
+            style={{ stopColor: "rgb(var(--ink))", stopOpacity: 0.45 }}
+          />
+          <stop
+            offset="80%"
+            style={{ stopColor: "rgb(var(--ink))", stopOpacity: 0.45 }}
+          />
+          <stop
+            offset="100%"
+            style={{ stopColor: "rgb(var(--ink))", stopOpacity: 0 }}
+          />
         </linearGradient>
       </defs>
 
@@ -32,7 +55,7 @@ export default function DnaHelix({ className = "" }: { className?: string }) {
           const phase = (i / (bases.length - 1)) * Math.PI * 6;
           const x1 = 200 + Math.sin(phase) * 110;
           const x2 = 200 - Math.sin(phase) * 110;
-          const opacity = 0.15 + Math.abs(Math.cos(phase)) * 0.55;
+          const opacity = 0.15 + Math.abs(Math.cos(phase)) * 0.5;
           return (
             <line
               key={i}
@@ -40,9 +63,11 @@ export default function DnaHelix({ className = "" }: { className?: string }) {
               y1={y}
               x2={x2}
               y2={y}
-              stroke="#525252"
+              style={{
+                stroke: "rgb(var(--muted))",
+                strokeOpacity: opacity,
+              }}
               strokeWidth="1.5"
-              strokeOpacity={opacity}
             />
           );
         })}

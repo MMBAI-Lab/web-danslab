@@ -19,10 +19,21 @@ export const metadata: Metadata = {
     siteName: "DansLab",
     type: "website",
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
+  icons: { icon: "/favicon.ico" },
 };
+
+// Inline script: read saved theme (or fall back to dark) and apply it on
+// <html> before React hydrates, to avoid a flash of the wrong theme.
+const themeBootstrap = `
+(function(){
+  try {
+    var t = localStorage.getItem('theme');
+    if (t !== 'light' && t !== 'dark') t = 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (_) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();`;
 
 export default function RootLayout({
   children,
@@ -30,7 +41,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+      </head>
       <body className="flex min-h-screen flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
