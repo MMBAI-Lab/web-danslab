@@ -33,16 +33,19 @@ const POSTER_WINNERS = [
       "Role of Acidic Amino Acid Residues in Sequence-specific DNA-protein Interactions",
     author: "Kazi Amirul Hossain",
     affiliation: "Gdańsk University of Technology",
+    photo: "/figures/KaziHossain.jpg",
   },
   {
     title: "DNA damage competes with sequence to pin a plectoneme",
     author: "Victoria E. Hill",
     affiliation: "Department of Chemistry, The University of Sheffield",
+    photo: "/figures/VictoriaHill.jpg",
   },
   {
     title: "Mechanistic properties of DNA govern nucleosome unwrapping",
     author: "Maria Julia Maristany",
     affiliation: "Department of Physics, University of Cambridge",
+    photo: "/figures/JuliaMaristany.jpg",
   },
 ];
 
@@ -145,20 +148,37 @@ export default function AbcPage({ lang }: { lang: Lang }) {
         </FadeIn>
 
         <FadeIn>
-          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
-            {c.winners_heading}
-          </h2>
-          <ul className="mt-6 divide-y divide-border">
-            {POSTER_WINNERS.map((w, i) => (
-              <li key={i} className="py-5">
-                <p className="font-serif text-base font-semibold leading-snug text-ink">
-                  {w.title}
-                </p>
-                <p className="mt-1 text-sm text-muted">{w.author}</p>
-                <p className="text-sm italic text-subtle">{w.affiliation}</p>
-              </li>
-            ))}
-          </ul>
+          <section className="relative mt-20 overflow-hidden">
+            <FivePointStar className="pointer-events-none absolute -right-16 top-1/2 hidden h-[28rem] w-[28rem] -translate-y-1/2 opacity-[0.10] sm:block" />
+            <FivePointStar className="pointer-events-none absolute -right-10 top-0 h-72 w-72 opacity-[0.10] sm:hidden" />
+
+            <h2 className="relative font-serif text-2xl font-semibold tracking-tight text-ink">
+              {c.winners_heading}
+            </h2>
+
+            <ul className="relative mt-6 ml-4 space-y-6 md:ml-12">
+              {POSTER_WINNERS.map((w) => (
+                <li key={w.author} className="flex items-start gap-4">
+                  <div className="relative h-16 w-16 flex-none overflow-hidden rounded-full border border-border bg-elevated">
+                    <Image
+                      src={asset(w.photo)}
+                      alt={w.author}
+                      fill
+                      sizes="64px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-serif text-base font-semibold leading-snug text-ink">
+                      {w.title}
+                    </p>
+                    <p className="mt-1 text-sm text-muted">{w.author}</p>
+                    <p className="text-sm italic text-subtle">{w.affiliation}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
         </FadeIn>
 
         <FadeIn>
@@ -311,5 +331,26 @@ function CommitteeList({
         ))}
       </ul>
     </div>
+  );
+}
+
+function FivePointStar({ className = "" }: { className?: string }) {
+  // 5-point star outlined silhouette. Outer radius 90, inner 35; center 100,100.
+  // Filled with low-opacity accent so the section reads as 'awarded'.
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      className={className}
+      aria-hidden="true"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <polygon
+        points="100,10 121,72 186,72 134,111 153,173 100,135 47,173 67,111 14,72 80,72"
+        fill="rgb(var(--accent) / 0.85)"
+        stroke="rgb(var(--accent) / 0.95)"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
