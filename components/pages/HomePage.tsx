@@ -9,7 +9,7 @@ import { HOME } from "@/data/content/home";
 
 export default function HomePage({ lang }: { lang: Lang }) {
   const c = HOME[lang];
-  const members = getCurrentMembers();
+  const members = getCurrentMembers(lang);
   const pi = members[0];
   const team = members.slice(1);
 

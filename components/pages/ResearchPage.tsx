@@ -1,10 +1,12 @@
 import FadeIn from "@/components/FadeIn";
 import NeuralNetwork from "@/components/NeuralNetwork";
-import { RESEARCH, type ResearchProject } from "@/data/content/research";
+import { RESEARCH } from "@/data/content/research";
+import { getResearchProjects, type ResearchProject } from "@/lib/research";
 import type { Lang } from "@/lib/i18n";
 
 export default function ResearchPage({ lang }: { lang: Lang }) {
   const c = RESEARCH[lang];
+  const projects = getResearchProjects(lang);
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
@@ -45,11 +47,11 @@ export default function ResearchPage({ lang }: { lang: Lang }) {
             {c.projects_heading}
           </h2>
           <p className="mt-2 text-sm text-subtle">
-            {c.projects_subtitle(c.projects.length)}
+            {c.projects_subtitle(projects.length)}
           </p>
         </FadeIn>
         <ul className="mt-10 space-y-5">
-          {c.projects.map((p, i) => (
+          {projects.map((p, i) => (
             <FadeIn key={p.title} delay={Math.min(i * 0.03, 0.3)}>
               <ProjectCard project={p} />
             </FadeIn>

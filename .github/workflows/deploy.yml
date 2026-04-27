@@ -29,6 +29,11 @@ jobs:
         run: npm ci
 
       - name: Build static site
+        # basePath is required so assets resolve at github.io/web-danslab/.
+        # Once DNS is pointed at the custom domain (www.danslab.xyz), unset
+        # this env var (or remove the line) and the site will serve at root.
+        env:
+          NEXT_PUBLIC_BASE_PATH: /web-danslab
         run: npm run build
 
       - name: Upload artifact

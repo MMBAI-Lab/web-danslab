@@ -6,8 +6,8 @@ import type { Lang } from "@/lib/i18n";
 
 export default function MembersPage({ lang }: { lang: Lang }) {
   const labels = COMMON[lang].members;
-  const current = getCurrentMembers();
-  const past = getPastMembers();
+  const current = getCurrentMembers(lang);
+  const past = getPastMembers(lang);
   const pi = current[0];
   const team = current.slice(1);
 

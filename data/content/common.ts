@@ -28,7 +28,7 @@ export type CommonDict = {
     scholar: string;
   };
   publications: {
-    intro_html: string;
+    intro: string;
   };
   contact: {
     title: string;
@@ -75,7 +75,8 @@ const en: CommonDict = {
     scholar: "google scholar",
   },
   publications: {
-    intro_html: `Peer-reviewed work from DansLab and collaborators. Full list also on <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://scholar.google.es/citations?hl=es&user=7gFOImQAAAAJ&view_op=list_works">Google Scholar</a>.`,
+    intro:
+      "Peer-reviewed work from DansLab and collaborators.",
   },
   contact: {
     title: "Get in touch.",
@@ -120,7 +121,7 @@ const es: CommonDict = {
     scholar: "google scholar",
   },
   publications: {
-    intro_html: `Trabajos arbitrados de DansLab y colaboradores. Lista completa también en <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://scholar.google.es/citations?hl=es&user=7gFOImQAAAAJ&view_op=list_works">Google Scholar</a>.`,
+    intro: "Trabajos arbitrados de DansLab y colaboradores.",
   },
   contact: {
     title: "Escribinos.",

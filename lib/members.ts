@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import Papa from "papaparse";
+import type { Lang } from "@/lib/i18n";
 
 export type Member = {
   title: string;
@@ -34,7 +35,7 @@ const CURRENT_ORDER: string[] = [
 ];
 
 function loadCsv(file: string): Member[] {
-  const filePath = path.join(process.cwd(), "members", file);
+  const filePath = path.join(process.cwd(), "data", "members", file);
   if (!fs.existsSync(filePath)) return [];
   const raw = fs.readFileSync(filePath, "utf8");
   const parsed = Papa.parse<Member>(raw, {
@@ -54,18 +55,17 @@ function lastName(name: string): string {
   return name.split(/\s+/).pop() ?? "";
 }
 
-export function getCurrentMembers(): Member[] {
-  return loadCsv("members.csv").sort((a, b) => {
+export function getCurrentMembers(lang: Lang = "en"): Member[] {
+  return loadCsv(`members.${lang}.csv`).sort((a, b) => {
     const ra = rankByName(a.name, CURRENT_ORDER);
     const rb = rankByName(b.name, CURRENT_ORDER);
     if (ra !== rb) return ra - rb;
-    // Both unknown to the explicit list → alphabetical by last name.
     return lastName(a.name).localeCompare(lastName(b.name));
   });
 }
 
-export function getPastMembers(): Member[] {
-  return loadCsv("past_members.csv").sort((a, b) =>
+export function getPastMembers(lang: Lang = "en"): Member[] {
+  return loadCsv(`past_members.${lang}.csv`).sort((a, b) =>
     lastName(a.name).localeCompare(lastName(b.name))
   );
 }
