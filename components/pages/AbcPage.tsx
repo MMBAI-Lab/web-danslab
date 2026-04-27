@@ -102,6 +102,17 @@ export default function AbcPage({ lang }: { lang: Lang }) {
 
         <FadeIn>
           <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+            {c.history_heading}
+          </h2>
+          <div className="mt-4 max-w-prose space-y-4 leading-relaxed text-muted">
+            {c.history_paragraphs_html.map((html, i) => (
+              <p key={i} dangerouslySetInnerHTML={{ __html: html }} />
+            ))}
+          </div>
+        </FadeIn>
+
+        <FadeIn>
+          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
             {c.committees_heading}
           </h2>
           <div className="mt-6 grid gap-8 md:grid-cols-2">

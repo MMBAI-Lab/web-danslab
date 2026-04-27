@@ -75,6 +75,8 @@ export type AbcContent = {
   intro_paragraphs: string[];
   topics_label: string;
   topics: string[];
+  history_heading: string;
+  history_paragraphs_html: string[];
   committees_heading: string;
   scientific: string;
   organizing: string;
@@ -104,6 +106,11 @@ const abcEN: AbcContent = {
     "Nucleosome structure and chromatin fibers",
     "Nucleosome positioning",
     "Epigenetic modifications: DNA and histone tails",
+  ],
+  history_heading: "ABC history",
+  history_paragraphs_html: [
+    `Founded in 2001 during the "Atomistic to Continuum Models for Long Molecules" meeting in Ascona, Switzerland, the <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Ascona_B-DNA_Consortium">Ascona B-DNA Consortium (ABC)</a> brings together molecular-dynamics groups dedicated to setting standards for DNA simulation. Its first two systematic phases (2004–2009) ran 15-ns simulations of ten 15-mer sequences with the parm94 force field and then, with parmbsc0, delivered the first comprehensive study of all 136 unique tetranucleotide combinations.`,
+    `Over the following decade the consortium pushed timescales into the microsecond range with μABC (2010–2014), driving the development of the <em>parmbsc1</em> force field, and the miniABC project on 13 sequences refined Calladine–Dickerson rules under varied salt conditions. The current effort, <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://mmb.irbbarcelona.org/hexABC/">HexABC</a>, brings together 14 institutions to characterise all 2080 unique hexanucleotides over sub-millisecond timescales.`,
   ],
   committees_heading: "Scientific & organizing committees",
   scientific: "Scientific",
@@ -135,6 +142,11 @@ const abcES: AbcContent = {
     "Estructura del nucleosoma y fibras de cromatina",
     "Posicionamiento del nucleosoma",
     "Modificaciones epigenéticas: ADN y colas de histonas",
+  ],
+  history_heading: "Historia del ABC",
+  history_paragraphs_html: [
+    `Fundado en 2001 durante el encuentro «Atomistic to Continuum Models for Long Molecules» en Ascona, Suiza, el <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Ascona_B-DNA_Consortium">Ascona B-DNA Consortium (ABC)</a> reúne a grupos de dinámica molecular dedicados a establecer estándares para la simulación de ADN. Sus dos primeras fases sistemáticas (2004–2009) corrieron simulaciones de 15 ns sobre diez secuencias de 15 pares de bases con el campo de fuerzas parm94 y, con parmbsc0, llevaron a cabo el primer estudio exhaustivo de las 136 combinaciones únicas de tetranucleótidos.`,
+    `En la década siguiente el consorcio llevó las escalas temporales al rango de los microsegundos con μABC (2010–2014), impulsando el desarrollo del campo de fuerzas <em>parmbsc1</em>, y el proyecto miniABC sobre 13 secuencias refinó las reglas de Calladine–Dickerson bajo distintas condiciones salinas. El esfuerzo actual, <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://mmb.irbbarcelona.org/hexABC/">HexABC</a>, reúne a 14 instituciones para caracterizar los 2080 hexanucleótidos únicos en escalas sub-milisegundo.`,
   ],
   committees_heading: "Comités científico y organizador",
   scientific: "Científico",
