@@ -6,6 +6,8 @@ export type CommonDict = {
     research: string;
     members: string;
     publications: string;
+    collaborators: string;
+    courses: string;
     outreach: string;
     contact: string;
   };
@@ -30,6 +32,16 @@ export type CommonDict = {
   publications: {
     intro: string;
   };
+  collaborators: {
+    intro: string;
+    ongoing_heading: string;
+    past_heading: string;
+    empty: string;
+  };
+  courses: {
+    intro: string;
+    empty: string;
+  };
   contact: {
     title: string;
     eyebrow: string;
@@ -50,6 +62,8 @@ const en: CommonDict = {
     research: "Research",
     members: "Members",
     publications: "Publications",
+    collaborators: "Collaborators",
+    courses: "Courses",
     outreach: "Outreach",
     contact: "Contact",
   },
@@ -78,6 +92,18 @@ const en: CommonDict = {
     intro:
       "Peer-reviewed work from DansLab and collaborators.",
   },
+  collaborators: {
+    intro:
+      "Researchers and groups we work with around the world. Each entry links to the institution or project page.",
+    ongoing_heading: "Ongoing collaborations",
+    past_heading: "Past collaborations",
+    empty: "We will list our collaborators here soon.",
+  },
+  courses: {
+    intro:
+      "Teaching activities — undergraduate courses, postgraduate seminars and short workshops.",
+    empty: "We will publish our upcoming and past courses here soon.",
+  },
   contact: {
     title: "Get in touch.",
     eyebrow: "Contact",
@@ -96,6 +122,8 @@ const es: CommonDict = {
     research: "Investigación",
     members: "Integrantes",
     publications: "Publicaciones",
+    collaborators: "Colaboradores",
+    courses: "Cursos",
     outreach: "Divulgación",
     contact: "Contacto",
   },
@@ -122,6 +150,18 @@ const es: CommonDict = {
   },
   publications: {
     intro: "Trabajos arbitrados de DansLab y colaboradores.",
+  },
+  collaborators: {
+    intro:
+      "Investigadores y grupos con los que trabajamos en distintas partes del mundo. Cada entrada enlaza a la institución o al proyecto.",
+    ongoing_heading: "Colaboraciones en curso",
+    past_heading: "Colaboraciones previas",
+    empty: "Pronto vamos a listar a nuestros colaboradores aquí.",
+  },
+  courses: {
+    intro:
+      "Actividades de docencia — cursos de grado, seminarios de posgrado y talleres breves.",
+    empty: "Pronto vamos a publicar nuestros cursos pasados y por venir.",
   },
   contact: {
     title: "Escribinos.",

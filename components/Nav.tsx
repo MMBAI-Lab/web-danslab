@@ -13,6 +13,8 @@ const SECTIONS = [
   { path: "research", key: "research" as const },
   { path: "members", key: "members" as const },
   { path: "publications", key: "publications" as const },
+  { path: "collaborators", key: "collaborators" as const },
+  { path: "courses", key: "courses" as const },
   { path: "outreach", key: "outreach" as const },
   { path: "contact", key: "contact" as const },
 ];
