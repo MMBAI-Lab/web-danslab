@@ -79,6 +79,9 @@ export type AbcContent = {
   scientific: string;
   organizing: string;
   winners_heading: string;
+  boa_heading: string;
+  boa_body: string;
+  boa_link_label: string;
   pictures_heading: string;
 };
 
@@ -106,6 +109,10 @@ const abcEN: AbcContent = {
   scientific: "Scientific",
   organizing: "Organizing",
   winners_heading: "Poster session winners",
+  boa_heading: "Book of Abstracts",
+  boa_body:
+    "Timetable, participants, scientific program and book of abstracts.",
+  boa_link_label: "Open the PDF →",
   pictures_heading: "Pictures",
 };
 
@@ -133,6 +140,10 @@ const abcES: AbcContent = {
   scientific: "Científico",
   organizing: "Organizador",
   winners_heading: "Ganadores de la sesión de pósters",
+  boa_heading: "Libro de resúmenes",
+  boa_body:
+    "Cronograma, participantes, programa científico y libro de resúmenes.",
+  boa_link_label: "Abrir el PDF →",
   pictures_heading: "Fotos",
 };
 

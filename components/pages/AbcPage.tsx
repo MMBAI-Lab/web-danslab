@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Gallery from "@/components/Gallery";
+import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
 import NeuralNetwork from "@/components/NeuralNetwork";
-import { listGalleryImages } from "@/lib/gallery";
 import { ABC } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
+import { asset } from "@/lib/asset";
 
 const COMMITTEE_SCIENTIFIC: [string, string][] = [
   ["John Maddocks", "CH"],
@@ -46,82 +46,143 @@ const POSTER_WINNERS = [
   },
 ];
 
+const FEATURE_PHOTOS = [
+  { src: "/figures/CSF_MADDOCKS_E2A1289_A.jpg", alt: "John Maddocks at ABC 2023 (1)" },
+  { src: "/figures/CSF_MADDOCKS_E2A1304_A.jpg", alt: "John Maddocks at ABC 2023 (2)" },
+];
+
+const SQUARE_PHOTOS = [
+  { src: "/figures/20230418_100917.jpg", alt: "ABC 2023 conference moment (1)" },
+  { src: "/figures/20230417_134137.jpg", alt: "ABC 2023 conference moment (2)" },
+  { src: "/figures/20230419_082154.jpg", alt: "ABC 2023 conference moment (3)" },
+];
+
+const BOA_URL =
+  "https://drive.google.com/file/d/1cwKLrWRJpAYltc6Yk-khOLOTVOrOOcGs/view?usp=drive_link";
+
 export default function AbcPage({ lang }: { lang: Lang }) {
   const c = ABC[lang];
-  const images = listGalleryImages("outreach/abc-2023");
   return (
     <>
       <NeuralNetwork className="fixed inset-0 z-0 opacity-50" density={0.8} />
       <div className="relative z-10 mx-auto max-w-5xl px-6 py-24">
-      <FadeIn>
-        <Link
-          href={localizePath(lang, "/outreach")}
-          className="text-xs font-semibold uppercase tracking-[0.3em] text-subtle hover:text-accent"
-        >
-          {c.back}
-        </Link>
-        <h1 className="mt-6 font-serif text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-          {c.title}
-        </h1>
-        <p className="mt-3 text-sm font-medium uppercase tracking-[0.25em] text-accent">
-          {c.eyebrow}
-        </p>
-      </FadeIn>
+        <FadeIn>
+          <Link
+            href={localizePath(lang, "/outreach")}
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-subtle hover:text-accent"
+          >
+            {c.back}
+          </Link>
+          <h1 className="mt-6 font-serif text-4xl font-semibold tracking-tight text-ink md:text-5xl">
+            {c.title}
+          </h1>
+          <p className="mt-3 text-sm font-medium uppercase tracking-[0.25em] text-accent">
+            {c.eyebrow}
+          </p>
+        </FadeIn>
 
-      <FadeIn delay={0.05}>
-        <div className="mt-10 max-w-prose space-y-5 leading-relaxed text-muted">
-          {c.intro_paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </div>
-      </FadeIn>
+        <FadeIn delay={0.05}>
+          <div className="mt-10 max-w-prose space-y-5 leading-relaxed text-muted">
+            {c.intro_paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+        </FadeIn>
 
-      <FadeIn delay={0.1}>
-        <ul className="mt-6 grid gap-2 text-sm text-muted md:grid-cols-2">
-          {c.topics.map((t) => (
-            <li key={t} className="flex gap-3">
-              <span className="mt-2 inline-block h-1.5 w-1.5 flex-none rounded-full bg-accent" />
-              <span>{t}</span>
-            </li>
-          ))}
-        </ul>
-      </FadeIn>
+        <FadeIn delay={0.1}>
+          <ul className="mt-6 grid gap-2 text-sm text-muted md:grid-cols-2">
+            {c.topics.map((t) => (
+              <li key={t} className="flex gap-3">
+                <span className="mt-2 inline-block h-1.5 w-1.5 flex-none rounded-full bg-accent" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </FadeIn>
 
-      <FadeIn>
-        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
-          {c.committees_heading}
-        </h2>
-        <div className="mt-6 grid gap-8 md:grid-cols-2">
-          <CommitteeList title={c.scientific} people={COMMITTEE_SCIENTIFIC} />
-          <CommitteeList title={c.organizing} people={COMMITTEE_ORGANIZING} />
-        </div>
-      </FadeIn>
+        <FadeIn>
+          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+            {c.committees_heading}
+          </h2>
+          <div className="mt-6 grid gap-8 md:grid-cols-2">
+            <CommitteeList title={c.scientific} people={COMMITTEE_SCIENTIFIC} />
+            <CommitteeList title={c.organizing} people={COMMITTEE_ORGANIZING} />
+          </div>
+        </FadeIn>
 
-      <FadeIn>
-        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
-          {c.winners_heading}
-        </h2>
-        <ul className="mt-6 divide-y divide-border">
-          {POSTER_WINNERS.map((w, i) => (
-            <li key={i} className="py-5">
-              <p className="font-serif text-base font-semibold leading-snug text-ink">
-                {w.title}
-              </p>
-              <p className="mt-1 text-sm text-muted">{w.author}</p>
-              <p className="text-sm italic text-subtle">{w.affiliation}</p>
-            </li>
-          ))}
-        </ul>
-      </FadeIn>
+        <FadeIn>
+          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+            {c.winners_heading}
+          </h2>
+          <ul className="mt-6 divide-y divide-border">
+            {POSTER_WINNERS.map((w, i) => (
+              <li key={i} className="py-5">
+                <p className="font-serif text-base font-semibold leading-snug text-ink">
+                  {w.title}
+                </p>
+                <p className="mt-1 text-sm text-muted">{w.author}</p>
+                <p className="text-sm italic text-subtle">{w.affiliation}</p>
+              </li>
+            ))}
+          </ul>
+        </FadeIn>
 
-      <FadeIn>
-        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
-          {c.pictures_heading}
-        </h2>
-        <div className="mt-6">
-          <Gallery images={images} alt="ABC 2023 conference photo" />
-        </div>
-      </FadeIn>
+        <FadeIn>
+          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+            {c.boa_heading}
+          </h2>
+          <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">
+            {c.boa_body}
+          </p>
+          <a
+            href={BOA_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 inline-block text-sm text-accent underline-offset-4 hover:underline"
+          >
+            {c.boa_link_label}
+          </a>
+        </FadeIn>
+
+        <FadeIn>
+          <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+            {c.pictures_heading}
+          </h2>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {FEATURE_PHOTOS.map((p) => (
+              <div
+                key={p.src}
+                className="relative aspect-[3/2] overflow-hidden rounded-2xl border border-border bg-elevated"
+              >
+                <Image
+                  src={asset(p.src)}
+                  alt={p.alt}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            {SQUARE_PHOTOS.map((p) => (
+              <div
+                key={p.src}
+                className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-elevated"
+              >
+                <Image
+                  src={asset(p.src)}
+                  alt={p.alt}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </div>
     </>
   );
