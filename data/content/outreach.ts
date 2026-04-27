@@ -9,7 +9,7 @@ export type OutreachIndexContent = {
 
 const indexEN: OutreachIndexContent = {
   eyebrow: "Outreach",
-  title: "Sharing science across formats.",
+  title: "Sharing science across formats",
   intro:
     "We share science through teaching, public engagement, and creative collaborations across art, music, and exhibitions.",
   cards: [
@@ -36,7 +36,7 @@ const indexEN: OutreachIndexContent = {
 
 const indexES: OutreachIndexContent = {
   eyebrow: "Divulgación",
-  title: "Compartir ciencia en distintos formatos.",
+  title: "Compartir ciencia en distintos formatos",
   intro:
     "Compartimos ciencia a través de la docencia, el trabajo con el público y colaboraciones creativas en arte, música y exposiciones.",
   cards: [

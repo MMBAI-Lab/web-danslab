@@ -112,7 +112,7 @@ const en: CommonDict = {
     role_label: "Role",
   },
   contact: {
-    title: "Get in touch.",
+    title: "Get in touch",
     eyebrow: "Contact",
     address_heading: "Address",
     address_lab_name: "Molecular Modeling, Bioinformatics & AI (MMBAI) group",
