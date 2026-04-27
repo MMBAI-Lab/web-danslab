@@ -22,5 +22,41 @@
     "scholar": "",
     "photo": "/figures/MaurodeCastro.jpg",
     "comment": ""
+  },
+    {
+    "title": "MSc.",
+    "name": "Ariel Tijman",
+    "role1": "Master in Chemistry (Faculty of Chemistry)",
+    "institution1": "University of the Republic",
+    "role2": "",
+    "institution2": "",
+    "email": "ariel.tijman@gmail.com",
+    "scholar": "",
+    "photo": "/figures/ArielTijman.jpg",
+    "comment": "Co-directed by Pablo Dans with Prof. Paola Panizza (Faculty of Chemistry)."
+  },
+      {
+    "title": "Ph.D.",
+    "name": "Diego Gallego",
+    "role1": "Ph.D in Biomedicine (Spain)",
+    "institution1": "University of Barcelona",
+    "role2": "",
+    "institution2": "IRB Barcelona",
+    "email": "diego.bcn.1993@gmail.com",
+    "scholar": "",
+    "photo": "/figures/DiegoGallego.jpg",
+    "comment": "Co-directed by Pablo Dans with Prof. Modesto Orozco (IRB Barcelona)."
+  },
+      {
+    "title": "Lic.",
+    "name": "Eric Matamoros",
+    "role1": "Degree in Biochemistry (Spain)",
+    "institution1": "University of Barcelona",
+    "role2": "",
+    "institution2": "IRB Barcelona",
+    "email": "",
+    "scholar": "",
+    "photo": "/figures/EricMatamoros.jpg",
+    "comment": "Co-directed by Pablo Dans with Prof. Modesto Orozco (IRB Barcelona)."
   }
 ]
