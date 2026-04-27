@@ -41,6 +41,9 @@ next-env.d.ts
 # raw migration sources (Google Site export, archived HTML, old figures).
 # Everything else under data/ (publications.json, figures/, future content) is tracked.
 /danslab-googlesite/
-/data/Danslab.html
-/data/Danslab_files/
-/data/figure_old/
+/data/Danslab*.html
+/data/Danslab*_files/
+/data/figures_old/
+
+# Auto-synced from data/figures/ by scripts/sync-figures.mjs — never edit by hand.
+/public/figures/

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const links = [
   { href: "/research", label: "Research" },
@@ -10,14 +11,23 @@ const links = [
 
 export default function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg/85 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="flex items-center gap-3 font-serif text-xl font-semibold tracking-tight text-ink hover:text-accent"
+          className="flex items-center gap-3 text-ink hover:text-accent"
         >
-          <span className="inline-block h-2 w-2 rounded-full bg-accent" />
-          DansLab
+          <Image
+            src="/figures/WEBDansLab_logoBLACK.png"
+            alt="DansLab"
+            width={36}
+            height={36}
+            className="h-9 w-9 object-contain invert"
+            priority
+          />
+          <span className="font-serif text-xl font-semibold tracking-tight">
+            DansLab
+          </span>
         </Link>
         <ul className="flex items-center gap-7 text-sm font-medium text-muted">
           {links.map((l) => (
