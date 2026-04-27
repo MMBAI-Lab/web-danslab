@@ -14,7 +14,7 @@ export type ResearchContent = {
 
 const en: ResearchContent = {
   eyebrow: "Research",
-  title: "Nucleic acids in their full dynamic context.",
+  title: "Nucleic acids in their full dynamic context",
   paragraphs: [
     "The Dans Lab is mainly focused on the study of the structure and dynamics of nucleic acids and their interactions with proteins, small ligands and the solvent atmosphere, from a molecular point of view.",
     "We use and develop all-atom force fields and coarse-grained models for atomistic, nanoscopic and mesoscopic simulations. We also use and develop bioinformatic tools for the data mining of specialized databases containing structural information.",
@@ -28,7 +28,7 @@ const en: ResearchContent = {
 
 const es: ResearchContent = {
   eyebrow: "Investigación",
-  title: "Ácidos nucleicos en su contexto dinámico completo.",
+  title: "Ácidos nucleicos en su contexto dinámico completo",
   paragraphs: [
     "El Dans Lab se enfoca principalmente en el estudio de la estructura y la dinámica de los ácidos nucleicos y sus interacciones con proteínas, ligandos pequeños y el solvente, desde una perspectiva molecular.",
     "Usamos y desarrollamos campos de fuerzas all-atom y modelos coarse-grained para simulaciones atomísticas, nanoscópicas y mesoscópicas. También usamos y desarrollamos herramientas bioinformáticas para la minería de datos en bases de datos estructurales especializadas.",
