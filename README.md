@@ -62,4 +62,4 @@ public/             Static assets served at site root
 
 ## Migration sources (gitignored)
 
-The folders `figures/` and `danslab-googlesite/` hold the original Google Site material (raw photos, mol files, etc.). They are not part of the published site — anything that should ship must be moved into `public/` explicitly. See [`.gitignore`](.gitignore).
+The folder `danslab-googlesite/` and everything inside `data/` other than `*.json` files hold the original Google Site material (raw photos, archived HTML, mol files, etc.). They are not part of the published site — anything that should ship must be moved into `public/` explicitly. See [`.gitignore`](.gitignore).

@@ -39,6 +39,8 @@ next-env.d.ts
 .claude/
 
 # raw asset sources (migration material — not the published site assets).
-# Move anything that should ship into public/ explicitly.
-/figures/
+# Anything inside data/ is ignored EXCEPT site-data JSON files.
+# Move what should ship into public/ explicitly.
+/data/*
+!/data/*.json
 /danslab-googlesite/
