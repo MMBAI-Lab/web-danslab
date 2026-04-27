@@ -30,6 +30,7 @@ const CURRENT_ORDER: string[] = [
   "Santiago Pintos",
   "Paulina Boiani",
   "Sofía Almirón",
+  "Gastón Leal",
 ];
 
 function loadCsv(file: string): Member[] {
