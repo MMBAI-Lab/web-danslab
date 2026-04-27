@@ -1,3 +1,4 @@
+import FloatingBases from "@/components/FloatingBases";
 import {
   getPublications,
   groupByYear,
@@ -12,7 +13,9 @@ export default function PublicationsPage({ lang }: { lang: Lang }) {
   const labels = COMMON[lang];
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-24">
+    <>
+      <FloatingBases className="fixed inset-0 z-0 opacity-40" density={0.7} />
+      <div className="relative z-10 mx-auto max-w-5xl px-6 py-24">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
         {labels.nav.publications}
       </p>
@@ -38,7 +41,8 @@ export default function PublicationsPage({ lang }: { lang: Lang }) {
           </section>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

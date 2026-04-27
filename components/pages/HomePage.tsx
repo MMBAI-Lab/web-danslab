@@ -76,7 +76,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
             </h2>
             <div className="mt-8 space-y-5 leading-relaxed text-muted">
               {c.about_paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
+                <p key={i} dangerouslySetInnerHTML={{ __html: p }} />
               ))}
               <p
                 className="text-sm text-subtle"

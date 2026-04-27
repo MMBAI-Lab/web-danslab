@@ -1,11 +1,14 @@
 import FadeIn from "@/components/FadeIn";
+import FloatingBases from "@/components/FloatingBases";
 import { COMMON } from "@/data/content/common";
 import type { Lang } from "@/lib/i18n";
 
 export default function ContactPage({ lang }: { lang: Lang }) {
   const c = COMMON[lang].contact;
   return (
-    <div className="mx-auto max-w-3xl px-6 py-24">
+    <>
+      <FloatingBases className="fixed inset-0 z-0 opacity-40" density={0.6} />
+      <div className="relative z-10 mx-auto max-w-3xl px-6 py-24">
       <FadeIn>
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
           {c.eyebrow}
@@ -72,6 +75,7 @@ export default function ContactPage({ lang }: { lang: Lang }) {
           </section>
         </FadeIn>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

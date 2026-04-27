@@ -1,4 +1,5 @@
 import MemberCard from "@/components/MemberCard";
+import FloatingBases from "@/components/FloatingBases";
 import { getCurrentMembers, getPastMembers } from "@/lib/members";
 import { COMMON } from "@/data/content/common";
 import type { Lang } from "@/lib/i18n";
@@ -11,7 +12,9 @@ export default function MembersPage({ lang }: { lang: Lang }) {
   const team = current.slice(1);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-24">
+    <>
+      <FloatingBases className="fixed inset-0 z-0 opacity-50" density={0.9} />
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-24">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
         {COMMON[lang].nav.members}
       </p>
@@ -58,6 +61,7 @@ export default function MembersPage({ lang }: { lang: Lang }) {
           </div>
         </section>
       )}
-    </div>
+      </div>
+    </>
   );
 }

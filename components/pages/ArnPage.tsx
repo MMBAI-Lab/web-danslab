@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Gallery from "@/components/Gallery";
 import FadeIn from "@/components/FadeIn";
+import FloatingBases from "@/components/FloatingBases";
 import { listGalleryImages } from "@/lib/gallery";
 import { ARN } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
@@ -9,7 +10,9 @@ export default function ArnPage({ lang }: { lang: Lang }) {
   const c = ARN[lang];
   const images = listGalleryImages("outreach/arn-for-export");
   return (
-    <div className="mx-auto max-w-5xl px-6 py-24">
+    <>
+      <FloatingBases className="fixed inset-0 z-0 opacity-35" density={0.6} />
+      <div className="relative z-10 mx-auto max-w-5xl px-6 py-24">
       <FadeIn>
         <Link
           href={localizePath(lang, "/outreach")}
@@ -90,6 +93,7 @@ export default function ArnPage({ lang }: { lang: Lang }) {
           <p className="mt-6 text-xs text-subtle">{c.copyright}</p>
         </div>
       </FadeIn>
-    </div>
+      </div>
+    </>
   );
 }
