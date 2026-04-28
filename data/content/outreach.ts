@@ -175,12 +175,52 @@ export type ArnContent = {
   intro: string[];
   sections: { heading: string; paragraphs: string[] }[];
   artists_heading: string;
-  artists: { name: string; body: string }[];
+  artists: { name: string; photo: string; body: string }[];
+  inaugurations_heading: string;
+  inaugurations_intro: string;
+  inaugurations: { date: string; venue: string; city: string; logo: string }[];
   gallery_heading: string;
+  media_heading: string;
+  media_items: { id: string; title: string }[];
+  funding_heading: string;
+  funding_image: string;
   cta: string;
   cta_email: string;
   copyright: string;
 };
+
+const ARN_MEDIA: { id: string; title_en: string; title_es: string }[] = [
+  {
+    id: "lAOgLglNyT0",
+    title_en: "ARN for Export — promo",
+    title_es: "ARN for Export — promoción",
+  },
+  {
+    id: "hQzKOh88kt0",
+    title_en: "ARN for Export — promo 2",
+    title_es: "ARN for Export — promoción 2",
+  },
+  {
+    id: "_DtPPFp1ebU",
+    title_en: "Timelapse of the installation — ARN for Export",
+    title_es: "Timelapse de la instalación — ARN for Export",
+  },
+  {
+    id: "bvjdAfklkBk",
+    title_en: "Installation and opening at CENUR Salto",
+    title_es: "Instalación e inauguración en el CENUR sede Salto",
+  },
+  {
+    id: "94kM1YWGESs",
+    title_en: "La Mañana del Once — interview, July 17 2025",
+    title_es: "La Mañana del Once — entrevista, 17 de julio 2025",
+  },
+  {
+    id: "D5KZDZCoJ0I",
+    title_en: "Pablo Dans — Biophysics Group, Udelar",
+    title_es: "Pablo Dans — Grupo Biofísica, Udelar",
+  },
+];
 
 const arnEN: ArnContent = {
   back: "← Outreach",
@@ -229,22 +269,53 @@ const arnEN: ArnContent = {
   artists: [
     {
       name: "Martina Buroni",
+      photo: "/figures/MartinaBuroni.jpg",
       body: "Visual artist and stage designer trained in sculpture and applied arts. Her work articulates artistic conceptualization, scenic creation, installation and sculpture in dialogue with living space.",
     },
     {
       name: "Mariana Barraco",
+      photo: "/figures/MarianaBarraco.jpg",
       body: "Artist, teacher, director of Atelier Mari Barraco. Her multidisciplinary approach combines drawing, painting, ceramics, sculpture and digital art. She designs artistic experiences that democratize art and transform spaces.",
     },
     {
       name: "Nito Cilintano",
+      photo: "/figures/NitoCilintano.jpg",
       body: "Visual artist, audiovisual creator and university professor. He works at the intersection of technology, spatiality and perception, developing installations and audiovisual pieces with a scenic and performative approach.",
     },
     {
       name: "Pablo Dans",
+      photo: "/figures/PabloDans.jpg",
       body: "Researcher, teacher and science communicator. International expert in nucleic acid structure (DNA and RNA) and in computational chemistry, molecular modeling, simulations and structural bioinformatics.",
     },
   ],
+  inaugurations_heading: "A travelling exhibition",
+  inaugurations_intro:
+    "ARN for Export opened at three sites of the Universidad de la República, where it remained open to the public for several weeks at each venue.",
+  inaugurations: [
+    {
+      date: "22 July 2025",
+      venue: "CURE — Centro Universitario Regional del Este",
+      city: "Maldonado",
+      logo: "/figures/logo_cure.png",
+    },
+    {
+      date: "1 September 2025",
+      venue: "CENUR Litoral Norte",
+      city: "Salto",
+      logo: "/figures/logo_cenur.png",
+    },
+    {
+      date: "10 November 2025",
+      venue: "Facultad de Ciencias",
+      city: "Montevideo",
+      logo: "/figures/logo_fcien.png",
+    },
+  ],
   gallery_heading: "Gallery",
+  media_heading: "Media",
+  media_items: ARN_MEDIA.map((m) => ({ id: m.id, title: m.title_en })),
+  funding_heading: "Funded and organized by",
+  funding_image: "/figures/ARNforExport_funding.jpg",
   cta: "If you would like to bring the ARN for Export installation to your educational or cultural space, get in touch.",
   cta_email: "arnforexport@gmail.com",
   copyright: "Copyright DansLab & Atelier Mari Barraco — 2025",
@@ -297,22 +368,53 @@ const arnES: ArnContent = {
   artists: [
     {
       name: "Martina Buroni",
+      photo: "/figures/MartinaBuroni.jpg",
       body: "Artista visual y escenógrafa con formación en escultura y artes aplicadas. Su trabajo articula conceptualización artística, creación escénica, instalación y escultura en diálogo con el espacio vivo.",
     },
     {
       name: "Mariana Barraco",
+      photo: "/figures/MarianaBarraco.jpg",
       body: "Artista, docente, directora del Atelier Mari Barraco. Su enfoque multidisciplinario combina dibujo, pintura, cerámica, escultura y arte digital. Diseña experiencias artísticas que democratizan el arte y transforman los espacios.",
     },
     {
       name: "Nito Cilintano",
+      photo: "/figures/NitoCilintano.jpg",
       body: "Artista visual, realizador audiovisual y docente universitario. Trabaja en la intersección entre tecnología, espacialidad y percepción, desarrollando instalaciones y piezas audiovisuales con enfoque escénico y performativo.",
     },
     {
       name: "Pablo Dans",
+      photo: "/figures/PabloDans.jpg",
       body: "Investigador, docente y divulgador científico. Experto internacional en estructura de ácidos nucleicos (ADN y ARN) y en técnicas de química computacional, modelado molecular, simulaciones y bioinformática estructural.",
     },
   ],
+  inaugurations_heading: "Una muestra itinerante",
+  inaugurations_intro:
+    "ARN for Export se inauguró en tres sedes de la Universidad de la República, donde permaneció abierta al público por varias semanas en cada caso.",
+  inaugurations: [
+    {
+      date: "22 de julio de 2025",
+      venue: "CURE — Centro Universitario Regional del Este",
+      city: "Maldonado",
+      logo: "/figures/logo_cure.png",
+    },
+    {
+      date: "1 de setiembre de 2025",
+      venue: "CENUR Litoral Norte",
+      city: "Salto",
+      logo: "/figures/logo_cenur.png",
+    },
+    {
+      date: "10 de noviembre de 2025",
+      venue: "Facultad de Ciencias",
+      city: "Montevideo",
+      logo: "/figures/logo_fcien.png",
+    },
+  ],
   gallery_heading: "Galería",
+  media_heading: "Medios",
+  media_items: ARN_MEDIA.map((m) => ({ id: m.id, title: m.title_es })),
+  funding_heading: "Financiado y organizado por",
+  funding_image: "/figures/ARNforExport_funding.jpg",
   cta: "Si te gustaría tener la instalación ARN for Export en tu espacio educativo o cultural, contactanos.",
   cta_email: "arnforexport@gmail.com",
   copyright: "Copyright DansLab & Atelier Mari Barraco — 2025",

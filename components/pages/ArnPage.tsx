@@ -1,17 +1,26 @@
 import Link from "next/link";
+import Image from "next/image";
 import Gallery from "@/components/Gallery";
 import FadeIn from "@/components/FadeIn";
-import NeuralNetwork from "@/components/NeuralNetwork";
+import RnaCloud from "@/components/RnaCloud";
 import { listGalleryImages } from "@/lib/gallery";
 import { ARN } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
+import { asset } from "@/lib/asset";
+
+const INTRO_MOSAIC = [
+  "/figures/ARNforExp1.jpg",
+  "/figures/ARNforExp2.jpg",
+  "/figures/ARNforExp3.jpg",
+  "/figures/ARNforExp4.jpg",
+];
 
 export default function ArnPage({ lang }: { lang: Lang }) {
   const c = ARN[lang];
   const images = listGalleryImages("outreach/arn-for-export");
   return (
     <>
-      <NeuralNetwork className="fixed inset-0 z-0 opacity-50" density={0.8} />
+      <RnaCloud className="fixed inset-0 z-0 opacity-70" density={0.7} />
       <div className="relative z-10 mx-auto max-w-5xl px-6 py-24">
       <FadeIn>
         <Link
@@ -36,19 +45,41 @@ export default function ArnPage({ lang }: { lang: Lang }) {
         </div>
       </FadeIn>
 
-      {c.sections.map((s) => (
-        <FadeIn key={s.heading}>
-          <section className="mt-16">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-              {s.heading}
-            </h2>
-            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
-              {s.paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </section>
-        </FadeIn>
+      {c.sections.map((s, idx) => (
+        <div key={s.heading}>
+          <FadeIn>
+            <section className="mt-16">
+              <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                {s.heading}
+              </h2>
+              <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
+                {s.paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </section>
+          </FadeIn>
+          {idx === 0 && (
+            <FadeIn delay={0.05}>
+              <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4">
+                {INTRO_MOSAIC.map((src) => (
+                  <div
+                    key={src}
+                    className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-elevated"
+                  >
+                    <Image
+                      src={asset(src)}
+                      alt="ARN for Export installation"
+                      fill
+                      sizes="(min-width: 640px) 50vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+          )}
+        </div>
       ))}
 
       <FadeIn>
@@ -59,15 +90,69 @@ export default function ArnPage({ lang }: { lang: Lang }) {
           {c.artists.map((a) => (
             <article
               key={a.name}
-              className="rounded-lg border border-border bg-surface p-6"
+              className="flex gap-5 rounded-lg border border-border bg-surface p-6"
             >
-              <h3 className="font-serif text-lg font-semibold text-ink">
-                {a.name}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{a.body}</p>
+              <div className="relative h-20 w-20 flex-none overflow-hidden rounded-full border border-border bg-elevated">
+                <Image
+                  src={asset(a.photo)}
+                  alt={a.name}
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="font-serif text-lg font-semibold text-ink">
+                  {a.name}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {a.body}
+                </p>
+              </div>
             </article>
           ))}
         </div>
+      </FadeIn>
+
+      <FadeIn>
+        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+          {c.inaugurations_heading}
+        </h2>
+        <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">
+          {c.inaugurations_intro}
+        </p>
+        <ol className="arn-inaug mt-8 grid gap-5 sm:grid-cols-3">
+          {c.inaugurations.map((v) => (
+            <li
+              key={v.venue}
+              className="flex flex-col items-center rounded-lg border border-border bg-surface p-6 text-center"
+            >
+              <div className="relative h-24 w-full">
+                <Image
+                  src={asset(v.logo)}
+                  alt={v.venue}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 50vw"
+                  className="arn-inaug-logo object-contain"
+                />
+              </div>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+                {v.date}
+              </p>
+              <p className="mt-2 font-serif text-base font-semibold leading-snug text-ink">
+                {v.venue}
+              </p>
+              <p className="mt-1 text-xs uppercase tracking-widest text-subtle">
+                {v.city}
+              </p>
+            </li>
+          ))}
+        </ol>
+        <style>{`
+          :root[data-theme="dark"] .arn-inaug .arn-inaug-logo {
+            filter: invert(1) hue-rotate(180deg);
+          }
+        `}</style>
       </FadeIn>
 
       <FadeIn>
@@ -77,6 +162,74 @@ export default function ArnPage({ lang }: { lang: Lang }) {
         <div className="mt-6">
           <Gallery images={images} alt="ARN for Export installation" />
         </div>
+      </FadeIn>
+
+      <FadeIn>
+        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+          {c.media_heading}
+        </h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {c.media_items.map((v) => (
+            <a
+              key={v.id}
+              href={`https://www.youtube.com/watch?v=${v.id}`}
+              target="_blank"
+              rel="noreferrer"
+              className="group block overflow-hidden rounded-lg border border-border bg-surface transition hover:border-accent"
+            >
+              <div className="relative aspect-video overflow-hidden bg-elevated">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                  alt={v.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition group-hover:scale-105"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-black/55 text-white shadow-lg backdrop-blur-sm transition group-hover:bg-accent">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </span>
+              </div>
+              <p className="px-4 py-3 text-sm leading-snug text-ink">
+                {v.title}
+              </p>
+            </a>
+          ))}
+        </div>
+      </FadeIn>
+
+      <FadeIn>
+        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
+          {c.funding_heading}
+        </h2>
+        <div className="arn-funding mt-6 overflow-hidden rounded-lg border border-border bg-surface p-6">
+          <div className="relative mx-auto w-full max-w-3xl">
+            <Image
+              src={asset(c.funding_image)}
+              alt={c.funding_heading}
+              width={1600}
+              height={500}
+              className="arn-funding-img h-auto w-full object-contain"
+            />
+          </div>
+        </div>
+        <style>{`
+          :root[data-theme="dark"] .arn-funding .arn-funding-img {
+            filter: invert(1) hue-rotate(180deg);
+          }
+        `}</style>
       </FadeIn>
 
       <FadeIn>
