@@ -140,76 +140,83 @@ export default function SonifPage({ lang }: { lang: Lang }) {
           </section>
         </FadeIn>
 
-        {/* The science behind it — image left, paragraphs right */}
+        {/* The science behind it — full-width prose */}
         <FadeIn>
           <section className="mt-20">
-            <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={asset("/figures/ScienceBehind.gif")}
-                  alt="Molecular dynamics simulation of DNA"
-                  className="absolute inset-0 h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
+            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+              {c.science_heading}
+            </h2>
+            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
+              {c.science_paragraphs_html.map((html, i) => (
+                <p
+                  key={i}
+                  dangerouslySetInnerHTML={{
+                    __html: html.replace(
+                      /\{BASE\}/g,
+                      process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+                    ),
+                  }}
                 />
-              </div>
-              <div>
-                <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-                  {c.science_heading}
-                </h2>
-                <div className="mt-6 space-y-4 leading-relaxed text-muted">
-                  {c.science_paragraphs_html.map((html, i) => (
-                    <p
-                      key={i}
-                      dangerouslySetInnerHTML={{
-                        __html: html.replace(
-                          /\{BASE\}/g,
-                          process.env.NEXT_PUBLIC_BASE_PATH ?? ""
-                        ),
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           </section>
         </FadeIn>
 
-        {/* Materials — miniABC image left (inverted, transparent), paragraphs right */}
+        {/* Three-square data row: ScienceBehind | Kpopulation | miniABC */}
+        <FadeIn>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={asset("/figures/ScienceBehind.gif")}
+                alt="Molecular dynamics simulation of DNA"
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+              <Image
+                src={asset("/figures/Kpopulation.png")}
+                alt="K+ population heatmap across DNA tetranucleotides"
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="object-contain p-2"
+              />
+            </div>
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+              <Image
+                src={asset("/figures/miniABC.png")}
+                alt="miniABC sequences"
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="object-contain p-3"
+                style={{ filter: "invert(1)" }}
+              />
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* Materials — full-width prose */}
         <FadeIn>
           <section className="mt-20">
-            <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
-                <Image
-                  src={asset("/figures/miniABC.png")}
-                  alt="miniABC sequences"
-                  fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  className="object-contain p-3"
-                  style={{ filter: "invert(1)" }}
-                />
-              </div>
-              <div>
-                <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-                  {c.materials_heading}
-                </h2>
-                <div className="mt-6 space-y-4 leading-relaxed text-muted">
-                  {c.materials_paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                  <p>
-                    <a
-                      href={c.materials_doi_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-accent underline-offset-4 hover:underline"
-                    >
-                      {c.materials_doi_label} →
-                    </a>
-                  </p>
-                </div>
-              </div>
+            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+              {c.materials_heading}
+            </h2>
+            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
+              {c.materials_paragraphs_html.map((html, i) => (
+                <p key={i} dangerouslySetInnerHTML={{ __html: html }} />
+              ))}
+              <p>
+                <a
+                  href={c.materials_doi_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-accent underline-offset-4 hover:underline"
+                >
+                  {c.materials_doi_label} →
+                </a>
+              </p>
             </div>
           </section>
         </FadeIn>
@@ -231,7 +238,7 @@ export default function SonifPage({ lang }: { lang: Lang }) {
                 <p key={i}>{p}</p>
               ))}
             </div>
-            <div className="relative mt-10 w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+            <div className="relative mx-auto mt-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-elevated">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={asset("/figures/piano.png")}

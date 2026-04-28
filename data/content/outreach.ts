@@ -453,7 +453,8 @@ export type SonifContent = {
   // HTML strings — may contain inline <a href="..."> for ABC Consortium / 2023.
   science_paragraphs_html: string[];
   materials_heading: string;
-  materials_paragraphs: string[];
+  // HTML strings — may contain inline <a href="..."> for the miniABC library.
+  materials_paragraphs_html: string[];
   materials_doi_label: string;
   materials_doi_url: string;
   approach_heading: string;
@@ -545,8 +546,8 @@ const sonEN: SonifContent = {
     'A key role in this progress has been played, and continues to be played, by the <a class="font-semibold text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Ascona_B-DNA_Consortium">Ascona B-DNA Consortium (ABC)</a>, an international collaboration of researchers that has been generating DNA simulations since the early 2000s, establishing standards and databases that are now essential references in the field. DansLab has been part of the ABC Consortium since 2014 and was the most recent organizer of <a class="text-accent underline-offset-4 hover:underline" href="{BASE}/outreach/abc-2023/">the ABC conference held in April 2023 in Ascona, Switzerland</a>.',
   ],
   materials_heading: "Materials",
-  materials_paragraphs: [
-    "Simulated DNA sequences come from the miniABC library provided by the ABC Consortium. They contain 136 unique tetranucleotide combinations made up of the four DNA letters (A, C, G, T) — every possible 4-letter context that can appear in a DNA strand.",
+  materials_paragraphs_html: [
+    'Simulated DNA sequences come from the <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://mmb.irbbarcelona.org/miniABC/">miniABC library</a> provided by the ABC Consortium. They contain 136 unique tetranucleotide combinations made up of the four DNA letters (A, C, G, T) — every possible 4-letter context that can appear in a DNA strand.',
     "From those simulations we extracted a theoretical framework to compute DNA–K⁺ interactions and the concentration of potassium ions in the major and minor grooves. When K⁺ ions sit inside a groove they leave a measurable kinetic and energetic signature that we then map onto sound.",
   ],
   materials_doi_label: "Reference: Dans et al., Nucleic Acids Research (2019)",
@@ -657,8 +658,8 @@ const sonES: SonifContent = {
     'Un rol clave en este avance lo cumple, y sigue cumpliendo, el <a class="font-semibold text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Ascona_B-DNA_Consortium">Ascona B-DNA Consortium (ABC)</a>, una colaboración internacional de investigadores que viene generando simulaciones de ADN desde principios de los 2000, estableciendo estándares y bases de datos que hoy son referencia en el campo. DansLab integra el ABC desde 2014 y fue el último organizador de <a class="text-accent underline-offset-4 hover:underline" href="{BASE}/es/outreach/abc-2023/">la conferencia ABC, realizada en abril de 2023 en Ascona, Suiza</a>.',
   ],
   materials_heading: "Materiales",
-  materials_paragraphs: [
-    "Las secuencias de ADN simuladas provienen de la biblioteca miniABC del Ascona B-DNA Consortium. Contienen las 136 combinaciones únicas de tetranucleótidos posibles a partir de las cuatro letras del ADN (A, C, G, T) — todos los contextos de 4 letras que pueden aparecer en una hebra.",
+  materials_paragraphs_html: [
+    'Las secuencias de ADN simuladas provienen de la <a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://mmb.irbbarcelona.org/miniABC/">biblioteca miniABC</a> del Ascona B-DNA Consortium. Contienen las 136 combinaciones únicas de tetranucleótidos posibles a partir de las cuatro letras del ADN (A, C, G, T) — todos los contextos de 4 letras que pueden aparecer en una hebra.',
     "A partir de esas simulaciones derivamos un marco teórico para calcular la interacción ADN–K⁺ y la concentración de iones potasio en los surcos mayor y menor. Cuando los iones K⁺ se ubican dentro de un surco, dejan una huella cinética y energética medible que luego mapeamos al sonido.",
   ],
   materials_doi_label: "Referencia: Dans et al., Nucleic Acids Research (2019)",
