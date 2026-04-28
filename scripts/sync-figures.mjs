@@ -19,13 +19,7 @@ const repoRoot = path.resolve(__dirname, "..");
 const SRC = path.join(repoRoot, "data", "figures");
 const DST = path.join(repoRoot, "public", "figures");
 
-const SKIP = new Set([
-  "README.md",
-  ".gitkeep",
-  // 12 MB source GIF; the served artifact is the smaller animated WebP
-  // produced by scripts/transparent-artxsc.mjs.
-  "ARNforExport_ARTxSc.gif",
-]);
+const SKIP = new Set(["README.md", ".gitkeep"]);
 const isDotfile = (name) => name.startsWith(".");
 
 const MAX_LONG_EDGE = 1400;

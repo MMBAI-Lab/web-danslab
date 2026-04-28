@@ -32,7 +32,7 @@ export default function ArnPage({ lang }: { lang: Lang }) {
         <FadeIn>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={asset("/figures/ARNforExport_ARTxSc.webp")}
+            src={asset("/figures/ARNforExport_ARTxSc_transparent.gif")}
             alt="ARN for Export — Art × Science animation"
             className="mx-auto block w-full max-w-xs md:max-w-none"
             loading="eager"
