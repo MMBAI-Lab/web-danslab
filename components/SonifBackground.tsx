@@ -4,11 +4,9 @@ import { useEffect, useRef } from "react";
 import DnaHelix from "@/components/DnaHelix";
 
 const DNA_BANDS = [
-  { y: 8, dir: 1, size: "text-[5rem] md:text-[7rem]", duration: 90, opacity: 0.045, rotate: -2 },
-  { y: 26, dir: -1, size: "text-[4rem] md:text-[6rem]", duration: 120, opacity: 0.05, rotate: 1 },
-  { y: 48, dir: 1, size: "text-[6rem] md:text-[9rem]", duration: 150, opacity: 0.035, rotate: -3 },
-  { y: 68, dir: -1, size: "text-[3.5rem] md:text-[5rem]", duration: 100, opacity: 0.06, rotate: 2 },
-  { y: 86, dir: 1, size: "text-[5rem] md:text-[8rem]", duration: 130, opacity: 0.04, rotate: -1 },
+  { y: 22, dir: 1, size: "text-[7rem] md:text-[12rem]", duration: 360, opacity: 0.05, rotate: -2 },
+  { y: 55, dir: -1, size: "text-[8rem] md:text-[14rem]", duration: 480, opacity: 0.04, rotate: 1 },
+  { y: 82, dir: 1, size: "text-[6rem] md:text-[11rem]", duration: 420, opacity: 0.045, rotate: -1 },
 ];
 
 // Mix of bases — repeated, plus a few clusters, so a glance shows real-looking

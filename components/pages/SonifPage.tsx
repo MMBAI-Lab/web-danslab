@@ -220,7 +220,7 @@ export default function SonifPage({ lang }: { lang: Lang }) {
             </p>
             <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-surface">
               <iframe
-                src={c.dnaplayer_url}
+                src={asset("/dna-music/")}
                 title="DNA-Music interactive player"
                 loading="lazy"
                 sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
