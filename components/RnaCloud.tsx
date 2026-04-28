@@ -94,13 +94,13 @@ export default function RnaCloud({
       return {
         cx: r(),
         cy: r(),
-        vx: (r() - 0.5) * 0.00018,
-        vy: (r() - 0.5) * 0.00018,
+        vx: (r() - 0.5) * 0.00004,
+        vy: (r() - 0.5) * 0.00004,
         z: r(),
-        vz: (r() - 0.5) * 0.0009,
+        vz: (r() - 0.5) * 0.0002,
         baseScale: 110 + r() * 180,
         rot: r() * Math.PI * 2,
-        rotV: (r() - 0.5) * 0.0006,
+        rotV: (r() - 0.5) * 0.00015,
       };
     }
 
