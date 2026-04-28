@@ -447,7 +447,7 @@ export type SonifContent = {
   examples_heading: string;
   // Inline quote (italic, in quotes, with (sic)) appears AFTER an example
   // when `quote_after` is present, matching the original Google Site layout.
-  examples: { title: string; cite: string; quote_after?: string }[];
+  examples: { title: string; cite: string; doi?: string; quote_after?: string }[];
   science_heading: string;
   science_paragraphs: string[];
   materials_heading: string;
@@ -498,27 +498,32 @@ const sonEN: SonifContent = {
       title:
         "Music from protein sequences, with musicality enhanced through a computer program that learns from Chopin.",
       cite: "Tay. Heliyon. 2021",
+      doi: "10.1016/j.heliyon.2021.e07933",
     },
     {
       title:
         "Conversion of amino acid sequences in proteins into classical music: a search for auditory patterns.",
       cite: "Takahashi. Genome Biology. 2007",
+      doi: "10.1186/gb-2007-8-5-405",
     },
     {
       title:
         "A musical approach to the interpretation of gene expression data using neuroblastoma cell lines.",
       cite: "Staege. Scientific Reports. 2015",
+      doi: "10.1038/srep15281",
       quote_after:
         "Despite the filtering and rearrangement of the probe sets, the resulting melodies in the examples presented are quite abstract, and their evocative potential is difficult to predict. It seems likely that familiarity with such melodies would be achieved more quickly if dissonances from familiar melodies were heard.",
     },
     {
       title: "Musical patterns for comparative epigenomics.",
       cite: "Brocks. Clinical Epigenetics. 2015",
+      doi: "10.1186/s13148-015-0127-8",
     },
     {
       title:
         "SNARE Dance: a musical interpretation of Atg9 transport to the tubulovesicular cluster.",
       cite: "Takahashi. Autophagy. 2012",
+      doi: "10.4161/auto.19327",
       quote_after:
         "After assigning instruments to each protein score, we went on to combine the individual scores into a final orchestration.",
     },
@@ -526,6 +531,7 @@ const sonEN: SonifContent = {
       title:
         "Hydrogen-bond heterogeneity correlates with transition-state passage time in protein folding.",
       cite: "Scaletti. PNAS. 2024",
+      doi: "10.1073/pnas.2319094121",
     },
   ],
   science_heading: "The science behind it",
@@ -602,27 +608,32 @@ const sonES: SonifContent = {
       title:
         "Música a partir de secuencias de proteínas, con musicalidad reforzada por un programa que aprende de Chopin.",
       cite: "Tay. Heliyon. 2021",
+      doi: "10.1016/j.heliyon.2021.e07933",
     },
     {
       title:
         "Conversión de secuencias de aminoácidos en música clásica: una búsqueda de patrones auditivos.",
       cite: "Takahashi. Genome Biology. 2007",
+      doi: "10.1186/gb-2007-8-5-405",
     },
     {
       title:
         "Aproximación musical a la interpretación de datos de expresión génica en líneas de neuroblastoma.",
       cite: "Staege. Scientific Reports. 2015",
+      doi: "10.1038/srep15281",
       quote_after:
         "Despite the filtering and rearrangement of the probe sets, the resulting melodies in the examples presented are quite abstract, and their evocative potential is difficult to predict. It seems likely that familiarity with such melodies would be achieved more quickly if dissonances from familiar melodies were heard.",
     },
     {
       title: "Patrones musicales para epigenómica comparativa.",
       cite: "Brocks. Clinical Epigenetics. 2015",
+      doi: "10.1186/s13148-015-0127-8",
     },
     {
       title:
         "SNARE Dance: una interpretación musical del transporte de Atg9 al cluster tubulovesicular.",
       cite: "Takahashi. Autophagy. 2012",
+      doi: "10.4161/auto.19327",
       quote_after:
         "After assigning instruments to each protein score, we went on to combine the individual scores into a final orchestration.",
     },
@@ -630,6 +641,7 @@ const sonES: SonifContent = {
       title:
         "La heterogeneidad de puentes de hidrógeno correlaciona con el tiempo de paso por el estado de transición en el plegamiento de proteínas.",
       cite: "Scaletti. PNAS. 2024",
+      doi: "10.1073/pnas.2319094121",
     },
   ],
   science_heading: "La ciencia detrás",

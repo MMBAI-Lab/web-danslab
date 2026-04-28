@@ -111,10 +111,23 @@ export default function SonifPage({ lang }: { lang: Lang }) {
                 <li key={i}>
                   <div className="rounded-lg border border-border bg-surface p-5">
                     <p className="text-ink">{e.title}</p>
-                    <p className="mt-1 text-sm italic text-subtle">{e.cite}</p>
+                    <p className="mt-1 text-sm italic text-subtle">
+                      {e.doi ? (
+                        <a
+                          href={`https://doi.org/${e.doi}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-accent underline-offset-4 hover:underline"
+                        >
+                          {e.cite}
+                        </a>
+                      ) : (
+                        e.cite
+                      )}
+                    </p>
                   </div>
                   {e.quote_after ? (
-                    <blockquote className="mt-3 border-l-2 border-accent pl-5 text-sm italic leading-relaxed text-subtle">
+                    <blockquote className="mt-3 border-l-2 border-accent pl-5 text-sm italic leading-relaxed text-accent">
                       “{e.quote_after}” <span className="not-italic">(sic)</span>
                     </blockquote>
                   ) : null}

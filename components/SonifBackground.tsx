@@ -4,9 +4,8 @@ import { useEffect, useRef } from "react";
 import DnaHelix from "@/components/DnaHelix";
 
 const DNA_BANDS = [
-  { y: 22, dir: 1, size: "text-[7rem] md:text-[12rem]", duration: 360, opacity: 0.05, rotate: -2 },
-  { y: 55, dir: -1, size: "text-[8rem] md:text-[14rem]", duration: 480, opacity: 0.04, rotate: 1 },
-  { y: 82, dir: 1, size: "text-[6rem] md:text-[11rem]", duration: 420, opacity: 0.045, rotate: -1 },
+  { y: 28, dir: 1, size: "text-[10rem] md:text-[18rem]", duration: 720, opacity: 0.05, rotate: -2 },
+  { y: 72, dir: -1, size: "text-[12rem] md:text-[22rem]", duration: 960, opacity: 0.04, rotate: 1 },
 ];
 
 // Mix of bases — repeated, plus a few clusters, so a glance shows real-looking
@@ -97,7 +96,20 @@ type Note = {
   rot: number;
   rotV: number;
   alpha: number;
+  // Red shade per note (rgb triplet). Mix between accent-dark (deep
+  // burgundy), accent (DansLab red) and accent-hover (bright pink-red).
+  rgb: [number, number, number];
 };
+
+// Reds spanning the lab's accent ramp. Picked by random per-note for
+// variety without ever drifting outside the palette.
+const RED_TONES: [number, number, number][] = [
+  [220, 38, 38], // --accent
+  [239, 68, 68], // --accent-hover
+  [153, 27, 27], // --accent-dark
+  [185, 28, 28], // mid-red
+  [251, 113, 133], // pink-red
+];
 
 const NOTE_GLYPHS = [
   "♩", // ♩ quarter
@@ -145,7 +157,8 @@ function FloatingNotes() {
         size,
         rot: (rng() - 0.5) * 0.4,
         rotV: (rng() - 0.5) * 0.0002,
-        alpha: 0.06 + rng() * 0.12,
+        alpha: 0.18 + rng() * 0.32,
+        rgb: RED_TONES[Math.floor(rng() * RED_TONES.length)],
       };
     }
 
@@ -163,8 +176,6 @@ function FloatingNotes() {
 
     function draw(dt: number) {
       ctx.clearRect(0, 0, width, height);
-      const styles = getComputedStyle(document.documentElement);
-      const ink = styles.getPropertyValue("--ink").trim() || "245 245 245";
 
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
@@ -186,7 +197,8 @@ function FloatingNotes() {
         ctx.translate(n.x * width, n.y);
         ctx.rotate(n.rot);
         ctx.font = `${n.size}px "Apple Symbols", "Noto Music", "Segoe UI Symbol", "DejaVu Sans", sans-serif`;
-        ctx.fillStyle = `rgb(${ink} / ${n.alpha.toFixed(3)})`;
+        const [r, g, b] = n.rgb;
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${n.alpha.toFixed(3)})`;
         ctx.fillText(n.glyph, 0, 0);
         ctx.restore();
       }
