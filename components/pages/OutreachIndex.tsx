@@ -1,21 +1,23 @@
 import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
 import NeuralNetwork from "@/components/NeuralNetwork";
-import {
-  AudienceIcon,
-  DnaHelixIcon,
-  MusicNotesIcon,
-} from "@/components/OutreachIcons";
 import { OUTREACH_INDEX } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
+import { asset } from "@/lib/asset";
 
-const CARD_ICON: Record<
-  string,
-  React.ComponentType<{ className?: string }>
-> = {
-  "/outreach/abc-2023": AudienceIcon,
-  "/outreach/arn-for-export": DnaHelixIcon,
-  "/outreach/sonification": MusicNotesIcon,
+const CARD_ICON: Record<string, { src: string; alt: string }> = {
+  "/outreach/abc-2023": {
+    src: "/figures/icon_ABC.png",
+    alt: "Audience and podium",
+  },
+  "/outreach/arn-for-export": {
+    src: "/figures/icon_RNA.png",
+    alt: "DNA / RNA helix",
+  },
+  "/outreach/sonification": {
+    src: "/figures/icon_SON.png",
+    alt: "Music notes",
+  },
 };
 
 export default function OutreachIndex({ lang }: { lang: Lang }) {
@@ -38,16 +40,23 @@ export default function OutreachIndex({ lang }: { lang: Lang }) {
 
       <div className="mt-14 grid gap-6 md:grid-cols-2">
         {c.cards.map((it) => {
-          const Icon = CARD_ICON[it.href];
+          const icon = CARD_ICON[it.href];
           return (
             <Link
               key={it.href}
               href={localizePath(lang, it.href)}
               className="group flex items-stretch overflow-hidden rounded-lg border border-border bg-surface transition hover:border-accent"
             >
-              {Icon ? (
-                <div className="flex w-24 flex-none items-center justify-center p-4 text-accent sm:w-32">
-                  <Icon className="h-full max-h-40 w-auto" />
+              {icon ? (
+                <div className="flex w-24 flex-none items-center justify-center p-4 sm:w-32">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={asset(icon.src)}
+                    alt={icon.alt}
+                    className="block h-full max-h-32 w-auto object-contain"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               ) : null}
               <div className="flex-1 p-7">

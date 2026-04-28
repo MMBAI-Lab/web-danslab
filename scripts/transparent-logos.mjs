@@ -37,6 +37,16 @@ const JPG_BLACK_TO_PNG = [
 // white so the sprite tints cleanly when re-colored at draw time.
 const BLACK_BG_TO_ALPHA = ["ARNflotante.png"];
 
+// Black-on-white line-art icons that we want recoloured to the lab's
+// accent red with transparent background, baked into the file (no CSS
+// filter at render time). JPG sources convert to PNG so we can keep the
+// alpha channel.
+const SILHOUETTE_TO_RED = [
+  { src: "icon_ABC.jpg", out: "icon_ABC.png" },
+  { src: "icon_RNA.png", out: "icon_RNA.png" },
+  { src: "icon_SON.jpg", out: "icon_SON.png" },
+];
+
 function whiteToAlpha(buf) {
   for (let i = 0; i < buf.length; i += 4) {
     const r = buf[i],
@@ -77,6 +87,30 @@ function blackBgToAlpha(buf) {
   }
 }
 
+// Black-on-white line-art → lab-red on transparent. Alpha = darkness
+// (so anti-aliased greys stay smooth), RGB is rewritten to the lab's
+// accent triple. JPEG noise on the white side is clipped so there's no
+// faint pink halo around the icons.
+const RED_R = 220;
+const RED_G = 38;
+const RED_B = 38;
+function silhouetteToRedAlpha(buf) {
+  for (let i = 0; i < buf.length; i += 4) {
+    const r = buf[i],
+      g = buf[i + 1],
+      b = buf[i + 2];
+    const lum = Math.max(r, g, b);
+    let alpha;
+    if (lum >= 240) alpha = 0;
+    else if (lum <= 16) alpha = 255;
+    else alpha = Math.round(((240 - lum) / (240 - 16)) * 255);
+    buf[i] = RED_R;
+    buf[i + 1] = RED_G;
+    buf[i + 2] = RED_B;
+    buf[i + 3] = alpha;
+  }
+}
+
 async function processToPng(srcPath, outPath, label, transform = whiteToAlpha) {
   const { data, info } = await sharp(srcPath)
     .ensureAlpha()
@@ -110,4 +144,13 @@ for (const { src, out } of JPG_BLACK_TO_PNG) {
 
 for (const f of BLACK_BG_TO_ALPHA) {
   await processToPng(path.join(FIGS, f), path.join(FIGS, f), `${f} (black→alpha)`, blackToAlpha);
+}
+
+for (const { src, out } of SILHOUETTE_TO_RED) {
+  await processToPng(
+    path.join(FIGS, src),
+    path.join(FIGS, out),
+    `${src} → ${out} (silhouette→red)`,
+    silhouetteToRedAlpha
+  );
 }
