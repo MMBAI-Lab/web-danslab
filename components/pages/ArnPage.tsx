@@ -220,7 +220,7 @@ export default function ArnPage({ lang }: { lang: Lang }) {
               width={1600}
               height={500}
               className="h-auto w-full object-contain"
-              style={{ filter: "invert(1) hue-rotate(180deg)" }}
+              style={{ mixBlendMode: "screen" }}
             />
           </div>
         </div>

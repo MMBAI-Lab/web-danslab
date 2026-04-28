@@ -24,10 +24,7 @@ const FILES = [
 ];
 
 // JPG sources that need to be re-encoded as transparent PNGs (different ext).
-const JPG_TO_PNG = [
-  { src: "logo_fcien.jpg", out: "logo_fcien.png" },
-  { src: "ARNforExport_funding.jpg", out: "ARNforExport_funding.png" },
-];
+const JPG_TO_PNG = [{ src: "logo_fcien.jpg", out: "logo_fcien.png" }];
 
 // Sprites with BLACK background that should become alpha (inverse of the
 // white→alpha pass). Used for monochrome 3D renders where the molecule is
