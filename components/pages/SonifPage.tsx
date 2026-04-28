@@ -140,86 +140,91 @@ export default function SonifPage({ lang }: { lang: Lang }) {
           </section>
         </FadeIn>
 
-        {/* The science behind it — full-width prose */}
-        <FadeIn>
-          <section className="mt-20">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-              {c.science_heading}
-            </h2>
-            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
-              {c.science_paragraphs_html.map((html, i) => (
-                <p
-                  key={i}
-                  dangerouslySetInnerHTML={{
-                    __html: html.replace(
-                      /\{BASE\}/g,
-                      process.env.NEXT_PUBLIC_BASE_PATH ?? ""
-                    ),
-                  }}
-                />
-              ))}
-            </div>
-          </section>
-        </FadeIn>
+        {/* The science behind it + Materials — text on the left, three
+            stacked square images on the right. The image column is sticky
+            so the figures travel along as the reader scrolls between the
+            two sections. On mobile, the squares appear after the text. */}
+        <div className="mt-20 grid items-start gap-10 md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
+          <div className="space-y-20">
+            <FadeIn>
+              <section>
+                <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                  {c.science_heading}
+                </h2>
+                <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
+                  {c.science_paragraphs_html.map((html, i) => (
+                    <p
+                      key={i}
+                      dangerouslySetInnerHTML={{
+                        __html: html.replace(
+                          /\{BASE\}/g,
+                          process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+                        ),
+                      }}
+                    />
+                  ))}
+                </div>
+              </section>
+            </FadeIn>
 
-        {/* Three-square data row: ScienceBehind | Kpopulation | miniABC */}
-        <FadeIn>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={asset("/figures/ScienceBehind.gif")}
-                alt="Molecular dynamics simulation of DNA"
-                className="absolute inset-0 h-full w-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
-              <Image
-                src={asset("/figures/Kpopulation.png")}
-                alt="K+ population heatmap across DNA tetranucleotides"
-                fill
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="object-contain p-2"
-              />
-            </div>
-            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
-              <Image
-                src={asset("/figures/miniABC.png")}
-                alt="miniABC sequences"
-                fill
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="object-contain p-3"
-                style={{ filter: "invert(1)" }}
-              />
-            </div>
+            <FadeIn>
+              <section>
+                <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                  {c.materials_heading}
+                </h2>
+                <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
+                  {c.materials_paragraphs_html.map((html, i) => (
+                    <p key={i} dangerouslySetInnerHTML={{ __html: html }} />
+                  ))}
+                  <p>
+                    <a
+                      href={c.materials_doi_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-accent underline-offset-4 hover:underline"
+                    >
+                      {c.materials_doi_label} →
+                    </a>
+                  </p>
+                </div>
+              </section>
+            </FadeIn>
           </div>
-        </FadeIn>
 
-        {/* Materials — full-width prose */}
-        <FadeIn>
-          <section className="mt-20">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-              {c.materials_heading}
-            </h2>
-            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
-              {c.materials_paragraphs_html.map((html, i) => (
-                <p key={i} dangerouslySetInnerHTML={{ __html: html }} />
-              ))}
-              <p>
-                <a
-                  href={c.materials_doi_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent underline-offset-4 hover:underline"
-                >
-                  {c.materials_doi_label} →
-                </a>
-              </p>
+          <FadeIn delay={0.05}>
+            <div className="space-y-4 md:sticky md:top-24">
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={asset("/figures/ScienceBehind.gif")}
+                  alt="Molecular dynamics simulation of DNA"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+                <Image
+                  src={asset("/figures/Kpopulation.png")}
+                  alt="K+ population heatmap across DNA tetranucleotides"
+                  fill
+                  sizes="(min-width: 768px) 25vw, 100vw"
+                  className="object-contain p-2"
+                />
+              </div>
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+                <Image
+                  src={asset("/figures/miniABC.png")}
+                  alt="miniABC sequences"
+                  fill
+                  sizes="(min-width: 768px) 25vw, 100vw"
+                  className="object-contain p-3"
+                  style={{ filter: "invert(1)" }}
+                />
+              </div>
             </div>
-          </section>
-        </FadeIn>
+          </FadeIn>
+        </div>
 
         {/* Our approach — Vickers quote + paragraphs */}
         <FadeIn>
