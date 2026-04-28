@@ -1,9 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import Gallery from "@/components/Gallery";
 import FadeIn from "@/components/FadeIn";
 import RnaCloud from "@/components/RnaCloud";
-import { listGalleryImages } from "@/lib/gallery";
 import { ARN } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
 import { asset } from "@/lib/asset";
@@ -17,7 +15,6 @@ const INTRO_MOSAIC = [
 
 export default function ArnPage({ lang }: { lang: Lang }) {
   const c = ARN[lang];
-  const images = listGalleryImages("outreach/arn-for-export");
   return (
     <>
       <RnaCloud className="fixed inset-0 z-0 opacity-70" density={0.7} />
@@ -157,15 +154,6 @@ export default function ArnPage({ lang }: { lang: Lang }) {
 
       <FadeIn>
         <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
-          {c.gallery_heading}
-        </h2>
-        <div className="mt-6">
-          <Gallery images={images} alt="ARN for Export installation" />
-        </div>
-      </FadeIn>
-
-      <FadeIn>
-        <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
           {c.media_heading}
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -214,22 +202,18 @@ export default function ArnPage({ lang }: { lang: Lang }) {
         <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
           {c.funding_heading}
         </h2>
-        <div className="arn-funding mt-6 overflow-hidden rounded-lg border border-border bg-surface p-6">
+        <div className="mt-6">
           <div className="relative mx-auto w-full max-w-3xl">
             <Image
               src={asset(c.funding_image)}
               alt={c.funding_heading}
               width={1600}
               height={500}
-              className="arn-funding-img h-auto w-full object-contain"
+              className="h-auto w-full object-contain"
+              style={{ filter: "invert(1) hue-rotate(180deg)" }}
             />
           </div>
         </div>
-        <style>{`
-          :root[data-theme="dark"] .arn-funding .arn-funding-img {
-            filter: invert(1) hue-rotate(180deg);
-          }
-        `}</style>
       </FadeIn>
 
       <FadeIn>

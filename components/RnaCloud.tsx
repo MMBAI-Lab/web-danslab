@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { asset } from "@/lib/asset";
 
-type Pt = { x: number; y: number };
-
-type Rna = {
-  pts: Pt[];
-  cx: number;
+type Mol = {
+  cx: number; // 0..1 canvas-relative
   cy: number;
   vx: number;
   vy: number;
-  z: number;
+  z: number; // 0 (far) → 1 (close)
   vz: number;
-  baseScale: number;
+  baseScale: number; // sprite height at z = 1, in CSS px
   rot: number;
   rotV: number;
 };
@@ -28,47 +26,16 @@ function mulberry32(seed: number) {
   };
 }
 
-function buildRnaPath(seed: number): Pt[] {
-  const rand = mulberry32(seed);
-  const N = 90 + Math.floor(rand() * 60);
-  const pts: Pt[] = [];
-  let x = 0;
-  let y = 0;
-  let a = rand() * Math.PI * 2;
-  for (let i = 0; i < N; i++) {
-    pts.push({ x, y });
-    a += (rand() - 0.5) * 0.85;
-    if (rand() < 0.07) a += (rand() - 0.5) * 2.6;
-    x += Math.cos(a);
-    y += Math.sin(a);
-  }
-  let minX = Infinity,
-    maxX = -Infinity,
-    minY = Infinity,
-    maxY = -Infinity;
-  for (const p of pts) {
-    if (p.x < minX) minX = p.x;
-    if (p.x > maxX) maxX = p.x;
-    if (p.y < minY) minY = p.y;
-    if (p.y > maxY) maxY = p.y;
-  }
-  const ccx = (minX + maxX) / 2;
-  const ccy = (minY + maxY) / 2;
-  const r = Math.max(maxX - minX, maxY - minY) / 2 || 1;
-  return pts.map((p) => ({ x: (p.x - ccx) / r, y: (p.y - ccy) / r }));
-}
-
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
-// Depth-driven color: z=1 close (white) → pink → red → dark red at z=0
-function colorAtZ(z: number): { r: number; g: number; b: number; a: number } {
+function colorAtZ(z: number): { r: number; g: number; b: number } {
   const stops = [
-    { z: 0.0, r: 60, g: 6, b: 6, a: 0.22 }, // far: dark red
-    { z: 0.35, r: 180, g: 30, b: 30, a: 0.45 }, // red
-    { z: 0.7, r: 250, g: 170, b: 175, a: 0.7 }, // pink
-    { z: 1.0, r: 255, g: 255, b: 255, a: 0.92 }, // close: white
+    { z: 0.0, r: 60, g: 6, b: 6 }, // dark red (far)
+    { z: 0.4, r: 190, g: 35, b: 35 }, // red
+    { z: 0.75, r: 250, g: 165, b: 170 }, // pink
+    { z: 1.0, r: 255, g: 255, b: 255 }, // white (close)
   ];
   let lo = stops[0];
   let hi = stops[stops.length - 1];
@@ -84,9 +51,10 @@ function colorAtZ(z: number): { r: number; g: number; b: number; a: number } {
     r: Math.round(lerp(lo.r, hi.r, t)),
     g: Math.round(lerp(lo.g, hi.g, t)),
     b: Math.round(lerp(lo.b, hi.b, t)),
-    a: lerp(lo.a, hi.a, t),
   };
 }
+
+const BUCKET_COUNT = 8;
 
 export default function RnaCloud({
   className = "",
@@ -106,27 +74,55 @@ export default function RnaCloud({
     const ctx: CanvasRenderingContext2D = ctx2d;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
     let width = 0;
     let height = 0;
-    let molecules: Rna[] = [];
+    let mols: Mol[] = [];
+    let buckets: HTMLCanvasElement[] = [];
+    let spriteW = 0;
+    let spriteH = 0;
+    let raf = 0;
+    let running = true;
+    let lastT = 0;
+    let cancelled = false;
+
     const rand = mulberry32(20250101);
 
-    function makeMolecule(seed: number): Rna {
-      const baseScale = 90 + rand() * 140;
+    function makeMol(i: number): Mol {
+      const r = mulberry32(0xa1b2c3 ^ (i * 0x9e3779b1));
       return {
-        pts: buildRnaPath(seed),
-        cx: rand() * 1,
-        cy: rand() * 1,
-        vx: (rand() - 0.5) * 0.00018,
-        vy: (rand() - 0.5) * 0.00018,
-        z: rand(),
-        vz: (rand() - 0.5) * 0.0009,
-        baseScale,
-        rot: rand() * Math.PI * 2,
-        rotV: (rand() - 0.5) * 0.0006,
+        cx: r(),
+        cy: r(),
+        vx: (r() - 0.5) * 0.00018,
+        vy: (r() - 0.5) * 0.00018,
+        z: r(),
+        vz: (r() - 0.5) * 0.0009,
+        baseScale: 110 + r() * 180,
+        rot: r() * Math.PI * 2,
+        rotV: (r() - 0.5) * 0.0006,
       };
+    }
+
+    function buildBuckets(img: HTMLImageElement) {
+      spriteW = img.naturalWidth || img.width;
+      spriteH = img.naturalHeight || img.height;
+      buckets = [];
+      for (let i = 0; i < BUCKET_COUNT; i++) {
+        const z = i / (BUCKET_COUNT - 1);
+        const col = colorAtZ(z);
+        const off = document.createElement("canvas");
+        off.width = spriteW;
+        off.height = spriteH;
+        const ox = off.getContext("2d", { alpha: true });
+        if (!ox) continue;
+        ox.drawImage(img, 0, 0);
+        ox.globalCompositeOperation = "source-atop";
+        ox.fillStyle = `rgb(${col.r}, ${col.g}, ${col.b})`;
+        ox.fillRect(0, 0, spriteW, spriteH);
+        ox.globalCompositeOperation = "source-over";
+        buckets.push(off);
+      }
     }
 
     function resize() {
@@ -138,20 +134,17 @@ export default function RnaCloud({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const area = width * height;
-      const target = Math.max(8, Math.round((area / 110000) * density));
-      molecules = Array.from({ length: target }, (_, i) =>
-        makeMolecule(0x9e3779b1 ^ (i * 2654435761))
-      );
+      const target = Math.max(6, Math.round((area / 160000) * density));
+      mols = Array.from({ length: target }, (_, i) => makeMol(i));
     }
 
     function draw(dt: number) {
       ctx.clearRect(0, 0, width, height);
+      if (!buckets.length || !spriteH) return;
 
-      // Sort back-to-front so closer molecules paint on top
-      const sorted = [...molecules].sort((a, b) => a.z - b.z);
+      const sorted = [...mols].sort((a, b) => a.z - b.z);
 
       for (const m of sorted) {
-        // animate
         m.cx += m.vx * dt;
         m.cy += m.vy * dt;
         m.z += m.vz * dt;
@@ -164,73 +157,46 @@ export default function RnaCloud({
           m.z = 1;
           m.vz = -Math.abs(m.vz);
         }
-
-        // wrap laterally
-        if (m.cx < -0.15) m.cx = 1.15;
-        if (m.cx > 1.15) m.cx = -0.15;
-        if (m.cy < -0.15) m.cy = 1.15;
-        if (m.cy > 1.15) m.cy = -0.15;
+        if (m.cx < -0.2) m.cx = 1.2;
+        if (m.cx > 1.2) m.cx = -0.2;
+        if (m.cy < -0.2) m.cy = 1.2;
+        if (m.cy > 1.2) m.cy = -0.2;
 
         const x = m.cx * width;
         const y = m.cy * height;
-        // perspective scale: closer = bigger
-        const scale = m.baseScale * (0.45 + 0.95 * m.z);
-        const col = colorAtZ(m.z);
-
-        // soft halo when very close (the user-attached reference has glow)
-        if (m.z > 0.55) {
-          const haloAlpha = (m.z - 0.55) * 0.6;
-          const grd = ctx.createRadialGradient(x, y, scale * 0.1, x, y, scale * 1.2);
-          grd.addColorStop(0, `rgba(${col.r}, ${col.g}, ${col.b}, ${haloAlpha.toFixed(3)})`);
-          grd.addColorStop(1, `rgba(${col.r}, ${col.g}, ${col.b}, 0)`);
-          ctx.fillStyle = grd;
-          ctx.beginPath();
-          ctx.arc(x, y, scale * 1.2, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        const scale = (m.baseScale * (0.45 + 0.95 * m.z)) / spriteH;
+        const w = spriteW * scale;
+        const h = spriteH * scale;
+        const alpha = lerp(0.25, 0.95, m.z);
+        const idx = Math.min(BUCKET_COUNT - 1, Math.max(0, Math.round(m.z * (BUCKET_COUNT - 1))));
+        const sprite = buckets[idx];
 
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(m.rot);
+        ctx.globalAlpha = alpha;
 
-        const lw = lerp(0.6, 2.4, m.z);
-        ctx.lineWidth = lw;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-        ctx.strokeStyle = `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a.toFixed(3)})`;
-
-        // draw the tangled backbone
-        ctx.beginPath();
-        for (let i = 0; i < m.pts.length; i++) {
-          const p = m.pts[i];
-          const px = p.x * scale;
-          const py = p.y * scale;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.stroke();
-
-        // overlay a thinner brighter pass for the "close" molecules to add the
-        // bright-core-look the reference image has
+        // optional soft halo when very close
         if (m.z > 0.65) {
-          ctx.lineWidth = Math.max(0.5, lw * 0.45);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${(0.35 * (m.z - 0.65) / 0.35).toFixed(3)})`;
-          ctx.stroke();
+          const haloA = (m.z - 0.65) * 0.45;
+          const grd = ctx.createRadialGradient(0, 0, h * 0.12, 0, 0, h * 0.7);
+          grd.addColorStop(0, `rgba(255,255,255,${haloA.toFixed(3)})`);
+          grd.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.arc(0, 0, h * 0.7, 0, Math.PI * 2);
+          ctx.fill();
         }
 
+        ctx.drawImage(sprite, -w / 2, -h / 2, w, h);
         ctx.restore();
       }
     }
 
-    let raf = 0;
-    let running = true;
-    let lastT = 0;
-    const FRAME_BUDGET = 1000 / 30;
-
     function loop(t: number) {
       if (!running) return;
       const dt = lastT === 0 ? 16 : Math.min(48, t - lastT);
-      if (t - lastT >= FRAME_BUDGET) {
+      if (t - lastT >= 1000 / 30) {
         draw(dt);
         lastT = t;
       }
@@ -249,18 +215,35 @@ export default function RnaCloud({
       raf = 0;
     }
 
-    resize();
-    if (reduce) {
-      draw(16);
-    } else {
-      start();
-    }
+    // Load sprite, then size & start.
+    const img = new Image();
+    img.decoding = "async";
+    img.src = asset("/figures/ARNflotante.png");
+    img.onload = () => {
+      if (cancelled) return;
+      buildBuckets(img);
+      resize();
+      if (reduce) {
+        draw(16);
+      } else {
+        start();
+      }
+    };
+    img.onerror = () => {
+      // fall back to empty canvas; don't throw.
+    };
+    // Pre-touch rand so it's used (avoids unused-var lint if loop ever changes).
+    void rand;
 
-    const ro = new ResizeObserver(resize);
+    const ro = new ResizeObserver(() => {
+      if (!buckets.length) return;
+      resize();
+    });
     ro.observe(c);
 
     const io = new IntersectionObserver(
       ([entry]) => {
+        if (!buckets.length) return;
         if (entry.isIntersecting) start();
         else stop();
       },
@@ -272,6 +255,7 @@ export default function RnaCloud({
     document.addEventListener("visibilitychange", onVis);
 
     return () => {
+      cancelled = true;
       stop();
       ro.disconnect();
       io.disconnect();

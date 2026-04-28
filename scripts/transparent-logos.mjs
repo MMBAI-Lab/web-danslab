@@ -24,7 +24,15 @@ const FILES = [
 ];
 
 // JPG sources that need to be re-encoded as transparent PNGs (different ext).
-const JPG_TO_PNG = [{ src: "logo_fcien.jpg", out: "logo_fcien.png" }];
+const JPG_TO_PNG = [
+  { src: "logo_fcien.jpg", out: "logo_fcien.png" },
+  { src: "ARNforExport_funding.jpg", out: "ARNforExport_funding.png" },
+];
+
+// Sprites with BLACK background that should become alpha (inverse of the
+// white→alpha pass). Used for monochrome 3D renders where the molecule is
+// drawn light on black; we want it as a tintable sprite on transparency.
+const BLACK_BG_TO_ALPHA = ["ARNflotante.png"];
 
 function whiteToAlpha(buf) {
   for (let i = 0; i < buf.length; i += 4) {
@@ -39,12 +47,26 @@ function whiteToAlpha(buf) {
   }
 }
 
-async function processToPng(srcPath, outPath, label) {
+function blackToAlpha(buf) {
+  for (let i = 0; i < buf.length; i += 4) {
+    const r = buf[i],
+      g = buf[i + 1],
+      b = buf[i + 2];
+    // alpha = brightness (max of RGB). Pure black → fully transparent.
+    buf[i + 3] = Math.max(r, g, b);
+    // promote remaining color to pure white so the sprite tints cleanly.
+    buf[i] = 255;
+    buf[i + 1] = 255;
+    buf[i + 2] = 255;
+  }
+}
+
+async function processToPng(srcPath, outPath, label, transform = whiteToAlpha) {
   const { data, info } = await sharp(srcPath)
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
-  whiteToAlpha(data);
+  transform(data);
   await sharp(data, {
     raw: { width: info.width, height: info.height, channels: 4 },
   })
@@ -59,4 +81,8 @@ for (const f of FILES) {
 
 for (const { src, out } of JPG_TO_PNG) {
   await processToPng(path.join(FIGS, src), path.join(FIGS, out), `${src} → ${out}`);
+}
+
+for (const f of BLACK_BG_TO_ALPHA) {
+  await processToPng(path.join(FIGS, f), path.join(FIGS, f), `${f} (black→alpha)`, blackToAlpha);
 }
