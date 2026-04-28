@@ -175,7 +175,7 @@ export type ArnContent = {
   intro: string[];
   sections: { heading: string; paragraphs: string[] }[];
   artists_heading: string;
-  artists: { name: string; photo: string; body: string }[];
+  artists: { name: string; photo: string; body: string; link?: { href: string; label: string } }[];
   inaugurations_heading: string;
   inaugurations_intro: string;
   inaugurations: { date: string; venue: string; city: string; logo: string }[];
@@ -276,6 +276,10 @@ const arnEN: ArnContent = {
       name: "Mariana Barraco",
       photo: "/figures/MarianaBarraco.jpg",
       body: "Artist, teacher, director of Atelier Mari Barraco. Her multidisciplinary approach combines drawing, painting, ceramics, sculpture and digital art. She designs artistic experiences that democratize art and transform spaces.",
+      link: {
+        href: "https://www.instagram.com/atelier.maribarraco/?hl=es-la",
+        label: "Atelier Mari Barraco · Instagram",
+      },
     },
     {
       name: "Nito Cilintano",
@@ -375,6 +379,10 @@ const arnES: ArnContent = {
       name: "Mariana Barraco",
       photo: "/figures/MarianaBarraco.jpg",
       body: "Artista, docente, directora del Atelier Mari Barraco. Su enfoque multidisciplinario combina dibujo, pintura, cerámica, escultura y arte digital. Diseña experiencias artísticas que democratizan el arte y transforman los espacios.",
+      link: {
+        href: "https://www.instagram.com/atelier.maribarraco/?hl=es-la",
+        label: "Atelier Mari Barraco · Instagram",
+      },
     },
     {
       name: "Nito Cilintano",

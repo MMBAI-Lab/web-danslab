@@ -105,6 +105,16 @@ export default function ArnPage({ lang }: { lang: Lang }) {
                 <p className="mt-2 text-sm leading-relaxed text-muted">
                   {a.body}
                 </p>
+                {a.link ? (
+                  <a
+                    href={a.link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-block text-xs text-accent underline-offset-4 hover:underline"
+                  >
+                    {a.link.label} →
+                  </a>
+                ) : null}
               </div>
             </article>
           ))}
