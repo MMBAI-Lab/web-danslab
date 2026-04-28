@@ -13,6 +13,14 @@ const INTRO_MOSAIC = [
   "/figures/ARNforExp4.jpg",
 ];
 
+// Square photo to render on the left of a section, keyed by section index
+// in c.sections (0: Scientific context, 1: The discovery, 2: The artistic
+// installation, 3: The creative process).
+const SECTION_IMAGES: Record<number, string> = {
+  2: "/figures/Instalacion.jpg",
+  3: "/figures/Artistas.jpg",
+};
+
 export default function ArnPage({ lang }: { lang: Lang }) {
   const c = ARN[lang];
   return (
@@ -54,18 +62,46 @@ export default function ArnPage({ lang }: { lang: Lang }) {
         </FadeIn>
       </div>
 
-      {c.sections.map((s, idx) => (
-        <div key={s.heading}>
+      {c.sections.map((s, idx) => {
+        const img = SECTION_IMAGES[idx];
+        return (
+          <div key={s.heading}>
           <FadeIn>
             <section className="mt-16">
-              <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-                {s.heading}
-              </h2>
-              <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
-                {s.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
+              {img ? (
+                <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+                  <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+                    <Image
+                      src={asset(img)}
+                      alt={s.heading}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                      {s.heading}
+                    </h2>
+                    <div className="mt-6 space-y-4 leading-relaxed text-muted">
+                      {s.paragraphs.map((p, i) => (
+                        <p key={i}>{p}</p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                    {s.heading}
+                  </h2>
+                  <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
+                    {s.paragraphs.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
+                </>
+              )}
             </section>
           </FadeIn>
           {idx === 0 && (
@@ -88,8 +124,9 @@ export default function ArnPage({ lang }: { lang: Lang }) {
               </div>
             </FadeIn>
           )}
-        </div>
-      ))}
+          </div>
+        );
+      })}
 
       <FadeIn>
         <h2 className="mt-20 font-serif text-2xl font-semibold tracking-tight text-ink">
