@@ -23,12 +23,17 @@ const FILES = [
   "logo_cenur.png",
 ];
 
-// JPG sources that need to be re-encoded as transparent PNGs (different ext).
+// JPG sources with WHITE background → transparent PNG.
 const JPG_TO_PNG = [{ src: "logo_fcien.jpg", out: "logo_fcien.png" }];
 
-// Sprites with BLACK background that should become alpha (inverse of the
-// white→alpha pass). Used for monochrome 3D renders where the molecule is
-// drawn light on black; we want it as a tintable sprite on transparency.
+// JPG sources with BLACK background → transparent PNG, original RGB
+// preserved (so white logos stay white, colored logos stay colored).
+const JPG_BLACK_TO_PNG = [
+  { src: "ARNforExport_funding.jpg", out: "ARNforExport_funding.png" },
+];
+
+// PNG sprites with BLACK background → alpha. RGB is promoted to pure
+// white so the sprite tints cleanly when re-colored at draw time.
 const BLACK_BG_TO_ALPHA = ["ARNflotante.png"];
 
 function whiteToAlpha(buf) {
@@ -58,6 +63,19 @@ function blackToAlpha(buf) {
   }
 }
 
+function blackBgToAlpha(buf) {
+  // Same alpha-from-luminance, but KEEP the original RGB so coloured logos
+  // survive intact. JPEGs around 0–10 in any channel are background; the
+  // small lift hardens the alpha so JPEG noise doesn't leave a faint glow.
+  for (let i = 0; i < buf.length; i += 4) {
+    const r = buf[i],
+      g = buf[i + 1],
+      b = buf[i + 2];
+    const lum = Math.max(r, g, b);
+    buf[i + 3] = lum < 16 ? 0 : Math.min(255, Math.round((lum - 16) * (255 / (255 - 16))));
+  }
+}
+
 async function processToPng(srcPath, outPath, label, transform = whiteToAlpha) {
   const { data, info } = await sharp(srcPath)
     .ensureAlpha()
@@ -78,6 +96,15 @@ for (const f of FILES) {
 
 for (const { src, out } of JPG_TO_PNG) {
   await processToPng(path.join(FIGS, src), path.join(FIGS, out), `${src} → ${out}`);
+}
+
+for (const { src, out } of JPG_BLACK_TO_PNG) {
+  await processToPng(
+    path.join(FIGS, src),
+    path.join(FIGS, out),
+    `${src} → ${out} (black-bg)`,
+    blackBgToAlpha
+  );
 }
 
 for (const f of BLACK_BG_TO_ALPHA) {

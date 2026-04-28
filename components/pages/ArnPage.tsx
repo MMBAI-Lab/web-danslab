@@ -26,21 +26,38 @@ export default function ArnPage({ lang }: { lang: Lang }) {
         >
           {c.back}
         </Link>
-        <h1 className="mt-6 font-serif text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-          {c.title}
-        </h1>
-        <p className="mt-3 text-sm font-medium uppercase tracking-[0.25em] text-accent">
-          {c.eyebrow}
-        </p>
       </FadeIn>
 
-      <FadeIn delay={0.05}>
-        <div className="mt-10 max-w-prose space-y-5 text-lg leading-relaxed text-muted">
-          {c.intro.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+      <div className="mt-6 grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+        <FadeIn>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/figures/ARNforExport_ARTxSc.webp")}
+            alt="ARN for Export — Art × Science animation"
+            className="mx-auto block w-full max-w-xs md:max-w-none"
+            loading="eager"
+            decoding="async"
+          />
+        </FadeIn>
+        <div>
+          <FadeIn>
+            <h1 className="font-serif text-4xl font-semibold tracking-tight text-ink md:text-5xl">
+              {c.title}
+            </h1>
+            <p className="mt-3 text-sm font-medium uppercase tracking-[0.25em] text-accent">
+              {c.eyebrow}
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.05}>
+            <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
+              {c.intro.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </FadeIn>
         </div>
-      </FadeIn>
+      </div>
 
       {c.sections.map((s, idx) => (
         <div key={s.heading}>
@@ -220,7 +237,6 @@ export default function ArnPage({ lang }: { lang: Lang }) {
               width={1600}
               height={500}
               className="h-auto w-full object-contain"
-              style={{ mixBlendMode: "screen" }}
             />
           </div>
         </div>
