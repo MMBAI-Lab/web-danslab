@@ -437,18 +437,41 @@ export type SonifContent = {
   title: string;
   eyebrow: string;
   lede: string;
-  sections: { heading: string; paragraphs?: string[]; quotes?: string[] }[];
+  whatis_heading: string;
+  whatis_paragraphs: string[];
+  whoi_link_label: string;
+  whoi_link_href: string;
+  geiger_caption: string;
+  nasa_intro: string;
+  nasa_youtube_id: string;
   examples_heading: string;
-  examples: { title: string; cite: string }[];
+  // Inline quote (italic, in quotes, with (sic)) appears AFTER an example
+  // when `quote_after` is present, matching the original Google Site layout.
+  examples: { title: string; cite: string; quote_after?: string }[];
+  science_heading: string;
+  science_paragraphs: string[];
+  materials_heading: string;
+  materials_paragraphs: string[];
+  materials_doi_label: string;
+  materials_doi_url: string;
+  approach_heading: string;
   vickers_quote: string;
   vickers_attribution: string;
-  examples_quote_1: string;
-  examples_quote_2: string;
-  dna_music_paragraphs: string[];
-  dna_music_youtube_note: string;
+  approach_paragraphs: string[];
+  dnamusic_heading: string;
+  dnamusic_paragraphs: string[];
+  dnamusic_youtube_label: string;
+  dnamusic_youtube_id: string;
+  dnaplayer_heading: string;
+  dnaplayer_description: string;
+  dnaplayer_url: string;
   creators_heading: string;
-  creators: { name: string; body_html: string }[];
-  materials_heading: string;
+  creators: {
+    name: string;
+    photo: string;
+    body_html: string;
+    link?: { href: string; label: string };
+  }[];
 };
 
 const sonEN: SonifContent = {
@@ -457,60 +480,102 @@ const sonEN: SonifContent = {
   eyebrow: "DNA → Music",
   lede:
     "A fusion of DNA structure, its interaction with the biological environment, and musical composition. An invitation to hear the molecule of life through physical properties extracted from simulations and turned into audible signals.",
-  sections: [
-    {
-      heading: "What is sonification?",
-      paragraphs: [
-        "Sonification is a way of turning data into sound so we can understand it better. Instead of displaying information in graphs or tables, it is transformed into acoustic signals that we can hear. In this way, what would normally be a series of numbers or measurements becomes a “soundscape” that reflects how a phenomenon, experiment, or model behaves.",
-        "This process is not automatic; someone has to decide which data will be transformed and how they will sound. For example, a higher sensor reading can be turned into a higher pitch, or a sudden change in a measurement can be heard as a strike or a shift in rhythm. In this way, sonification opens up a new path for exploring, interpreting, and communicating information by taking advantage of our natural ability to recognize patterns in what we hear.",
-      ],
-    },
-    {
-      heading: "The science behind it",
-      paragraphs: [
-        "Molecular dynamics simulations are computer simulations that make it possible to observe how the molecules that make up life — proteins, DNA, RNA — move and change over time. They work by applying the laws of physics to each atom, allowing us to follow their trajectories as if we had a virtual microscope capable of seeing at the atomic level and in slow motion.",
-        "These simulations are extremely useful because they allow us to explore phenomena that are impossible to observe directly in the lab, such as exactly how a DNA sequence bends, folds, or becomes more rigid depending on the combination of letters (bases) that make it up. Thanks to this approach, it has become clear that the physical properties of DNA — flexibility, rigidity, and tendency to bend — depend strongly on its sequence.",
-        "A key role in this progress has been played, and continues to be played, by the Ascona B-DNA Consortium (ABC), an international collaboration of researchers that has been generating DNA simulations since the early 2000s, establishing standards and databases that are now essential references in the field. DansLab has been part of the ABC Consortium since 2014 and was the most recent organizer of the ABC conference, held in April 2023 in Ascona, Switzerland.",
-      ],
-    },
+  whatis_heading: "What is sonification?",
+  whatis_paragraphs: [
+    "Sonification is a way of turning data into sound so we can understand it better. Instead of displaying information in graphs or tables, it is transformed into acoustic signals that we can hear. In this way, what would normally be a series of numbers or measurements becomes a “soundscape” that reflects how a phenomenon, experiment, or model behaves.",
+    "This process is not automatic; someone has to decide which data will be transformed and how they will sound. For example, a higher sensor reading can be turned into a higher pitch, or a sudden change in a measurement can be heard as a strike or a shift in rhythm. In this way, sonification opens up a new path for exploring, interpreting, and communicating information by taking advantage of our natural ability to recognize patterns in what we hear.",
   ],
+  whoi_link_label: "What is sonification? · Accessible Oceans, WHOI",
+  whoi_link_href: "https://accessibleoceans.whoi.edu/what-is-sonification/",
+  geiger_caption:
+    "The Geiger counter: an iconic example of sonification. Each radioactive particle entering the detector becomes an audible click — those familiar “crackling” sounds that grow more frequent as radiation intensifies. Without looking at a screen or reading numbers, anyone can immediately tell whether radiation is present, where it is coming from, and how intense it is.",
+  nasa_intro:
+    "There are also more poetic examples of sonification, such as the approach developed by NASA to let us hear distant galaxies (nasa.gov/marshall):",
+  nasa_youtube_id: "kM2_Zq7DqUo",
   examples_heading: "Examples of molecular sonification",
   examples: [
-    { title: "Music from protein sequences, with musicality enhanced through a computer program that learns from Chopin.", cite: "Tay. Heliyon. 2021" },
-    { title: "Conversion of amino acid sequences in proteins into classical music: a search for auditory patterns.", cite: "Takahashi. Genome Biology. 2007" },
-    { title: "A musical approach to the interpretation of gene expression data using neuroblastoma cell lines.", cite: "Staege. Scientific Reports. 2015" },
-    { title: "Musical patterns for comparative epigenomics.", cite: "Brocks. Clinical Epigenetics. 2015" },
-    { title: "SNARE Dance: a musical interpretation of Atg9 transport to the tubulovesicular cluster.", cite: "Takahashi. Autophagy. 2012" },
-    { title: "Hydrogen-bond heterogeneity correlates with transition-state passage time in protein folding.", cite: "Scaletti. PNAS. 2024" },
+    {
+      title:
+        "Music from protein sequences, with musicality enhanced through a computer program that learns from Chopin.",
+      cite: "Tay. Heliyon. 2021",
+    },
+    {
+      title:
+        "Conversion of amino acid sequences in proteins into classical music: a search for auditory patterns.",
+      cite: "Takahashi. Genome Biology. 2007",
+    },
+    {
+      title:
+        "A musical approach to the interpretation of gene expression data using neuroblastoma cell lines.",
+      cite: "Staege. Scientific Reports. 2015",
+      quote_after:
+        "Despite the filtering and rearrangement of the probe sets, the resulting melodies in the examples presented are quite abstract, and their evocative potential is difficult to predict. It seems likely that familiarity with such melodies would be achieved more quickly if dissonances from familiar melodies were heard.",
+    },
+    {
+      title: "Musical patterns for comparative epigenomics.",
+      cite: "Brocks. Clinical Epigenetics. 2015",
+    },
+    {
+      title:
+        "SNARE Dance: a musical interpretation of Atg9 transport to the tubulovesicular cluster.",
+      cite: "Takahashi. Autophagy. 2012",
+      quote_after:
+        "After assigning instruments to each protein score, we went on to combine the individual scores into a final orchestration.",
+    },
+    {
+      title:
+        "Hydrogen-bond heterogeneity correlates with transition-state passage time in protein folding.",
+      cite: "Scaletti. PNAS. 2024",
+    },
   ],
-  examples_quote_1:
-    "Despite the filtering and rearrangement of the probe sets, the resulting melodies in the examples presented are quite abstract, and their evocative potential is difficult to predict. It seems likely that familiarity with such melodies would be achieved more quickly if dissonances from familiar melodies were heard.",
-  examples_quote_2:
-    "After assigning instruments to each protein score, we went on to combine the individual scores into a final orchestration.",
+  science_heading: "The science behind it",
+  science_paragraphs: [
+    "Molecular dynamics simulations are computer simulations that make it possible to observe how the molecules that make up life — proteins, DNA, RNA — move and change over time. They work by applying the laws of physics to each atom, allowing us to follow their trajectories as if we had a virtual microscope capable of seeing at the atomic level and in slow motion.",
+    "These simulations are extremely useful because they allow us to explore phenomena that are impossible to observe directly in the lab, such as exactly how a DNA sequence bends, folds, or becomes more rigid depending on the combination of letters (bases) that make it up. Thanks to this approach, it has become clear that the physical properties of DNA — flexibility, rigidity, and tendency to bend — depend strongly on its sequence.",
+    "A key role in this progress has been played, and continues to be played, by the Ascona B-DNA Consortium (ABC), an international collaboration of researchers that has been generating DNA simulations since the early 2000s, establishing standards and databases that are now essential references in the field. DansLab has been part of the ABC Consortium since 2014 and was the most recent organizer of the ABC conference, held in April 2023 in Ascona, Switzerland.",
+  ],
+  materials_heading: "Materials",
+  materials_paragraphs: [
+    "Simulated DNA sequences come from the miniABC library provided by the ABC Consortium. They contain 136 unique tetranucleotide combinations made up of the four DNA letters (A, C, G, T) — every possible 4-letter context that can appear in a DNA strand.",
+    "From those simulations we extracted a theoretical framework to compute DNA–K⁺ interactions and the concentration of potassium ions in the major and minor grooves. When K⁺ ions sit inside a groove they leave a measurable kinetic and energetic signature that we then map onto sound.",
+  ],
+  materials_doi_label: "Reference: Dans et al., Nucleic Acids Research (2019)",
+  materials_doi_url: "https://doi.org/10.1093/nar/gkz905",
+  approach_heading: "Our approach",
   vickers_quote:
     "Realizing that sonifications that are difficult or fatiguing to listen to will be less successful, some valiant attempts have been made to incorporate some elements of composition into the sound mappings. As music is designed to engage and hold the listener's interest, surely a sonification that is more musical will be better than one that is not. Unfortunately, sonifications purportedly designed to be musical are often still fatiguing or unengaging. Conversely, the goal of communicating essential information can be masked in the effort to achieve a stronger musical expression.",
   vickers_attribution:
     "Vickers, P. (2017). Sonification and music, music and sonification. In Cobussen, M., Meelberg, V., & Truax, B. (eds.), The Routledge Companion to Sounding Art, 135–144. Routledge, Oxford.",
-  dna_music_paragraphs: [
-    "Trying to follow the balance between data and composition described by Vickers, we transformed the interaction between DNA and potassium cations (K+).",
+  approach_paragraphs: [
+    "Trying to follow the balance between data and composition described by Vickers, we transformed the interaction between DNA and potassium cations (K⁺) into music.",
     "For all possible four-letter sequences, the interaction in the major and minor grooves of DNA was measured. The groove-interaction frequencies were multiplied by a factor to bring them into the human audible range. The resulting values were then rounded by mapping the frequencies to the nearest note in the tempered scale.",
-    "As a pilot test, the 13 miniABC sequences were joined into a single long sequence of 234 letters (A, C, G, and T) and turned into music using piano and violin. Red notes represent DNA–K+ interactions in the minor groove, blue notes the major groove. Black notes are part of the musical composition.",
   ],
-  dna_music_youtube_note: "Available on YouTube — link to be added.",
+  dnamusic_heading: "DNA Music",
+  dnamusic_paragraphs: [
+    "As a pilot test, the 13 miniABC sequences were joined into a single 234-letter sequence (A, C, G and T) and turned into music for piano and violin. Red notes represent DNA–K⁺ interactions in the minor groove, blue notes the major groove, and black notes are part of the musical composition.",
+  ],
+  dnamusic_youtube_label: "Listen on YouTube",
+  dnamusic_youtube_id: "KA49-N_KrRc",
+  dnaplayer_heading: "Play any DNA sequence",
+  dnaplayer_description:
+    "An interactive player that lets you type a DNA sequence and hear the music produced by our algorithm. Choose your bases and let the molecule speak.",
+  dnaplayer_url: "https://mmbai-lab.github.io/dna-music/",
   creators_heading: "Creators",
   creators: [
     {
       name: "Nicolás Molla",
+      photo: "/figures/NicoMolla.jpg",
       body_html:
-        'Musician, composer, and music producer. He has created music for film, advertising, and social projects, and now works as an independent producer in his own studio (<a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://nicomolla.com/">nicomolla.com</a>).',
+        "Musician, composer, and music producer. He has created music for film, advertising, and social projects, and now works as an independent producer in his own studio.",
+      link: { href: "https://www.nicomolla.com/", label: "nicomolla.com" },
     },
     {
-      name: "Pablo Dans",
+      name: "Pablo D. Dans",
+      photo: "/figures/PabloDans.jpg",
       body_html:
         "Researcher, teacher, and science communicator. International expert in nucleic acid structure (DNA and RNA) and in computational chemistry, molecular modeling, simulations, and structural bioinformatics.",
     },
   ],
-  materials_heading: "Materials",
 };
 
 const sonES: SonifContent = {
@@ -519,60 +584,102 @@ const sonES: SonifContent = {
   eyebrow: "ADN → Música",
   lede:
     "Una fusión entre la estructura del ADN, su interacción con el entorno biológico y la composición musical. Una invitación a escuchar la molécula de la vida a través de propiedades físicas extraídas de simulaciones y convertidas en señales audibles.",
-  sections: [
-    {
-      heading: "¿Qué es la sonificación?",
-      paragraphs: [
-        "La sonificación es una forma de convertir datos en sonido para poder entenderlos mejor. En lugar de mostrar la información en gráficos o tablas, se transforma en señales acústicas que podemos escuchar. Así, lo que normalmente sería una serie de números o mediciones se convierte en un “paisaje sonoro” que refleja cómo se comporta un fenómeno, un experimento o un modelo.",
-        "Este proceso no es automático: alguien decide qué datos se transformarán y cómo sonarán. Por ejemplo, una lectura más alta de un sensor puede convertirse en un tono más agudo, o un cambio brusco en una medición puede oírse como un golpe o un cambio de ritmo. De esta manera, la sonificación abre un nuevo camino para explorar, interpretar y comunicar información, aprovechando nuestra capacidad natural de reconocer patrones en lo que escuchamos.",
-      ],
-    },
-    {
-      heading: "La ciencia detrás",
-      paragraphs: [
-        "Las simulaciones de dinámica molecular son simulaciones computacionales que permiten observar cómo se mueven y cambian las moléculas que forman la vida — proteínas, ADN, ARN — a lo largo del tiempo. Funcionan aplicando las leyes de la física a cada átomo, lo que nos permite seguir sus trayectorias como si tuviéramos un microscopio virtual capaz de ver a nivel atómico y en cámara lenta.",
-        "Estas simulaciones son sumamente útiles porque permiten explorar fenómenos imposibles de observar directamente en el laboratorio, como la forma exacta en que una secuencia de ADN se dobla, se pliega o se vuelve más rígida según la combinación de letras (bases) que la componen. Gracias a este enfoque ha quedado claro que las propiedades físicas del ADN — flexibilidad, rigidez y tendencia a curvarse — dependen fuertemente de su secuencia.",
-        "Un rol clave en este avance lo cumple, y sigue cumpliendo, el Ascona B-DNA Consortium (ABC), una colaboración internacional de investigadores que viene generando simulaciones de ADN desde principios de los 2000, estableciendo estándares y bases de datos que hoy son referencia en el campo. DansLab integra el ABC desde 2014 y fue el último organizador de la conferencia ABC, realizada en abril de 2023 en Ascona, Suiza.",
-      ],
-    },
+  whatis_heading: "¿Qué es la sonificación?",
+  whatis_paragraphs: [
+    "La sonificación es una forma de convertir datos en sonido para poder entenderlos mejor. En lugar de mostrar la información en gráficos o tablas, se transforma en señales acústicas que podemos escuchar. Así, lo que normalmente sería una serie de números o mediciones se convierte en un “paisaje sonoro” que refleja cómo se comporta un fenómeno, un experimento o un modelo.",
+    "Este proceso no es automático: alguien decide qué datos se transformarán y cómo sonarán. Por ejemplo, una lectura más alta de un sensor puede convertirse en un tono más agudo, o un cambio brusco en una medición puede oírse como un golpe o un cambio de ritmo. De esta manera, la sonificación abre un nuevo camino para explorar, interpretar y comunicar información, aprovechando nuestra capacidad natural de reconocer patrones en lo que escuchamos.",
   ],
+  whoi_link_label: "What is sonification? · Accessible Oceans, WHOI",
+  whoi_link_href: "https://accessibleoceans.whoi.edu/what-is-sonification/",
+  geiger_caption:
+    "El contador Geiger: un ejemplo icónico de sonificación. Cada partícula radiactiva que entra al detector se traduce en un click audible — esos crepitares familiares que se vuelven más frecuentes a medida que la radiación se intensifica. Sin mirar una pantalla ni leer números, cualquiera puede saber inmediatamente si hay radiación, de dónde viene y qué tan intensa es.",
+  nasa_intro:
+    "También hay ejemplos más poéticos de sonificación, como el enfoque desarrollado por la NASA para escuchar galaxias distantes (nasa.gov/marshall):",
+  nasa_youtube_id: "kM2_Zq7DqUo",
   examples_heading: "Ejemplos de sonificación molecular",
   examples: [
-    { title: "Música a partir de secuencias de proteínas, con musicalidad reforzada por un programa que aprende de Chopin.", cite: "Tay. Heliyon. 2021" },
-    { title: "Conversión de secuencias de aminoácidos en música clásica: una búsqueda de patrones auditivos.", cite: "Takahashi. Genome Biology. 2007" },
-    { title: "Aproximación musical a la interpretación de datos de expresión génica en líneas de neuroblastoma.", cite: "Staege. Scientific Reports. 2015" },
-    { title: "Patrones musicales para epigenómica comparativa.", cite: "Brocks. Clinical Epigenetics. 2015" },
-    { title: "SNARE Dance: una interpretación musical del transporte de Atg9 al cluster tubulovesicular.", cite: "Takahashi. Autophagy. 2012" },
-    { title: "La heterogeneidad de puentes de hidrógeno correlaciona con el tiempo de paso por el estado de transición en el plegamiento de proteínas.", cite: "Scaletti. PNAS. 2024" },
+    {
+      title:
+        "Música a partir de secuencias de proteínas, con musicalidad reforzada por un programa que aprende de Chopin.",
+      cite: "Tay. Heliyon. 2021",
+    },
+    {
+      title:
+        "Conversión de secuencias de aminoácidos en música clásica: una búsqueda de patrones auditivos.",
+      cite: "Takahashi. Genome Biology. 2007",
+    },
+    {
+      title:
+        "Aproximación musical a la interpretación de datos de expresión génica en líneas de neuroblastoma.",
+      cite: "Staege. Scientific Reports. 2015",
+      quote_after:
+        "Despite the filtering and rearrangement of the probe sets, the resulting melodies in the examples presented are quite abstract, and their evocative potential is difficult to predict. It seems likely that familiarity with such melodies would be achieved more quickly if dissonances from familiar melodies were heard.",
+    },
+    {
+      title: "Patrones musicales para epigenómica comparativa.",
+      cite: "Brocks. Clinical Epigenetics. 2015",
+    },
+    {
+      title:
+        "SNARE Dance: una interpretación musical del transporte de Atg9 al cluster tubulovesicular.",
+      cite: "Takahashi. Autophagy. 2012",
+      quote_after:
+        "After assigning instruments to each protein score, we went on to combine the individual scores into a final orchestration.",
+    },
+    {
+      title:
+        "La heterogeneidad de puentes de hidrógeno correlaciona con el tiempo de paso por el estado de transición en el plegamiento de proteínas.",
+      cite: "Scaletti. PNAS. 2024",
+    },
   ],
-  examples_quote_1:
-    "A pesar del filtrado y reordenamiento de los conjuntos de sondas, las melodías resultantes en los ejemplos presentados son bastante abstractas y su potencial evocativo es difícil de predecir. Probablemente la familiaridad con esas melodías se lograría más rápido si se incluyeran disonancias de melodías conocidas.",
-  examples_quote_2:
-    "Después de asignar un instrumento a cada partitura proteica, combinamos las partituras individuales en una orquestación final.",
+  science_heading: "La ciencia detrás",
+  science_paragraphs: [
+    "Las simulaciones de dinámica molecular son simulaciones computacionales que permiten observar cómo se mueven y cambian las moléculas que forman la vida — proteínas, ADN, ARN — a lo largo del tiempo. Funcionan aplicando las leyes de la física a cada átomo, lo que nos permite seguir sus trayectorias como si tuviéramos un microscopio virtual capaz de ver a nivel atómico y en cámara lenta.",
+    "Estas simulaciones son sumamente útiles porque permiten explorar fenómenos imposibles de observar directamente en el laboratorio, como la forma exacta en que una secuencia de ADN se dobla, se pliega o se vuelve más rígida según la combinación de letras (bases) que la componen. Gracias a este enfoque ha quedado claro que las propiedades físicas del ADN — flexibilidad, rigidez y tendencia a curvarse — dependen fuertemente de su secuencia.",
+    "Un rol clave en este avance lo cumple, y sigue cumpliendo, el Ascona B-DNA Consortium (ABC), una colaboración internacional de investigadores que viene generando simulaciones de ADN desde principios de los 2000, estableciendo estándares y bases de datos que hoy son referencia en el campo. DansLab integra el ABC desde 2014 y fue el último organizador de la conferencia ABC, realizada en abril de 2023 en Ascona, Suiza.",
+  ],
+  materials_heading: "Materiales",
+  materials_paragraphs: [
+    "Las secuencias de ADN simuladas provienen de la biblioteca miniABC del Ascona B-DNA Consortium. Contienen las 136 combinaciones únicas de tetranucleótidos posibles a partir de las cuatro letras del ADN (A, C, G, T) — todos los contextos de 4 letras que pueden aparecer en una hebra.",
+    "A partir de esas simulaciones derivamos un marco teórico para calcular la interacción ADN–K⁺ y la concentración de iones potasio en los surcos mayor y menor. Cuando los iones K⁺ se ubican dentro de un surco, dejan una huella cinética y energética medible que luego mapeamos al sonido.",
+  ],
+  materials_doi_label: "Referencia: Dans et al., Nucleic Acids Research (2019)",
+  materials_doi_url: "https://doi.org/10.1093/nar/gkz905",
+  approach_heading: "Nuestro enfoque",
   vickers_quote:
     "Como las sonificaciones difíciles o fatigosas de escuchar serán menos exitosas, se han hecho intentos valientes por incorporar elementos de composición a los mapeos sonoros. Como la música está diseñada para captar y mantener el interés del oyente, una sonificación más musical seguramente será mejor que una que no lo es. Sin embargo, las sonificaciones supuestamente musicales suelen seguir siendo fatigosas o poco atractivas. Y al revés: el objetivo de comunicar información esencial puede quedar enmascarado por el esfuerzo por lograr una expresión musical más fuerte.",
   vickers_attribution:
     "Vickers, P. (2017). Sonification and music, music and sonification. En Cobussen, M., Meelberg, V. y Truax, B. (eds.), The Routledge Companion to Sounding Art, 135–144. Routledge, Oxford.",
-  dna_music_paragraphs: [
-    "Buscando seguir el equilibrio entre datos y composición que describe Vickers, transformamos la interacción entre el ADN y los cationes de potasio (K+).",
-    "Para todas las secuencias posibles de cuatro letras, se midió la interacción en los surcos mayor y menor del ADN. Las frecuencias de interacción se multiplicaron por un factor para llevarlas al rango audible humano. Los valores resultantes se redondearon mapeando las frecuencias a la nota más cercana de la escala temperada.",
-    "Como prueba piloto, las 13 secuencias miniABC se unieron en una secuencia larga de 234 letras (A, C, G y T) y se convirtieron en música usando piano y violín. Las notas rojas representan interacciones ADN–K+ en el surco menor, y las azules en el surco mayor. Las notas negras forman parte de la composición musical.",
+  approach_paragraphs: [
+    "Buscando seguir el equilibrio entre datos y composición que describe Vickers, transformamos la interacción entre el ADN y los cationes de potasio (K⁺) en música.",
+    "Para todas las secuencias posibles de cuatro letras se midió la interacción en los surcos mayor y menor del ADN. Las frecuencias de interacción se multiplicaron por un factor para llevarlas al rango audible humano. Los valores resultantes se redondearon mapeando las frecuencias a la nota más cercana de la escala temperada.",
   ],
-  dna_music_youtube_note: "Disponible en YouTube — link a agregar.",
+  dnamusic_heading: "DNA Music",
+  dnamusic_paragraphs: [
+    "Como prueba piloto, las 13 secuencias miniABC se unieron en una secuencia única de 234 letras (A, C, G y T) y se convirtieron en música para piano y violín. Las notas rojas representan interacciones ADN–K⁺ en el surco menor, las azules en el surco mayor, y las negras forman parte de la composición musical.",
+  ],
+  dnamusic_youtube_label: "Escuchar en YouTube",
+  dnamusic_youtube_id: "KA49-N_KrRc",
+  dnaplayer_heading: "Reproducí cualquier secuencia de ADN",
+  dnaplayer_description:
+    "Un reproductor interactivo donde podés escribir una secuencia de ADN y escuchar la música que produce nuestro algoritmo. Elegí tus bases y dejá que la molécula hable.",
+  dnaplayer_url: "https://mmbai-lab.github.io/dna-music/",
   creators_heading: "Creadores",
   creators: [
     {
       name: "Nicolás Molla",
+      photo: "/figures/NicoMolla.jpg",
       body_html:
-        'Músico, compositor y productor musical. Ha creado música para cine, publicidad y proyectos sociales, y actualmente trabaja como productor independiente en su propio estudio (<a class="text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://nicomolla.com/">nicomolla.com</a>).',
+        "Músico, compositor y productor musical. Ha creado música para cine, publicidad y proyectos sociales, y actualmente trabaja como productor independiente en su propio estudio.",
+      link: { href: "https://www.nicomolla.com/", label: "nicomolla.com" },
     },
     {
-      name: "Pablo Dans",
+      name: "Pablo D. Dans",
+      photo: "/figures/PabloDans.jpg",
       body_html:
         "Investigador, docente y divulgador científico. Experto internacional en estructura de ácidos nucleicos (ADN y ARN) y en química computacional, modelado molecular, simulaciones y bioinformática estructural.",
     },
   ],
-  materials_heading: "Materiales",
 };
 
 export const SONIF: Record<Lang, SonifContent> = { en: sonEN, es: sonES };
