@@ -106,6 +106,9 @@ export default function SonifPage({ lang }: { lang: Lang }) {
             <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
               {c.examples_heading}
             </h2>
+            <p className="mt-4 max-w-prose leading-relaxed text-muted">
+              {c.examples_intro}
+            </p>
             <ol className="mt-6 space-y-4">
               {c.examples.map((e, i) => (
                 <li key={i}>
@@ -137,40 +140,76 @@ export default function SonifPage({ lang }: { lang: Lang }) {
           </section>
         </FadeIn>
 
-        {/* The science behind it */}
+        {/* The science behind it — image left, paragraphs right */}
         <FadeIn>
           <section className="mt-20">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-              {c.science_heading}
-            </h2>
-            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
-              {c.science_paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+            <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={asset("/figures/ScienceBehind.gif")}
+                  alt="Molecular dynamics simulation of DNA"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div>
+                <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                  {c.science_heading}
+                </h2>
+                <div className="mt-6 space-y-4 leading-relaxed text-muted">
+                  {c.science_paragraphs_html.map((html, i) => (
+                    <p
+                      key={i}
+                      dangerouslySetInnerHTML={{
+                        __html: html.replace(
+                          /\{BASE\}/g,
+                          process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+                        ),
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
         </FadeIn>
 
-        {/* Materials */}
+        {/* Materials — miniABC image left (inverted, transparent), paragraphs right */}
         <FadeIn>
           <section className="mt-20">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
-              {c.materials_heading}
-            </h2>
-            <div className="mt-6 max-w-prose space-y-4 leading-relaxed text-muted">
-              {c.materials_paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-              <p>
-                <a
-                  href={c.materials_doi_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent underline-offset-4 hover:underline"
-                >
-                  {c.materials_doi_label} →
-                </a>
-              </p>
+            <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+                <Image
+                  src={asset("/figures/miniABC.png")}
+                  alt="miniABC sequences"
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-contain p-3"
+                  style={{ filter: "invert(1)" }}
+                />
+              </div>
+              <div>
+                <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                  {c.materials_heading}
+                </h2>
+                <div className="mt-6 space-y-4 leading-relaxed text-muted">
+                  {c.materials_paragraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                  <p>
+                    <a
+                      href={c.materials_doi_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-accent underline-offset-4 hover:underline"
+                    >
+                      {c.materials_doi_label} →
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
         </FadeIn>
@@ -191,6 +230,16 @@ export default function SonifPage({ lang }: { lang: Lang }) {
               {c.approach_paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
+            </div>
+            <div className="relative mt-10 w-full overflow-hidden rounded-2xl border border-border bg-elevated">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={asset("/figures/piano.png")}
+                alt="Mapping DNA–K⁺ groove interactions onto piano notes"
+                className="block h-auto w-full"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           </section>
         </FadeIn>

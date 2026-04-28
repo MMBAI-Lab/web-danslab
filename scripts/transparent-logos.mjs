@@ -21,6 +21,7 @@ const FILES = [
   "SFC_logo.png",
   "logo_cure.png",
   "logo_cenur.png",
+  "miniABC.png",
 ];
 
 // JPG sources with WHITE background → transparent PNG.

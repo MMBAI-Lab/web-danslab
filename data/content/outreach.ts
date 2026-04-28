@@ -445,11 +445,13 @@ export type SonifContent = {
   nasa_intro: string;
   nasa_youtube_id: string;
   examples_heading: string;
+  examples_intro: string;
   // Inline quote (italic, in quotes, with (sic)) appears AFTER an example
   // when `quote_after` is present, matching the original Google Site layout.
   examples: { title: string; cite: string; doi?: string; quote_after?: string }[];
   science_heading: string;
-  science_paragraphs: string[];
+  // HTML strings — may contain inline <a href="..."> for ABC Consortium / 2023.
+  science_paragraphs_html: string[];
   materials_heading: string;
   materials_paragraphs: string[];
   materials_doi_label: string;
@@ -493,6 +495,8 @@ const sonEN: SonifContent = {
     "There are also more poetic examples of sonification, such as the approach developed by NASA to let us hear distant galaxies (nasa.gov/marshall):",
   nasa_youtube_id: "kM2_Zq7DqUo",
   examples_heading: "Examples of molecular sonification",
+  examples_intro:
+    "Molecular sonification takes biological data — protein sequences, gene expression patterns, DNA dynamics, folding trajectories — and maps them onto sound: pitch, rhythm, timbre, instrumentation. The goal is not just to listen to a molecule but to use our ear as an analytical tool, surfacing patterns that are hard to spot on a chart. Below are some of the most representative attempts published in recent years.",
   examples: [
     {
       title:
@@ -535,10 +539,10 @@ const sonEN: SonifContent = {
     },
   ],
   science_heading: "The science behind it",
-  science_paragraphs: [
+  science_paragraphs_html: [
     "Molecular dynamics simulations are computer simulations that make it possible to observe how the molecules that make up life — proteins, DNA, RNA — move and change over time. They work by applying the laws of physics to each atom, allowing us to follow their trajectories as if we had a virtual microscope capable of seeing at the atomic level and in slow motion.",
     "These simulations are extremely useful because they allow us to explore phenomena that are impossible to observe directly in the lab, such as exactly how a DNA sequence bends, folds, or becomes more rigid depending on the combination of letters (bases) that make it up. Thanks to this approach, it has become clear that the physical properties of DNA — flexibility, rigidity, and tendency to bend — depend strongly on its sequence.",
-    "A key role in this progress has been played, and continues to be played, by the Ascona B-DNA Consortium (ABC), an international collaboration of researchers that has been generating DNA simulations since the early 2000s, establishing standards and databases that are now essential references in the field. DansLab has been part of the ABC Consortium since 2014 and was the most recent organizer of the ABC conference, held in April 2023 in Ascona, Switzerland.",
+    'A key role in this progress has been played, and continues to be played, by the <a class="font-semibold text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Ascona_B-DNA_Consortium">Ascona B-DNA Consortium (ABC)</a>, an international collaboration of researchers that has been generating DNA simulations since the early 2000s, establishing standards and databases that are now essential references in the field. DansLab has been part of the ABC Consortium since 2014 and was the most recent organizer of <a class="text-accent underline-offset-4 hover:underline" href="{BASE}/outreach/abc-2023/">the ABC conference held in April 2023 in Ascona, Switzerland</a>.',
   ],
   materials_heading: "Materials",
   materials_paragraphs: [
@@ -603,6 +607,8 @@ const sonES: SonifContent = {
     "También hay ejemplos más poéticos de sonificación, como el enfoque desarrollado por la NASA para escuchar galaxias distantes (nasa.gov/marshall):",
   nasa_youtube_id: "kM2_Zq7DqUo",
   examples_heading: "Ejemplos de sonificación molecular",
+  examples_intro:
+    "La sonificación molecular toma datos biológicos — secuencias de proteínas, patrones de expresión génica, dinámica del ADN, trayectorias de plegamiento — y los traduce a sonido: tono, ritmo, timbre, instrumentación. El objetivo no es solo escuchar una molécula, sino usar el oído como herramienta de análisis, sacando a la luz patrones que son difíciles de ver en un gráfico. Abajo, algunos de los intentos más representativos publicados en los últimos años.",
   examples: [
     {
       title:
@@ -645,10 +651,10 @@ const sonES: SonifContent = {
     },
   ],
   science_heading: "La ciencia detrás",
-  science_paragraphs: [
+  science_paragraphs_html: [
     "Las simulaciones de dinámica molecular son simulaciones computacionales que permiten observar cómo se mueven y cambian las moléculas que forman la vida — proteínas, ADN, ARN — a lo largo del tiempo. Funcionan aplicando las leyes de la física a cada átomo, lo que nos permite seguir sus trayectorias como si tuviéramos un microscopio virtual capaz de ver a nivel atómico y en cámara lenta.",
     "Estas simulaciones son sumamente útiles porque permiten explorar fenómenos imposibles de observar directamente en el laboratorio, como la forma exacta en que una secuencia de ADN se dobla, se pliega o se vuelve más rígida según la combinación de letras (bases) que la componen. Gracias a este enfoque ha quedado claro que las propiedades físicas del ADN — flexibilidad, rigidez y tendencia a curvarse — dependen fuertemente de su secuencia.",
-    "Un rol clave en este avance lo cumple, y sigue cumpliendo, el Ascona B-DNA Consortium (ABC), una colaboración internacional de investigadores que viene generando simulaciones de ADN desde principios de los 2000, estableciendo estándares y bases de datos que hoy son referencia en el campo. DansLab integra el ABC desde 2014 y fue el último organizador de la conferencia ABC, realizada en abril de 2023 en Ascona, Suiza.",
+    'Un rol clave en este avance lo cumple, y sigue cumpliendo, el <a class="font-semibold text-accent underline-offset-4 hover:underline" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Ascona_B-DNA_Consortium">Ascona B-DNA Consortium (ABC)</a>, una colaboración internacional de investigadores que viene generando simulaciones de ADN desde principios de los 2000, estableciendo estándares y bases de datos que hoy son referencia en el campo. DansLab integra el ABC desde 2014 y fue el último organizador de <a class="text-accent underline-offset-4 hover:underline" href="{BASE}/es/outreach/abc-2023/">la conferencia ABC, realizada en abril de 2023 en Ascona, Suiza</a>.',
   ],
   materials_heading: "Materiales",
   materials_paragraphs: [
