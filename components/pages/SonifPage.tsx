@@ -1,17 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
-import NeuralNetwork from "@/components/NeuralNetwork";
+import SonifBackground from "@/components/SonifBackground";
+import GeigerSound from "@/components/GeigerSound";
 import { SONIF } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
 import { asset } from "@/lib/asset";
 
 export default function SonifPage({ lang }: { lang: Lang }) {
   const c = SONIF[lang];
+  const playLabel = lang === "es" ? "Escuchar" : "Listen";
+  const stopLabel = lang === "es" ? "Detener" : "Stop";
 
   return (
     <>
-      <NeuralNetwork className="fixed inset-0 z-0 opacity-50" density={0.8} />
+      <SonifBackground />
       <div className="relative z-10 mx-auto max-w-5xl px-6 py-24">
         <FadeIn>
           <Link
@@ -56,38 +59,44 @@ export default function SonifPage({ lang }: { lang: Lang }) {
               </p>
             </div>
 
-            <div className="mt-10 grid items-start gap-6 md:grid-cols-2">
-              <figure>
-                <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-elevated">
-                  <Image
-                    src={asset("/figures/Geiger.png")}
-                    alt="Geiger counter"
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-contain p-4"
+            <figure className="mt-10 flex items-start gap-5 rounded-lg border border-border bg-surface/70 p-5 backdrop-blur-sm">
+              <div className="relative h-24 w-24 flex-none overflow-hidden rounded-lg bg-elevated">
+                <Image
+                  src={asset("/figures/Geiger.png")}
+                  alt="Geiger counter"
+                  fill
+                  sizes="96px"
+                  className="object-contain p-2"
+                />
+              </div>
+              <figcaption className="min-w-0 flex-1 text-sm leading-relaxed text-muted">
+                {c.geiger_caption}
+                <div className="mt-3">
+                  <GeigerSound
+                    label={playLabel}
+                    stopLabel={stopLabel}
+                    durationMs={6000}
+                    meanIntervalMs={380}
                   />
                 </div>
-                <figcaption className="mt-3 text-sm leading-relaxed text-muted">
-                  {c.geiger_caption}
-                </figcaption>
-              </figure>
+              </figcaption>
+            </figure>
 
-              <figure>
-                <p className="text-sm leading-relaxed text-muted">
-                  {c.nasa_intro}
-                </p>
-                <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-2xl border border-border bg-black">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${c.nasa_youtube_id}`}
-                    title="M51 (Whirlpool Galaxy) Sonification — NASA"
-                    loading="lazy"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 h-full w-full"
-                  />
-                </div>
-              </figure>
-            </div>
+            <figure className="mt-8">
+              <p className="max-w-prose text-sm leading-relaxed text-muted">
+                {c.nasa_intro}
+              </p>
+              <div className="relative mt-3 aspect-video w-full max-w-3xl overflow-hidden rounded-2xl border border-border bg-black">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${c.nasa_youtube_id}`}
+                  title="M51 (Whirlpool Galaxy) Sonification — NASA"
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 h-full w-full"
+                />
+              </div>
+            </figure>
           </section>
         </FadeIn>
 
