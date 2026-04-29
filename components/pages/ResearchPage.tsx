@@ -1,5 +1,6 @@
 import FadeIn from "@/components/FadeIn";
 import NeuralNetwork from "@/components/NeuralNetwork";
+import BacteriaOutline from "@/components/BacteriaOutline";
 import { RESEARCH } from "@/data/content/research";
 import { getResearchProjects, type ResearchProject } from "@/lib/research";
 import type { Lang } from "@/lib/i18n";
@@ -11,6 +12,8 @@ export default function ResearchPage({ lang }: { lang: Lang }) {
     <>
       <section className="relative overflow-hidden border-b border-border">
         <NeuralNetwork className="absolute inset-0 opacity-70" density={1} />
+        <BacteriaOutline className="pointer-events-none absolute -left-[6%] top-[4%] h-[34%] w-[44%] opacity-40" />
+        <BacteriaOutline className="pointer-events-none absolute -right-[8%] bottom-[6%] h-[34%] w-[44%] rotate-180 opacity-40" />
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -32,10 +35,19 @@ export default function ResearchPage({ lang }: { lang: Lang }) {
               {c.paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
-              <p
-                className="text-sm text-subtle"
-                dangerouslySetInnerHTML={{ __html: c.cover_caption_html }}
-              />
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <div className="mt-16 max-w-prose">
+              <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+                {c.bacterial_heading}
+              </h2>
+              <div className="mt-6 space-y-5 leading-relaxed text-muted">
+                {c.bacterial_paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
             </div>
           </FadeIn>
         </div>
