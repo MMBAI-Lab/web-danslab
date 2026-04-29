@@ -132,7 +132,7 @@ function CollaboratorCard({
           </p>
         )}
         {c.project && (
-          <p className="mt-3 text-sm leading-relaxed text-muted">{c.project}</p>
+          <p className="mt-3 text-sm leading-relaxed text-accent">{c.project}</p>
         )}
       </div>
     </article>
