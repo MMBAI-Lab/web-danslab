@@ -50,3 +50,16 @@ export function partitionByStatus(items: Collaborator[]): {
     past: items.filter((c) => c.status === "past"),
   };
 }
+
+// National vs international is derived from country: anyone whose
+// country field is "Uruguay" is grouped as national, everyone else
+// (and entries with no country set) lands in international.
+export function partitionByScope(items: Collaborator[]): {
+  national: Collaborator[];
+  international: Collaborator[];
+} {
+  return {
+    national: items.filter((c) => c.country === "Uruguay"),
+    international: items.filter((c) => c.country && c.country !== "Uruguay"),
+  };
+}

@@ -36,6 +36,8 @@ export type CommonDict = {
     intro: string;
     ongoing_heading: string;
     past_heading: string;
+    national_heading: string;
+    international_heading: string;
     empty: string;
   };
   courses: {
@@ -101,6 +103,8 @@ const en: CommonDict = {
       "Researchers and groups we work with around the world. Each entry links to the institution or project page.",
     ongoing_heading: "Ongoing collaborations",
     past_heading: "Past collaborations",
+    national_heading: "National collaborators",
+    international_heading: "International collaborators",
     empty: "We will list our collaborators here soon.",
   },
   courses: {
@@ -164,6 +168,8 @@ const es: CommonDict = {
       "Investigadores y grupos con los que trabajamos en distintas partes del mundo. Cada entrada enlaza a la institución o al proyecto.",
     ongoing_heading: "Colaboraciones en curso",
     past_heading: "Colaboraciones previas",
+    national_heading: "Colaboradores nacionales",
+    international_heading: "Colaboradores internacionales",
     empty: "Pronto vamos a listar a nuestros colaboradores aquí.",
   },
   courses: {

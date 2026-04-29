@@ -3,7 +3,7 @@ import FadeIn from "@/components/FadeIn";
 import FloatingBases from "@/components/FloatingBases";
 import {
   getCollaborators,
-  partitionByStatus,
+  partitionByScope,
   type Collaborator,
 } from "@/lib/collaborators";
 import { COMMON } from "@/data/content/common";
@@ -13,7 +13,7 @@ import { asset } from "@/lib/asset";
 export default function CollaboratorsPage({ lang }: { lang: Lang }) {
   const dict = COMMON[lang];
   const items = getCollaborators(lang);
-  const { ongoing, past } = partitionByStatus(items);
+  const { national, international } = partitionByScope(items);
   const isEmpty = items.length === 0;
 
   return (
@@ -40,17 +40,16 @@ export default function CollaboratorsPage({ lang }: { lang: Lang }) {
           </FadeIn>
         )}
 
-        {ongoing.length > 0 && (
+        {national.length > 0 && (
           <Section
-            heading={dict.collaborators.ongoing_heading}
-            items={ongoing}
+            heading={dict.collaborators.national_heading}
+            items={national}
           />
         )}
-        {past.length > 0 && (
+        {international.length > 0 && (
           <Section
-            heading={dict.collaborators.past_heading}
-            items={past}
-            muted
+            heading={dict.collaborators.international_heading}
+            items={international}
           />
         )}
       </div>
