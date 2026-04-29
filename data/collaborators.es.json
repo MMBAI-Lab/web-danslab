@@ -168,5 +168,15 @@
     "project": "Diseño de aptámeros contra Malaria",
     "status": "ongoing",
     "photo": "/figures/JuanOspina.jpg"
+  },
+  {
+    "title": "Dr.",
+    "name": "Leandro Bugnon",
+    "role": "Profesor Adjunto — Inteligencia artificial aplicada a biología estructural",
+    "institution": "Universidad Nacional del Litoral / Universidad Austral",
+    "country": "Argentina",
+    "project": "Desarrollo de métodos de IA para la determinación de la estructura 3D de motivos inusuales de ADN y ARN",
+    "status": "ongoing",
+    "photo": "/figures/LeandroBugnon.jpg"
   }
 ]

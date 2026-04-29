@@ -168,5 +168,15 @@
     "project": "Aptamer design against Malaria",
     "status": "ongoing",
     "photo": "/figures/JuanOspina.jpg"
+  },
+  {
+    "title": "Dr.",
+    "name": "Leandro Bugnon",
+    "role": "Assistant Professor — AI for structural biology",
+    "institution": "Universidad Nacional del Litoral / Universidad Austral",
+    "country": "Argentina",
+    "project": "AI methods for 3D structure determination of unusual DNA and RNA motifs",
+    "status": "ongoing",
+    "photo": "/figures/LeandroBugnon.jpg"
   }
 ]

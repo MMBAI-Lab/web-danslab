@@ -78,6 +78,7 @@ const COUNTRY_TO_ISO: Record<string, string> = {
   "United States": "US",
   "Estados Unidos": "US",
   Colombia: "CO",
+  Argentina: "AR",
 };
 
 /** SVG flag path for a country name (EN or ES). Returns "" if unknown.
