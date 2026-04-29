@@ -1,1 +1,167 @@
-[]
+[
+  {
+    "title": "Dra.",
+    "name": "Paola Panizza",
+    "role": "Investigadora — biocatálisis e ingeniería de enzimas",
+    "institution": "Facultad de Química, Universidad de la República",
+    "country": "Uruguay",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.fq.edu.uy/?q=es/node/1644",
+    "photo": ""
+  },
+  {
+    "title": "Dr.",
+    "name": "Santiago Signorelli",
+    "role": "Investigador — biología del estrés en plantas",
+    "institution": "Facultad de Agronomía, Universidad de la República",
+    "country": "Uruguay",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.researchgate.net/profile/Santiago-Signorelli",
+    "photo": ""
+  },
+  {
+    "title": "Dra.",
+    "name": "Victoria Calzada",
+    "role": "Profesora — imagenología molecular y aptámeros",
+    "institution": "Centro de Investigaciones Nucleares, Universidad de la República",
+    "country": "Uruguay",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://es.wikipedia.org/wiki/Victoria_Calzada",
+    "photo": "/figures/collab/VictoriaCalzada.jpg"
+  },
+  {
+    "title": "Dra.",
+    "name": "Susana Rodríguez",
+    "role": "Asistente — fisiología vegetal",
+    "institution": "Facultad de Agronomía, Universidad de la República",
+    "country": "Uruguay",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://portal.fagro.edu.uy/team/susana-rodriguez/",
+    "photo": "/figures/collab/SusanaRodriguez.jpg"
+  },
+  {
+    "title": "Dra.",
+    "name": "Sonia Rodríguez Giordano",
+    "role": "Investigadora — biocatálisis",
+    "institution": "Facultad de Química, Universidad de la República",
+    "country": "Uruguay",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.fq.edu.uy/?q=es/node/1398",
+    "photo": ""
+  },
+  {
+    "title": "Dr.",
+    "name": "Agnes Noy",
+    "role": "Principal Investigator",
+    "institution": "Department of Physics, University of York",
+    "country": "Reino Unido",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://agnesnoylab.wordpress.com/",
+    "photo": ""
+  },
+  {
+    "title": "Dr.",
+    "name": "Alberto Pérez",
+    "role": "Profesor Asociado — Quantum Theory Project",
+    "institution": "Department of Chemistry, University of Florida",
+    "country": "Estados Unidos",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://chem.ufl.edu/people-2/faculty-2/perez-bio/",
+    "photo": "/figures/collab/AlbertoPerez.jpg"
+  },
+  {
+    "title": "Dr.",
+    "name": "Marco Pasi",
+    "role": "Investigador — biología estructural del ADN",
+    "institution": "LBPA UMR 8113, CNRS / ENS Paris-Saclay",
+    "country": "Francia",
+    "project": "",
+    "status": "ongoing",
+    "url": "http://marcopasi.net/",
+    "photo": ""
+  },
+  {
+    "title": "Prof.",
+    "name": "Modesto Orozco",
+    "role": "Group Leader — Modelado Molecular y Bioinformática",
+    "institution": "IRB Barcelona / Universitat de Barcelona",
+    "country": "España",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.irbbarcelona.org/es/research/modesto-orozco",
+    "photo": "/figures/collab/ModestoOrozco.webp"
+  },
+  {
+    "title": "Prof.",
+    "name": "Thomas E. Cheatham III",
+    "role": "Profesor — Director, Center for High Performance Computing",
+    "institution": "College of Pharmacy, University of Utah",
+    "country": "Estados Unidos",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://pharmacy.utah.edu/staff/thomas-e-cheatham",
+    "photo": "/figures/collab/TomCheatham.jpg"
+  },
+  {
+    "title": "Dr.",
+    "name": "Rodrigo Galindo-Murillo",
+    "role": "Científico Principal",
+    "institution": "Ionis Pharmaceuticals",
+    "country": "Estados Unidos",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://scholar.google.com/citations?user=7COJEVYAAAAJ&hl=en",
+    "photo": ""
+  },
+  {
+    "title": "Dr.",
+    "name": "Christina Bergonzo",
+    "role": "Research Chemist — Teoría, Modelado y Simulación",
+    "institution": "National Institute of Standards and Technology (NIST)",
+    "country": "Estados Unidos",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.nist.gov/people/christina-bergonzo",
+    "photo": "/figures/collab/ChristinaBergonzo.jpg"
+  },
+  {
+    "title": "Dr.",
+    "name": "Daniel R. Roe",
+    "role": "Jefe, Sección HPC",
+    "institution": "Laboratory of Computational Biology, NIH",
+    "country": "Estados Unidos",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.lobos.nih.gov/hpcs-droe.shtml",
+    "photo": "/figures/collab/DanRoe.png"
+  },
+  {
+    "title": "Dr.",
+    "name": "Víctor M. González",
+    "role": "Investigador",
+    "institution": "",
+    "country": "",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://sciprofiles.com/profile/VictorMGonzalez",
+    "photo": ""
+  },
+  {
+    "title": "Dr.",
+    "name": "Juan David Ospina-Villa",
+    "role": "Investigador",
+    "institution": "",
+    "country": "",
+    "project": "",
+    "status": "ongoing",
+    "url": "https://www.linkedin.com/in/juan-david-ospina-villa-3a003641/",
+    "photo": ""
+  }
+]

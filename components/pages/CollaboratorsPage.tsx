@@ -1,3 +1,4 @@
+import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
 import FloatingBases from "@/components/FloatingBases";
 import {
@@ -7,6 +8,7 @@ import {
 } from "@/lib/collaborators";
 import { COMMON } from "@/data/content/common";
 import type { Lang } from "@/lib/i18n";
+import { asset } from "@/lib/asset";
 
 export default function CollaboratorsPage({ lang }: { lang: Lang }) {
   const dict = COMMON[lang];
@@ -90,27 +92,55 @@ function CollaboratorCard({
 }) {
   const display = (
     <article
-      className={`group relative h-full overflow-hidden rounded-lg border border-border bg-surface p-6 transition hover:border-accent ${
+      className={`group relative flex h-full gap-5 overflow-hidden rounded-lg border border-border bg-surface p-5 transition hover:border-accent ${
         muted ? "opacity-80" : ""
       }`}
     >
       <span className="absolute left-0 top-0 h-full w-0.5 bg-accent opacity-0 transition group-hover:opacity-100" />
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="relative h-20 w-20 flex-none overflow-hidden rounded-full border border-border bg-elevated">
+        {c.photo ? (
+          <Image
+            src={asset(c.photo)}
+            alt={c.name}
+            fill
+            sizes="80px"
+            className="object-cover"
+          />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center font-serif text-lg text-subtle">
+            {c.name
+              .split(" ")
+              .map((s) => s[0])
+              .filter(Boolean)
+              .slice(0, 2)
+              .join("")}
+          </span>
+        )}
+      </div>
+      <div className="min-w-0 flex-1">
         <h3 className="font-serif text-lg font-semibold leading-snug text-ink">
           {c.title ? `${c.title} ${c.name}` : c.name}
         </h3>
+        {c.role && (
+          <p className="mt-1 text-sm leading-snug text-muted">{c.role}</p>
+        )}
+        {c.institution && (
+          <p className="mt-1 text-sm leading-snug text-muted">{c.institution}</p>
+        )}
+        {c.country && (
+          <p className="mt-1 text-xs uppercase tracking-widest text-subtle">
+            {c.country}
+          </p>
+        )}
+        {c.project && (
+          <p className="mt-3 text-sm leading-relaxed text-muted">{c.project}</p>
+        )}
+        {c.url && (
+          <span className="mt-3 inline-block text-xs text-accent underline-offset-4 group-hover:underline">
+            {c.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} →
+          </span>
+        )}
       </div>
-      {c.institution && (
-        <p className="mt-1 text-sm text-muted">{c.institution}</p>
-      )}
-      {c.project && (
-        <p className="mt-3 text-sm leading-relaxed text-muted">{c.project}</p>
-      )}
-      {c.url && (
-        <span className="mt-4 inline-block text-xs text-accent underline-offset-4 group-hover:underline">
-          {c.url.replace(/^https?:\/\//, "")} →
-        </span>
-      )}
     </article>
   );
 

@@ -5,12 +5,15 @@ import es from "@/data/collaborators.es.json";
 export type CollaboratorStatus = "ongoing" | "past";
 
 export type Collaborator = {
-  title: string;
+  title: string;        // "Dr.", "Dra.", "Prof.", or empty
   name: string;
+  role: string;         // position / cargo
   institution: string;
-  project: string;
+  country: string;
+  project: string;      // optional collaboration topic
   status: CollaboratorStatus;
   url: string;
+  photo: string;        // path under /figures/... or empty
 };
 
 type RawCollaborator = Omit<Collaborator, "status"> & { status: string };
@@ -26,10 +29,13 @@ function normalize(items: RawCollaborator[]): Collaborator[] {
     .map((c) => ({
       title: c.title ?? "",
       name: c.name,
+      role: c.role ?? "",
       institution: c.institution ?? "",
+      country: c.country ?? "",
       project: c.project ?? "",
       status: (c.status === "past" ? "past" : "ongoing") as CollaboratorStatus,
       url: c.url ?? "",
+      photo: c.photo ?? "",
     }));
 }
 
