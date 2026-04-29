@@ -50,6 +50,16 @@
     "photo": "/figures/SoniaRodriguez.jpg"
   },
   {
+    "title": "Dr.",
+    "name": "Daniel Peluffo",
+    "role": "Full Professor — Membrane biophysical chemistry",
+    "institution": "Departamento de Ciencias Biológicas, CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "project": "Modelling and simulation of membrane transporters",
+    "status": "ongoing",
+    "photo": "/figures/DanielPeluffo.jpg"
+  },
+  {
     "title": "Dra.",
     "name": "Agnes Noy",
     "role": "Principal Investigator — Theoretical & computational DNA biophysics",

@@ -50,6 +50,16 @@
     "photo": "/figures/SoniaRodriguez.jpg"
   },
   {
+    "title": "Dr.",
+    "name": "Daniel Peluffo",
+    "role": "Profesor Titular — Biofisicoquímica de membranas",
+    "institution": "Departamento de Ciencias Biológicas, CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "project": "Modelado y simulaciones de transportadores de membrana",
+    "status": "ongoing",
+    "photo": "/figures/DanielPeluffo.jpg"
+  },
+  {
     "title": "Dra.",
     "name": "Agnes Noy",
     "role": "Científico Principal — Biofísica teórica y computacional del ADN",
