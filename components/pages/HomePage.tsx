@@ -143,8 +143,8 @@ export default function HomePage({ lang }: { lang: Lang }) {
 
       {/* WHAT WE DO — bacteria silhouettes behind */}
       <section className="relative overflow-hidden border-b border-border bg-surface">
-        <BacteriaOutline className="absolute -left-[8%] top-[6%] h-[34%] w-[55%]" />
-        <BacteriaOutline className="absolute -right-[10%] bottom-[8%] h-[34%] w-[55%] rotate-180" />
+        <BacteriaOutline className="absolute -left-[18%] top-[3%] h-[26%] w-[130%] md:-left-[8%] md:top-[6%] md:h-[34%] md:w-[55%]" />
+        <BacteriaOutline className="absolute -right-[18%] bottom-[3%] h-[26%] w-[130%] rotate-180 md:-right-[10%] md:bottom-[8%] md:h-[34%] md:w-[55%]" />
         <div className="relative mx-auto max-w-6xl px-6 py-24">
           <FadeIn>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
