@@ -106,7 +106,7 @@ function CourseCard({
         <h3 className="font-serif text-lg font-semibold leading-snug text-ink md:text-xl">
           {c.title}
         </h3>
-        <span className="rounded border border-border px-2 py-0.5 text-xs uppercase tracking-widest text-subtle">
+        <span className="rounded border border-border px-2 py-0.5 text-xs font-bold uppercase tracking-widest text-ink">
           {c.years}
         </span>
       </div>
@@ -128,17 +128,7 @@ function CourseCard({
       {c.summary && (
         <p className="mt-3 text-sm leading-relaxed text-muted">{c.summary}</p>
       )}
-      {c.lead && <p className="mt-2 text-xs text-subtle">{c.lead}</p>}
-      {c.url && (
-        <a
-          href={c.url}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-3 inline-block text-sm text-accent underline-offset-4 hover:underline"
-        >
-          {c.url.replace(/^https?:\/\//, "")} →
-        </a>
-      )}
+      {c.lead && <p className="mt-2 text-xs text-accent">{c.lead}</p>}
     </li>
   );
 }
