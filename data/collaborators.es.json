@@ -8,18 +8,18 @@
     "project": "",
     "status": "ongoing",
     "url": "https://www.fq.edu.uy/?q=es/node/1644",
-    "photo": ""
+    "photo": "/figures/PaolaPanizza.jpg"
   },
   {
     "title": "Dr.",
     "name": "Santiago Signorelli",
-    "role": "Investigador — biología del estrés en plantas",
+    "role": "Profesor Adjunto — bioquímica vegetal",
     "institution": "Facultad de Agronomía, Universidad de la República",
     "country": "Uruguay",
     "project": "",
     "status": "ongoing",
-    "url": "https://www.researchgate.net/profile/Santiago-Signorelli",
-    "photo": ""
+    "url": "https://portal.fagro.edu.uy/team/dr-santiago-signorelli/",
+    "photo": "/figures/SantiagoSignorelli.jpg"
   },
   {
     "title": "Dra.",
@@ -52,7 +52,7 @@
     "project": "",
     "status": "ongoing",
     "url": "https://www.fq.edu.uy/?q=es/node/1398",
-    "photo": ""
+    "photo": "/figures/SoniaRodriguez.jpg"
   },
   {
     "title": "Dr.",
@@ -63,7 +63,7 @@
     "project": "",
     "status": "ongoing",
     "url": "https://agnesnoylab.wordpress.com/",
-    "photo": ""
+    "photo": "/figures/AgnesNoy.jpg"
   },
   {
     "title": "Dr.",
@@ -85,7 +85,7 @@
     "project": "",
     "status": "ongoing",
     "url": "http://marcopasi.net/",
-    "photo": ""
+    "photo": "/figures/MarcoPasi.jpg"
   },
   {
     "title": "Prof.",
@@ -118,7 +118,7 @@
     "project": "",
     "status": "ongoing",
     "url": "https://scholar.google.com/citations?user=7COJEVYAAAAJ&hl=en",
-    "photo": ""
+    "photo": "/figures/RodrigoGalindo.jpg"
   },
   {
     "title": "Dr.",
@@ -145,23 +145,23 @@
   {
     "title": "Dr.",
     "name": "Víctor M. González",
-    "role": "Investigador",
-    "institution": "",
-    "country": "",
+    "role": "Subdirector Científico — Líder del Grupo de Aptámeros",
+    "institution": "Instituto Ramón y Cajal de Investigación Sanitaria (IRYCIS)",
+    "country": "España",
     "project": "",
     "status": "ongoing",
-    "url": "https://sciprofiles.com/profile/VictorMGonzalez",
-    "photo": ""
+    "url": "https://www.irycis.org/es/irycis/estructura-y-organizacion/subdireccion-cientifica/",
+    "photo": "/figures/VictorGonzalez.jpg"
   },
   {
     "title": "Dr.",
     "name": "Juan David Ospina-Villa",
-    "role": "Investigador",
-    "institution": "",
-    "country": "",
+    "role": "Investigador Junior y Profesor Asistente",
+    "institution": "Instituto Colombiano de Medicina Tropical (ICMT) — CES",
+    "country": "Colombia",
     "project": "",
     "status": "ongoing",
-    "url": "https://www.linkedin.com/in/juan-david-ospina-villa-3a003641/",
-    "photo": ""
+    "url": "https://icmt.org.co/investigadores/juan-david-ospina-villa/",
+    "photo": "/figures/JuanOspina.jpg"
   }
 ]
