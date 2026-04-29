@@ -80,11 +80,17 @@ const COUNTRY_TO_ISO: Record<string, string> = {
   Colombia: "CO",
 };
 
-/** Emoji flag for a country name (EN or ES). Returns "" if unknown. */
-export function countryFlag(country: string): string {
+/** SVG flag path for a country name (EN or ES). Returns "" if unknown.
+ *  We use SVGs in public/flags/ instead of emoji because Windows does
+ *  not ship flag glyphs in Segoe UI Emoji — flag emojis there fall back
+ *  to the bare ISO code. */
+export function countryFlagSrc(country: string): string {
   const iso = COUNTRY_TO_ISO[country];
   if (!iso) return "";
-  return String.fromCodePoint(
-    ...iso.split("").map((c) => 0x1f1e6 - 65 + c.charCodeAt(0))
-  );
+  return `/flags/${iso.toLowerCase()}.svg`;
+}
+
+/** ISO code for the country (used as alt text for the flag image). */
+export function countryIso(country: string): string {
+  return COUNTRY_TO_ISO[country] ?? "";
 }

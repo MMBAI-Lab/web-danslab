@@ -2,7 +2,8 @@ import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
 import FloatingBases from "@/components/FloatingBases";
 import {
-  countryFlag,
+  countryFlagSrc,
+  countryIso,
   getCollaborators,
   partitionByScope,
   type Collaborator,
@@ -129,10 +130,17 @@ function CollaboratorCard({
         )}
         {c.country && (
           <p className="mt-1 flex items-center gap-1.5 text-xs uppercase tracking-widest text-subtle">
-            {countryFlag(c.country) && (
-              <span aria-hidden="true" className="text-base leading-none">
-                {countryFlag(c.country)}
-              </span>
+            {countryFlagSrc(c.country) && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={asset(countryFlagSrc(c.country))}
+                alt={countryIso(c.country)}
+                width={18}
+                height={12}
+                className="h-3 w-[18px] flex-none rounded-[1px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+                loading="lazy"
+                decoding="async"
+              />
             )}
             {c.country}
           </p>
