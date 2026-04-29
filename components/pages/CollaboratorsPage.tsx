@@ -135,29 +135,9 @@ function CollaboratorCard({
         {c.project && (
           <p className="mt-3 text-sm leading-relaxed text-muted">{c.project}</p>
         )}
-        {c.url && (
-          <span className="mt-3 inline-block text-xs text-accent underline-offset-4 group-hover:underline">
-            {c.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} →
-          </span>
-        )}
       </div>
     </article>
   );
 
-  return (
-    <li>
-      {c.url ? (
-        <a
-          href={c.url}
-          target="_blank"
-          rel="noreferrer"
-          className="block h-full"
-        >
-          {display}
-        </a>
-      ) : (
-        display
-      )}
-    </li>
-  );
+  return <li>{display}</li>;
 }

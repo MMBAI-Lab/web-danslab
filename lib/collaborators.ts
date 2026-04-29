@@ -12,7 +12,6 @@ export type Collaborator = {
   country: string;
   project: string;      // optional collaboration topic
   status: CollaboratorStatus;
-  url: string;
   photo: string;        // path under /figures/... or empty
 };
 
@@ -34,7 +33,6 @@ function normalize(items: RawCollaborator[]): Collaborator[] {
       country: c.country ?? "",
       project: c.project ?? "",
       status: (c.status === "past" ? "past" : "ongoing") as CollaboratorStatus,
-      url: c.url ?? "",
       photo: c.photo ?? "",
     }));
 }
