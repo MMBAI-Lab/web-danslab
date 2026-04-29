@@ -2,6 +2,7 @@ import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
 import FloatingBases from "@/components/FloatingBases";
 import {
+  countryFlag,
   getCollaborators,
   partitionByScope,
   type Collaborator,
@@ -127,7 +128,12 @@ function CollaboratorCard({
           <p className="mt-1 text-sm leading-snug text-muted">{c.institution}</p>
         )}
         {c.country && (
-          <p className="mt-1 text-xs uppercase tracking-widest text-subtle">
+          <p className="mt-1 flex items-center gap-1.5 text-xs uppercase tracking-widest text-subtle">
+            {countryFlag(c.country) && (
+              <span aria-hidden="true" className="text-base leading-none">
+                {countryFlag(c.country)}
+              </span>
+            )}
             {c.country}
           </p>
         )}

@@ -63,3 +63,28 @@ export function partitionByScope(items: Collaborator[]): {
     international: items.filter((c) => c.country && c.country !== "Uruguay"),
   };
 }
+
+// Map of country names (EN + ES) → ISO 3166-1 alpha-2 codes for the
+// countries currently in the collaborators list. Add to this when a new
+// country shows up.
+const COUNTRY_TO_ISO: Record<string, string> = {
+  Uruguay: "UY",
+  Spain: "ES",
+  España: "ES",
+  France: "FR",
+  Francia: "FR",
+  "United Kingdom": "GB",
+  "Reino Unido": "GB",
+  "United States": "US",
+  "Estados Unidos": "US",
+  Colombia: "CO",
+};
+
+/** Emoji flag for a country name (EN or ES). Returns "" if unknown. */
+export function countryFlag(country: string): string {
+  const iso = COUNTRY_TO_ISO[country];
+  if (!iso) return "";
+  return String.fromCodePoint(
+    ...iso.split("").map((c) => 0x1f1e6 - 65 + c.charCodeAt(0))
+  );
+}
