@@ -178,5 +178,15 @@
     "project": "AI methods for 3D structure determination of unusual DNA and RNA motifs",
     "status": "ongoing",
     "photo": "/figures/LeandroBugnon.jpg"
+  },
+  {
+    "title": "Dr.",
+    "name": "Pohl Milón",
+    "role": "Principal Investigator — Ribosome structural biology & bacterial translation",
+    "institution": "Universidad Peruana de Ciencias Aplicadas (UPC)",
+    "country": "Peru",
+    "project": "Modelling and simulation of the bacterial translation machinery: ribosome dynamics and initiation factors (IF2, IF3)",
+    "status": "ongoing",
+    "photo": "/figures/PohlMilon.jpg"
   }
 ]
