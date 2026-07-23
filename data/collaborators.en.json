@@ -5,6 +5,7 @@
     "role": "Lecturer — Biocatalysis & enzyme engineering",
     "institution": "Facultad de Química, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "In silico design of transaminases for chiral amine synthesis and fluorinases for fluorinated compounds",
     "status": "ongoing",
     "photo": "/figures/PaolaPanizza.jpg"
@@ -15,6 +16,7 @@
     "role": "Associate Professor — Plant biochemistry",
     "institution": "Facultad de Agronomía, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Plant responses to abiotic stress: hydration of key osmolytes",
     "status": "ongoing",
     "photo": "/figures/SantiagoSignorelli.jpg"
@@ -25,6 +27,7 @@
     "role": "Assistant Professor — Molecular imaging & aptamers",
     "institution": "Centro de Investigaciones Nucleares, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Aptamer design against arboviruses, cancer and toxins",
     "status": "ongoing",
     "photo": "/figures/collab/VictoriaCalzada.jpg"
@@ -35,6 +38,7 @@
     "role": "Assistant Professor — Plant physiology",
     "institution": "Facultad de Agronomía, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Mode of action of a snakin-type antimicrobial peptide from a native legume",
     "status": "ongoing",
     "photo": "/figures/collab/SusanaRodriguez.jpg"
@@ -45,6 +49,7 @@
     "role": "Associate Professor — Biocatalysis",
     "institution": "Facultad de Química, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "In silico design of transaminases for chiral amine synthesis",
     "status": "ongoing",
     "photo": "/figures/SoniaRodriguez.jpg"
@@ -55,6 +60,7 @@
     "role": "Full Professor — Membrane biophysical chemistry",
     "institution": "Departamento de Ciencias Biológicas, CENUR Litoral Norte, Universidad de la República",
     "country": "Uruguay",
+    "city": "Salto",
     "project": "Modelling and simulation of membrane transporters",
     "status": "ongoing",
     "photo": "/figures/DanielPeluffo.jpg"
@@ -65,6 +71,7 @@
     "role": "Principal Investigator — Theoretical & computational DNA biophysics",
     "institution": "Department of Physics, University of York",
     "country": "United Kingdom",
+    "city": "York",
     "project": "Effects of supercoiling on the structure and dynamics of DNA minicircles",
     "status": "ongoing",
     "photo": "/figures/AgnesNoy.jpg"
@@ -75,6 +82,7 @@
     "role": "Associate Professor — Soft matter & biophysics",
     "institution": "Department of Physics, University of Strathclyde",
     "country": "United Kingdom",
+    "city": "Glasgow",
     "project": "Models for the modelling and simulation of nucleic acids",
     "status": "ongoing",
     "photo": "/figures/OliverHenrich.png"
@@ -85,6 +93,7 @@
     "role": "Associate Professor — Force-field development & biomolecular folding methods",
     "institution": "Department of Chemistry, University of Florida",
     "country": "United States",
+    "city": "Gainesville",
     "project": "Computational models for the folding of unusual DNA and RNA motifs",
     "status": "ongoing",
     "photo": "/figures/collab/AlbertoPerez.jpg"
@@ -95,6 +104,7 @@
     "role": "Associate Professor — DNA structural biology",
     "institution": "CNRS / ENS Paris-Saclay",
     "country": "France",
+    "city": "Paris-Saclay",
     "project": "Effects of supercoiling on the structure and dynamics of DNA minicircles",
     "status": "ongoing",
     "photo": "/figures/MarcoPasi.jpg"
@@ -105,6 +115,7 @@
     "role": "Full Professor — Molecular modelling & bioinformatics",
     "institution": "IRB Barcelona / Universitat de Barcelona",
     "country": "Spain",
+    "city": "Barcelona",
     "project": "HexABC and the Ascona B-DNA Consortium",
     "status": "ongoing",
     "photo": "/figures/collab/ModestoOrozco.webp"
@@ -115,6 +126,7 @@
     "role": "Full Professor — Force-field & simulation software development (AMBER)",
     "institution": "College of Pharmacy, University of UTAH",
     "country": "United States",
+    "city": "Salt Lake City",
     "project": "ModXNA: a force field for modified and unnatural nucleic acids",
     "status": "ongoing",
     "photo": "/figures/collab/TomCheatham.jpg"
@@ -125,6 +137,7 @@
     "role": "Principal Scientist",
     "institution": "Ionis Pharmaceuticals",
     "country": "United States",
+    "city": "Carlsbad",
     "project": "Therapies based on modified nucleic acids and ModXNA",
     "status": "ongoing",
     "photo": "/figures/RodrigoGalindo.jpg"
@@ -135,6 +148,7 @@
     "role": "Research Chemist — Theory, modelling, simulation & force-field optimization",
     "institution": "National Institute of Standards and Technology (NIST)",
     "country": "United States",
+    "city": "Gaithersburg",
     "project": "ModXNA: a force field for modified and unnatural nucleic acids",
     "status": "ongoing",
     "photo": "/figures/collab/ChristinaBergonzo.jpg"
@@ -145,6 +159,7 @@
     "role": "Chief, HPC Section — Simulation software & biomolecular analysis development",
     "institution": "Laboratory of Computational Biology, NIH",
     "country": "United States",
+    "city": "Bethesda",
     "project": "ModXNA: a force field for modified and unnatural nucleic acids",
     "status": "ongoing",
     "photo": "/figures/collab/DanRoe.png"
@@ -155,6 +170,7 @@
     "role": "Scientific Vice-Director — Aptamers Group leader",
     "institution": "Instituto Ramón y Cajal de Investigación Sanitaria (IRYCIS)",
     "country": "Spain",
+    "city": "Madrid",
     "project": "Aptamer design against viruses (Chikungunya, RSV) and pancreatic cancer",
     "status": "ongoing",
     "photo": "/figures/VictorGonzalez.jpg"
@@ -165,6 +181,7 @@
     "role": "Lecturer",
     "institution": "Instituto Colombiano de Medicina Tropical (ICMT) — CES",
     "country": "Colombia",
+    "city": "Medellín",
     "project": "Aptamer design against Malaria",
     "status": "ongoing",
     "photo": "/figures/JuanOspina.jpg"
@@ -175,6 +192,7 @@
     "role": "Assistant Professor — AI for structural biology",
     "institution": "Universidad Nacional del Litoral / Universidad Austral",
     "country": "Argentina",
+    "city": "Santa Fe",
     "project": "AI methods for 3D structure determination of unusual DNA and RNA motifs",
     "status": "ongoing",
     "photo": "/figures/LeandroBugnon.jpg"
@@ -185,6 +203,7 @@
     "role": "Principal Investigator — Ribosome structural biology & bacterial translation",
     "institution": "Universidad Peruana de Ciencias Aplicadas (UPC)",
     "country": "Peru",
+    "city": "Lima",
     "project": "Modelling and simulation of the bacterial translation machinery: ribosome dynamics and initiation factors (IF2, IF3)",
     "status": "ongoing",
     "photo": "/figures/PohlMilon.jpg"
@@ -195,6 +214,7 @@
     "role": "CEO — The Cell Company",
     "institution": "The Cell Company",
     "country": "Argentina / United States",
+    "city": "Buenos Aires / San Francisco",
     "project": "Design of RNA therapeutic modalities (siRNA and ASO) and computational-chemistry advising",
     "status": "ongoing",
     "photo": "/figures/FrancoGoytia.jpg"

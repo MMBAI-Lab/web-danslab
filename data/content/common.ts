@@ -41,8 +41,6 @@ export type CommonDict = {
     empty: string;
     map_heading: string;
     map_caption: string;
-    map_unit_one: string;
-    map_unit_many: string;
   };
   courses: {
     intro: string;
@@ -111,9 +109,7 @@ const en: CommonDict = {
     international_heading: "International collaborators",
     empty: "We will list our collaborators here soon.",
     map_heading: "Where we collaborate",
-    map_caption: "Every city where we have a collaborator.",
-    map_unit_one: "collaborator",
-    map_unit_many: "collaborators",
+    map_caption: "Every city where we have a collaborator — hover a dot for details.",
   },
   courses: {
     intro:
@@ -180,9 +176,7 @@ const es: CommonDict = {
     international_heading: "Colaboradores internacionales",
     empty: "Pronto vamos a listar a nuestros colaboradores aquí.",
     map_heading: "Dónde colaboramos",
-    map_caption: "Cada ciudad donde tenemos un colaborador.",
-    map_unit_one: "colaborador",
-    map_unit_many: "colaboradores",
+    map_caption: "Cada ciudad donde tenemos un colaborador — pasá el mouse sobre un punto para ver los detalles.",
   },
   courses: {
     intro:

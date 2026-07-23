@@ -5,6 +5,7 @@
     "role": "Profesor Asistente — Biocatálisis e ingeniería de enzimas",
     "institution": "Facultad de Química, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Diseño in silico de Transaminasas para la síntesis de aminas quirales y Fluorinasas para la síntesis de compuestos fluorados",
     "status": "ongoing",
     "photo": "/figures/PaolaPanizza.jpg"
@@ -15,6 +16,7 @@
     "role": "Profesor Agregado — Bioquímica vegetal",
     "institution": "Facultad de Agronomía, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Respuesta de las plantas a estrés abiótico: Estudio de la hidratación de osmolitos claves",
     "status": "ongoing",
     "photo": "/figures/SantiagoSignorelli.jpg"
@@ -25,6 +27,7 @@
     "role": "Profesor Adjunto — Imagenología molecular y aptámeros",
     "institution": "Centro de Investigaciones Nucleares, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Diseño de aptámeros contra arbovirus, cáncer y toxinas",
     "status": "ongoing",
     "photo": "/figures/collab/VictoriaCalzada.jpg"
@@ -35,6 +38,7 @@
     "role": "Profesor Adjunto — Fisiología vegetal",
     "institution": "Facultad de Agronomía, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Modo de acción de un péptido antimicrobiano de tipo Esnaquina de una leguminosa nativa",
     "status": "ongoing",
     "photo": "/figures/collab/SusanaRodriguez.jpg"
@@ -45,6 +49,7 @@
     "role": "Profesor Agregado — Biocatálisis",
     "institution": "Facultad de Química, Universidad de la República",
     "country": "Uruguay",
+    "city": "Montevideo",
     "project": "Diseño in silico de Transaminasas para la síntesis de aminas quirales",
     "status": "ongoing",
     "photo": "/figures/SoniaRodriguez.jpg"
@@ -55,6 +60,7 @@
     "role": "Profesor Titular — Biofisicoquímica de membranas",
     "institution": "Departamento de Ciencias Biológicas, CENUR Litoral Norte, Universidad de la República",
     "country": "Uruguay",
+    "city": "Salto",
     "project": "Modelado y simulaciones de transportadores de membrana",
     "status": "ongoing",
     "photo": "/figures/DanielPeluffo.jpg"
@@ -65,6 +71,7 @@
     "role": "Científico Principal — Biofísica teórica y computacional del ADN",
     "institution": "Department of Physics, University of York",
     "country": "Reino Unido",
+    "city": "York",
     "project": "Efectos del superenrollamiento en la estructura y dinámica de minicírculos de ADN",
     "status": "ongoing",
     "photo": "/figures/AgnesNoy.jpg"
@@ -75,6 +82,7 @@
     "role": "Profesor Agregado — Materia blanda y biofísica",
     "institution": "Department of Physics, University of Strathclyde",
     "country": "Reino Unido",
+    "city": "Glasgow",
     "project": "Modelos para el modelado y simulación de ácidos nucleicos",
     "status": "ongoing",
     "photo": "/figures/OliverHenrich.png"
@@ -85,6 +93,7 @@
     "role": "Profesor Agregado — Desarrollo de campos de fuerza y métodos de plegamiento de biomoléculas",
     "institution": "Department of Chemistry, University of Florida",
     "country": "Estados Unidos",
+    "city": "Gainesville",
     "project": "Desarrollo de modelos computacionales para el plegamiento de motivos inusuales de ADN y ARN",
     "status": "ongoing",
     "photo": "/figures/collab/AlbertoPerez.jpg"
@@ -95,6 +104,7 @@
     "role": "Profesor Agregado — Biología estructural del ADN",
     "institution": "CNRS / ENS Paris-Saclay",
     "country": "Francia",
+    "city": "Paris-Saclay",
     "project": "Efectos del superenrollamiento en la estructura y dinámica de minicírculos de ADN",
     "status": "ongoing",
     "photo": "/figures/MarcoPasi.jpg"
@@ -105,6 +115,7 @@
     "role": "Profesor Titular — Modelado Molecular y Bioinformática",
     "institution": "IRB Barcelona / Universitat de Barcelona",
     "country": "España",
+    "city": "Barcelona",
     "project": "HexABC y el Ascona B-DNA Consortium",
     "status": "ongoing",
     "photo": "/figures/collab/ModestoOrozco.webp"
@@ -115,6 +126,7 @@
     "role": "Profesor Titular — Desarrollo de campos de fuerza y de programas de simulación (AMBER)",
     "institution": "College of Pharmacy, University of UTAH",
     "country": "Estados Unidos",
+    "city": "Salt Lake City",
     "project": "ModXNA: Desarrollo de un campo de fuerza para ácidos nucleicos modificados y no naturales",
     "status": "ongoing",
     "photo": "/figures/collab/TomCheatham.jpg"
@@ -125,6 +137,7 @@
     "role": "Científico Principal",
     "institution": "Ionis Pharmaceuticals",
     "country": "Estados Unidos",
+    "city": "Carlsbad",
     "project": "Desarrollo de terapias basadas en ácidos nucleicos modificados y ModXNA",
     "status": "ongoing",
     "photo": "/figures/RodrigoGalindo.jpg"
@@ -135,6 +148,7 @@
     "role": "Research Chemist — Teoría, Modelado, Simulación y optimización de campos de fuerza",
     "institution": "National Institute of Standards and Technology (NIST)",
     "country": "Estados Unidos",
+    "city": "Gaithersburg",
     "project": "ModXNA: Desarrollo de un campo de fuerza para ácidos nucleicos modificados y no naturales",
     "status": "ongoing",
     "photo": "/figures/collab/ChristinaBergonzo.jpg"
@@ -145,6 +159,7 @@
     "role": "Jefe, Sección HPC — Desarrollo de software de simulación y análisis de biomoléculas",
     "institution": "Laboratory of Computational Biology, NIH",
     "country": "Estados Unidos",
+    "city": "Bethesda",
     "project": "ModXNA: Desarrollo de un campo de fuerza para ácidos nucleicos modificados y no naturales",
     "status": "ongoing",
     "photo": "/figures/collab/DanRoe.png"
@@ -155,6 +170,7 @@
     "role": "Subdirector Científico — Líder del Grupo de Aptámeros",
     "institution": "Instituto Ramón y Cajal de Investigación Sanitaria (IRYCIS)",
     "country": "España",
+    "city": "Madrid",
     "project": "Diseño de aptámeros contra virus (Chikungunya, VRS) y cáncer de páncreas",
     "status": "ongoing",
     "photo": "/figures/VictorGonzalez.jpg"
@@ -165,6 +181,7 @@
     "role": "Profesor Asistente",
     "institution": "Instituto Colombiano de Medicina Tropical (ICMT) — CES",
     "country": "Colombia",
+    "city": "Medellín",
     "project": "Diseño de aptámeros contra Malaria",
     "status": "ongoing",
     "photo": "/figures/JuanOspina.jpg"
@@ -175,6 +192,7 @@
     "role": "Profesor Adjunto — Inteligencia artificial aplicada a biología estructural",
     "institution": "Universidad Nacional del Litoral / Universidad Austral",
     "country": "Argentina",
+    "city": "Santa Fe",
     "project": "Desarrollo de métodos de IA para la determinación de la estructura 3D de motivos inusuales de ADN y ARN",
     "status": "ongoing",
     "photo": "/figures/LeandroBugnon.jpg"
@@ -185,6 +203,7 @@
     "role": "Investigador Principal — Biología estructural del ribosoma y traducción bacteriana",
     "institution": "Universidad Peruana de Ciencias Aplicadas (UPC)",
     "country": "Perú",
+    "city": "Lima",
     "project": "Modelado y simulación de la maquinaria de traducción bacteriana: dinámica del ribosoma y factores de iniciación (IF2, IF3)",
     "status": "ongoing",
     "photo": "/figures/PohlMilon.jpg"
@@ -195,6 +214,7 @@
     "role": "CEO — The Cell Company",
     "institution": "The Cell Company",
     "country": "Argentina / Estados Unidos",
+    "city": "Buenos Aires / San Francisco",
     "project": "Diseño de modalidades terapéuticas de ARN (siRNA y ASO) y asesoría en química computacional",
     "status": "ongoing",
     "photo": "/figures/FrancoGoytia.jpg"

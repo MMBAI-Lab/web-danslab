@@ -10,6 +10,7 @@ export type Collaborator = {
   role: string;         // position / cargo
   institution: string;
   country: string;
+  city: string;         // city (or "A / B" for two), used to place the world-map dot
   project: string;      // optional collaboration topic
   status: CollaboratorStatus;
   photo: string;        // path under /figures/... or empty
@@ -31,6 +32,7 @@ function normalize(items: RawCollaborator[]): Collaborator[] {
       role: c.role ?? "",
       institution: c.institution ?? "",
       country: c.country ?? "",
+      city: c.city ?? "",
       project: c.project ?? "",
       status: (c.status === "past" ? "past" : "ongoing") as CollaboratorStatus,
       photo: c.photo ?? "",

@@ -66,10 +66,7 @@ export default function CollaboratorsPage({ lang }: { lang: Lang }) {
                 {dict.collaborators.map_caption}
               </p>
               <div className="mt-8 overflow-hidden rounded-lg border border-border bg-surface/60 p-4 sm:p-8">
-                <WorldMap
-                  unitOne={dict.collaborators.map_unit_one}
-                  unitMany={dict.collaborators.map_unit_many}
-                />
+                <WorldMap collaborators={items} />
               </div>
             </section>
           </FadeIn>
