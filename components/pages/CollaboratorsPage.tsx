@@ -1,6 +1,7 @@
 import Image from "next/image";
 import FadeIn from "@/components/FadeIn";
 import FloatingBases from "@/components/FloatingBases";
+import WorldMap from "@/components/WorldMap";
 import {
   countryFlagSrc,
   countryIso,
@@ -53,6 +54,25 @@ export default function CollaboratorsPage({ lang }: { lang: Lang }) {
             heading={dict.collaborators.international_heading}
             items={international}
           />
+        )}
+
+        {!isEmpty && (
+          <FadeIn>
+            <section className="mt-24">
+              <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                {dict.collaborators.map_heading}
+              </h2>
+              <p className="mt-2 text-sm text-muted">
+                {dict.collaborators.map_caption}
+              </p>
+              <div className="mt-8 overflow-hidden rounded-lg border border-border bg-surface/60 p-4 sm:p-8">
+                <WorldMap
+                  unitOne={dict.collaborators.map_unit_one}
+                  unitMany={dict.collaborators.map_unit_many}
+                />
+              </div>
+            </section>
+          </FadeIn>
         )}
       </div>
     </>
@@ -130,17 +150,21 @@ function CollaboratorCard({
         )}
         {c.country && (
           <p className="mt-1 flex items-center gap-1.5 text-xs uppercase tracking-widest text-subtle">
-            {countryFlagSrc(c.country) && (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                src={asset(countryFlagSrc(c.country))}
-                alt={countryIso(c.country)}
-                width={18}
-                height={12}
-                className="h-3 w-[18px] flex-none rounded-[1px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-                loading="lazy"
-                decoding="async"
-              />
+            {/* One flag per country; entries may list two, joined by " / ". */}
+            {c.country.split(" / ").map((part) =>
+              countryFlagSrc(part) ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  key={part}
+                  src={asset(countryFlagSrc(part))}
+                  alt={countryIso(part)}
+                  width={18}
+                  height={12}
+                  className="h-3 w-[18px] flex-none rounded-[1px] object-cover shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : null
             )}
             {c.country}
           </p>

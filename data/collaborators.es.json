@@ -188,5 +188,15 @@
     "project": "Modelado y simulación de la maquinaria de traducción bacteriana: dinámica del ribosoma y factores de iniciación (IF2, IF3)",
     "status": "ongoing",
     "photo": "/figures/PohlMilon.jpg"
+  },
+  {
+    "title": "",
+    "name": "Franco Goytia",
+    "role": "CEO — The Cell Company",
+    "institution": "The Cell Company",
+    "country": "Argentina / Estados Unidos",
+    "project": "Diseño de modalidades terapéuticas de ARN (siRNA y ASO) y asesoría en química computacional",
+    "status": "ongoing",
+    "photo": "/figures/FrancoGoytia.jpg"
   }
 ]
