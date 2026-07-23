@@ -1,6 +1,13 @@
 [
   {
     "year": 2026,
+    "authors": "Federica Battistini, Miłosz Wieczór, Adam Hospital, Marco Pasi, Juan Pablo Arcón, Israel Serrano-Chacón, Alba Sala, Subhamoy Deb, Agustín García-Doñate, Matthew Burman, et al., Pablo D. Dans, et al., Modesto Orozco",
+    "title": "hexABC seeking the physical code of DNA",
+    "journal": "Nature Communications",
+    "doi": "10.1038/s41467-026-74390-5"
+  },
+  {
+    "year": 2026,
     "authors": "Bhavatharini Arun, Eloise Liu, Quentin Vallé, Rajnikant Sharma, Ngoc Minh Bui, Vyanka Mezcord, Irene Luu, German M. Traglia, Fernando Pasteran, David Paterson, et al.",
     "title": "Ampicillin/sulbactam in combination with ceftazidime/avibactam against metallo-β-lactamase-producing carbapenem-resistant Acinetobacter baumannii: a genomics-informed mechanism-based model",
     "journal": "The Journal of Infectious Diseases",
