@@ -254,10 +254,18 @@ export default function WorldMap({
       {activeMarker &&
         (() => {
           const { X, Y } = tf(activeMarker.x, activeMarker.y);
+          const xf = X / w;
+          const yf = Y / h;
+          const below = yf < 0.24; // top dots: flip label below
+          // near a side edge: anchor inward so the label can't clip off
+          const xClass =
+            xf < 0.16 ? "translate-x-0" : xf > 0.84 ? "-translate-x-full" : "-translate-x-1/2";
+          const yClass = below ? "translate-y-0" : "-translate-y-full";
+          const top = below ? `calc(${yf * 100}% + 12px)` : `calc(${yf * 100}% - 10px)`;
           return (
             <div
-              className="pointer-events-none absolute z-20 w-max max-w-[16rem] -translate-x-1/2 -translate-y-full rounded-md border border-border bg-elevated px-3 py-2 shadow-lg"
-              style={{ left: `${(X / w) * 100}%`, top: `calc(${(Y / h) * 100}% - 10px)` }}
+              className={`pointer-events-none absolute z-20 w-max max-w-[16rem] rounded-md border border-border bg-elevated px-3 py-2 shadow-lg ${xClass} ${yClass}`}
+              style={{ left: `${xf * 100}%`, top }}
             >
               <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-accent">
                 {activeMarker.city}
