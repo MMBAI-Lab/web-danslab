@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { WORLD_PATH, WORLD_VIEWBOX, project } from "@/data/worldmap";
 
 /**
@@ -9,13 +9,13 @@ import { WORLD_PATH, WORLD_VIEWBOX, project } from "@/data/worldmap";
  * projection (see data/worldmap.ts), so each dot lands on its true position.
  *
  * Hovering (or keyboard-focusing) a dot reveals a styled label listing the
- * collaborator(s) based in that city and their institution. Colours read the
- * theme tokens via rgb(var(--…)); the pulse ring (`.map-pulse`) is disabled
- * under prefers-reduced-motion.
+ * collaborator(s) based in that city and their institution.
  *
- * Cities come from each collaborator's `city` field; coordinates are looked up
- * here. An entry may name two cities joined by " / " (e.g. a company with two
- * offices) — it then contributes a dot to each.
+ * Zoom: mouse wheel (centred on the cursor), the +/−/reset buttons, and drag
+ * to pan once zoomed in. The land is scaled by a <g> transform while each dot
+ * keeps a constant on-screen size — so tight clusters (Río de la Plata,
+ * Maryland, California) fan apart as you zoom. Colours read the theme tokens;
+ * the pulse ring (`.map-pulse`) is disabled under prefers-reduced-motion.
  */
 
 type Member = { name: string; institution: string };
@@ -47,12 +47,7 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "Beer Sheva": [34.79, 31.25],
 };
 
-type Marker = {
-  city: string;
-  x: number;
-  y: number;
-  members: Member[];
-};
+type Marker = { city: string; x: number; y: number; members: Member[] };
 
 function buildMarkers(
   collaborators: { name: string; institution: string; city: string }[]
@@ -75,6 +70,10 @@ function buildMarkers(
   });
 }
 
+const MIN_K = 1;
+const MAX_K = 9;
+const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+
 export default function WorldMap({
   collaborators,
 }: {
@@ -85,46 +84,127 @@ export default function WorldMap({
   const [active, setActive] = useState<string | null>(null);
   const activeMarker = markers.find((m) => m.city === active) ?? null;
 
+  // View transform: screen = base * k + t.
+  const [view, setView] = useState({ k: 1, tx: 0, ty: 0 });
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const drag = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null);
+  const [dragging, setDragging] = useState(false);
+
+  const clampT = (k: number, tx: number, ty: number) => ({
+    k,
+    tx: clamp(tx, w * (1 - k), 0),
+    ty: clamp(ty, h * (1 - k), 0),
+  });
+
+  // Zoom by `factor` keeping the point (px,py) — in viewBox coords — fixed.
+  const zoomAt = useCallback(
+    (factor: number, px: number, py: number) => {
+      setView((v) => {
+        const nk = clamp(v.k * factor, MIN_K, MAX_K);
+        if (nk === v.k) return v;
+        const cx = (px - v.tx) / v.k;
+        const cy = (py - v.ty) / v.k;
+        return clampT(nk, px - cx * nk, py - cy * nk);
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  // Pointer position in viewBox coordinates.
+  const toViewBox = (clientX: number, clientY: number) => {
+    const r = svgRef.current!.getBoundingClientRect();
+    return { px: ((clientX - r.left) / r.width) * w, py: ((clientY - r.top) / r.height) * h };
+  };
+
+  // Wheel zoom (native listener so we can preventDefault the page scroll).
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const { px, py } = toViewBox(e.clientX, e.clientY);
+      zoomAt(e.deltaY < 0 ? 1.18 : 1 / 1.18, px, py);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomAt]);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (view.k <= 1) return;
+    drag.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty };
+    setDragging(true);
+    setActive(null);
+    (e.target as Element).setPointerCapture?.(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!drag.current) return;
+    const r = svgRef.current!.getBoundingClientRect();
+    const dx = ((e.clientX - drag.current.x) / r.width) * w;
+    const dy = ((e.clientY - drag.current.y) / r.height) * h;
+    setView((v) => clampT(v.k, drag.current!.tx + dx, drag.current!.ty + dy));
+  };
+  const endDrag = () => {
+    drag.current = null;
+    setDragging(false);
+  };
+
+  const btnZoom = (factor: number) => zoomAt(factor, w / 2, h / 2);
+  const reset = () => setView({ k: 1, tx: 0, ty: 0 });
+
+  const tf = (x: number, y: number) => ({ X: x * view.k + view.tx, Y: y * view.k + view.ty });
+
   return (
     <div className="relative">
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${w} ${h}`}
         role="img"
         aria-label="World map with a marker at every city where DansLab has a collaborator"
-        className="h-auto w-full"
+        className="h-auto w-full select-none"
         preserveAspectRatio="xMidYMid meet"
+        style={{
+          cursor: view.k > 1 ? (dragging ? "grabbing" : "grab") : "default",
+          touchAction: view.k > 1 ? "none" : "pan-y",
+        }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerLeave={endDrag}
       >
-        {/* Land silhouette */}
-        <path d={WORLD_PATH} style={{ fill: "rgb(var(--ink) / 0.1)" }} />
+        {/* Land silhouette (scaled) */}
+        <g transform={`translate(${view.tx} ${view.ty}) scale(${view.k})`}>
+          <path d={WORLD_PATH} style={{ fill: "rgb(var(--ink) / 0.1)" }} />
+        </g>
 
-        {/* City markers */}
+        {/* City markers — positioned by the transform, but constant size */}
         {markers.map((m) => {
           const core = 2.6 + Math.min(m.members.length - 1, 5) * 0.6;
           const isActive = m.city === active;
+          const { X, Y } = tf(m.x, m.y);
           return (
             <g
               key={m.city}
               tabIndex={0}
               role="button"
-              aria-label={`${m.city}: ${m.members
-                .map((x) => x.name)
-                .join(", ")}`}
+              aria-label={`${m.city}: ${m.members.map((x) => x.name).join(", ")}`}
               style={{ cursor: "pointer", outline: "none" }}
-              onMouseEnter={() => setActive(m.city)}
+              onMouseEnter={() => !dragging && setActive(m.city)}
               onMouseLeave={() => setActive((c) => (c === m.city ? null : c))}
               onFocus={() => setActive(m.city)}
               onBlur={() => setActive((c) => (c === m.city ? null : c))}
             >
               <circle
                 className="map-pulse"
-                cx={m.x}
-                cy={m.y}
+                cx={X}
+                cy={Y}
                 r={core}
                 style={{ fill: "rgb(var(--accent) / 0.9)" }}
               />
               <circle
-                cx={m.x}
-                cy={m.y}
+                cx={X}
+                cy={Y}
                 r={isActive ? core + 1.2 : core}
                 style={{
                   fill: "rgb(var(--accent))",
@@ -134,40 +214,67 @@ export default function WorldMap({
                 }}
               />
               {/* Invisible, larger hit area for comfortable hover/tap */}
-              <circle cx={m.x} cy={m.y} r={9} fill="transparent" />
+              <circle cx={X} cy={Y} r={9} fill="transparent" />
             </g>
           );
         })}
       </svg>
 
-      {/* Hover / focus label */}
-      {activeMarker && (
-        <div
-          className="pointer-events-none absolute z-20 w-max max-w-[16rem] -translate-x-1/2 -translate-y-full rounded-md border border-border bg-elevated px-3 py-2 shadow-lg"
-          style={{
-            left: `${(activeMarker.x / w) * 100}%`,
-            top: `calc(${(activeMarker.y / h) * 100}% - 10px)`,
-          }}
+      {/* Zoom controls */}
+      <div className="absolute right-2 top-2 z-30 flex flex-col gap-1">
+        <button
+          type="button"
+          aria-label="Zoom in"
+          onClick={() => btnZoom(1.6)}
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-elevated text-lg leading-none text-ink transition hover:border-accent hover:text-accent"
         >
-          <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-accent">
-            {activeMarker.city}
-          </p>
-          <ul className="space-y-1.5">
-            {activeMarker.members.map((mem) => (
-              <li key={mem.name} className="leading-tight">
-                <span className="block text-xs font-semibold text-ink">
-                  {mem.name}
-                </span>
-                {mem.institution && (
-                  <span className="block text-[11px] text-muted">
-                    {mem.institution}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+          +
+        </button>
+        <button
+          type="button"
+          aria-label="Zoom out"
+          onClick={() => btnZoom(1 / 1.6)}
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-elevated text-lg leading-none text-ink transition hover:border-accent hover:text-accent"
+        >
+          −
+        </button>
+        {view.k > 1 && (
+          <button
+            type="button"
+            aria-label="Reset zoom"
+            onClick={reset}
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-elevated text-xs leading-none text-muted transition hover:border-accent hover:text-accent"
+          >
+            ⟳
+          </button>
+        )}
+      </div>
+
+      {/* Hover / focus label */}
+      {activeMarker &&
+        (() => {
+          const { X, Y } = tf(activeMarker.x, activeMarker.y);
+          return (
+            <div
+              className="pointer-events-none absolute z-20 w-max max-w-[16rem] -translate-x-1/2 -translate-y-full rounded-md border border-border bg-elevated px-3 py-2 shadow-lg"
+              style={{ left: `${(X / w) * 100}%`, top: `calc(${(Y / h) * 100}% - 10px)` }}
+            >
+              <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-accent">
+                {activeMarker.city}
+              </p>
+              <ul className="space-y-1.5">
+                {activeMarker.members.map((mem) => (
+                  <li key={mem.name} className="leading-tight">
+                    <span className="block text-xs font-semibold text-ink">{mem.name}</span>
+                    {mem.institution && (
+                      <span className="block text-[11px] text-muted">{mem.institution}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })()}
     </div>
   );
 }
