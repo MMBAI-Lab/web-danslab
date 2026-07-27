@@ -121,5 +121,115 @@
     "lead": "Dr. Victoria Calzada",
     "status": "past",
     "url": "https://www.rediba.org/"
+  },
+  {
+    "title": "Molecular Phylogenetics and Protein Modeling",
+    "kind": "Postgraduate course",
+    "institution": "INTA Cerro Azul, Misiones",
+    "country": "Argentina",
+    "years": "2022–present",
+    "role": "Coordinator and lecturer",
+    "summary": "Postgraduate course on molecular phylogenetics and protein modeling.",
+    "lead": "Dr. German Traglia, Dr. Samuel Miño",
+    "status": "ongoing"
+  },
+  {
+    "title": "Introduction to Microbiology",
+    "kind": "Undergraduate course",
+    "institution": "CENUR Litoral Norte, University of the Republic",
+    "country": "Uruguay",
+    "years": "2022–present",
+    "role": "Coordinator and lecturer",
+    "summary": "Undergraduate course on microbiology.",
+    "lead": "Dr. German Traglia, Mag. Andrea Texo, Dr. Oscar Irabuena, Alexandra Bozzo",
+    "status": "ongoing"
+  },
+  {
+    "title": "Introduction to Evolutionary Thinking Applied to Medicine",
+    "kind": "Undergraduate course (Medicine, optional)",
+    "institution": "School of Medicine, University of the Republic",
+    "country": "Uruguay",
+    "years": "2021–present",
+    "role": "Lecturer",
+    "summary": "Optional undergraduate medical course on evolutionary concepts applied to medicine.",
+    "lead": "Dr. Andres Iriarte",
+    "status": "ongoing"
+  },
+  {
+    "title": "Bacterial Pathogenicity",
+    "kind": "Undergraduate (Biology) and postgraduate course (PEDECIBA Biology)",
+    "institution": "Faculty of Sciences, University of the Republic",
+    "country": "Uruguay",
+    "years": "2023–present",
+    "role": "Lecturer",
+    "summary": "Undergraduate and postgraduate course on bacterial pathogenicity.",
+    "lead": "Dr. Fernanda Azpiroz",
+    "status": "ongoing"
+  },
+  {
+    "title": "Applied Virology",
+    "kind": "Undergraduate course (Genetics)",
+    "institution": "Faculty of Exact, Chemical and Natural Sciences, National University of Misiones",
+    "country": "Argentina",
+    "years": "2025–present",
+    "role": "Lecturer",
+    "summary": "Undergraduate course on applied virology.",
+    "lead": "Dr. Javier Liotta",
+    "status": "ongoing"
+  },
+  {
+    "title": "Basic Tools for Genomics and Bioinformatics",
+    "kind": "Undergraduate (Biology) and postgraduate course (PEDECIBA Biology)",
+    "institution": "CENUR Litoral Norte, University of the Republic",
+    "country": "Uruguay",
+    "years": "2024",
+    "role": "Lecturer",
+    "summary": "Undergraduate and postgraduate course on basic genomics and bioinformatics tools.",
+    "lead": "Dr. Nelida Rodriguez Osorio",
+    "status": "past"
+  },
+  {
+    "title": "Introduction to the Command Line and Programming for Bioinformatics Analysis",
+    "kind": "Undergraduate (Biology) and postgraduate course (PEDECIBA Biology)",
+    "institution": "Institute of Hygiene, University of the Republic",
+    "country": "Uruguay",
+    "years": "2019–2023",
+    "role": "Lecturer",
+    "summary": "Course on command-line and programming basics for bioinformatics analysis.",
+    "lead": "Dr. Andres Iriarte",
+    "status": "past"
+  },
+  {
+    "title": "UC13: Hematology and Immunology",
+    "kind": "Undergraduate course (Medicine)",
+    "institution": "School of Medicine, University of the Republic",
+    "country": "Uruguay",
+    "years": "2019–2023",
+    "role": "Lecturer",
+    "summary": "Undergraduate medical course on hematology and immunology.",
+    "lead": "Dr. Andres Iriarte",
+    "status": "past"
+  },
+  {
+    "title": "Regional School of Microbiology",
+    "kind": "Undergraduate and postgraduate course",
+    "institution": "School of Medicine, University of the Republic",
+    "country": "Uruguay",
+    "years": "2022, 2025",
+    "role": "Lecturer",
+    "summary": "Undergraduate and postgraduate school on antimicrobial resistance.",
+    "lead": "Dr. Rafael Vignoli",
+    "status": "past"
+  },
+  {
+    "title": "Theoretical–Practical Workshop on Phenotypic and Genomic Detection of Antimicrobial Resistance under One Health",
+    "kind": "Postgraduate course",
+    "institution": "School of Medicine, University of the Republic",
+    "country": "Uruguay",
+    "years": "2022",
+    "role": "Lecturer",
+    "summary": "Postgraduate workshop on phenotypic and genomic detection of antimicrobial resistance within a One Health framework.",
+    "lead": "Dr. Rafael Vignoli",
+    "status": "past"
   }
 ]

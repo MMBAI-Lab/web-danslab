@@ -26,9 +26,15 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "Buenos Aires": [-58.38, -34.6],
   Salto: [-57.96, -31.38],
   "Santa Fe": [-60.7, -31.63],
+  "Cerro Azul": [-55.51, -27.63],
+  "Bella Vista": [-58.94, -28.51],
+  Tucumán: [-65.22, -26.82],
   Lima: [-77.04, -12.05],
   Medellín: [-75.58, 6.24],
+  "Belo Horizonte": [-43.94, -19.92],
   "San Francisco": [-122.42, 37.77],
+  "Los Angeles": [-118.24, 34.05],
+  Fullerton: [-117.93, 33.87],
   Gainesville: [-82.32, 29.65],
   Carlsbad: [-117.35, 33.16],
   "Salt Lake City": [-111.89, 40.76],
@@ -38,6 +44,7 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "Paris-Saclay": [2.2, 48.71],
   Barcelona: [2.17, 41.39],
   Madrid: [-3.7, 40.42],
+  "Beer Sheva": [34.79, 31.25],
 };
 
 type Marker = {

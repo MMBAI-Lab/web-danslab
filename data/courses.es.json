@@ -121,5 +121,115 @@
     "lead": "Dra. Victoria Calzada",
     "status": "past",
     "url": "https://www.rediba.org/"
+  },
+  {
+    "title": "Filogenia molecular y modelado de proteínas",
+    "kind": "Curso de posgrado",
+    "institution": "INTA Cerro Azul, Misiones",
+    "country": "Argentina",
+    "years": "2022–presente",
+    "role": "Coordinador y docente",
+    "summary": "Curso de posgrado sobre filogenia molecular y modelado de proteínas.",
+    "lead": "Dr. German Traglia, Dr. Samuel Miño",
+    "status": "ongoing"
+  },
+  {
+    "title": "Introducción a la microbiología",
+    "kind": "Curso de grado",
+    "institution": "CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2022–presente",
+    "role": "Coordinador y docente",
+    "summary": "Curso de grado sobre microbiología.",
+    "lead": "Dr. German Traglia, Mag. Andrea Texo, Dr. Oscar Irabuena, Alexandra Bozzo",
+    "status": "ongoing"
+  },
+  {
+    "title": "Introducción al pensamiento evolutivo aplicado a la medicina",
+    "kind": "Curso de grado (Medicina, optativa)",
+    "institution": "Facultad de Medicina, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2021–presente",
+    "role": "Docente",
+    "summary": "Curso optativo de grado (Medicina) sobre conceptos evolutivos aplicados a la medicina.",
+    "lead": "Dr. Andres Iriarte",
+    "status": "ongoing"
+  },
+  {
+    "title": "Patogenicidad bacteriana",
+    "kind": "Curso de grado (Biología) y de posgrado (PEDECIBA Biología)",
+    "institution": "Facultad de Ciencias, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2023–presente",
+    "role": "Docente",
+    "summary": "Curso de grado y posgrado sobre patogenicidad bacteriana.",
+    "lead": "Dr. Fernanda Azpiroz",
+    "status": "ongoing"
+  },
+  {
+    "title": "Virología aplicada",
+    "kind": "Curso de grado (Genética)",
+    "institution": "Facultad de Ciencias Exactas, Químicas y Naturales, Universidad Nacional de Misiones",
+    "country": "Argentina",
+    "years": "2025–presente",
+    "role": "Docente",
+    "summary": "Curso de grado sobre virología aplicada.",
+    "lead": "Dr. Javier Liotta",
+    "status": "ongoing"
+  },
+  {
+    "title": "Herramientas básicas de genómica y bioinformática",
+    "kind": "Curso de grado (Biología) y de posgrado (PEDECIBA Biología)",
+    "institution": "CENUR Litoral Norte, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2024",
+    "role": "Docente",
+    "summary": "Curso de grado y posgrado sobre herramientas básicas de genómica y bioinformática.",
+    "lead": "Dr. Nelida Rodriguez Osorio",
+    "status": "past"
+  },
+  {
+    "title": "Introducción a la línea de comandos y a la programación para análisis bioinformáticos",
+    "kind": "Curso de grado (Biología) y de posgrado (PEDECIBA Biología)",
+    "institution": "Instituto de Higiene, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2019–2023",
+    "role": "Docente",
+    "summary": "Curso sobre línea de comandos y fundamentos de programación para análisis bioinformáticos.",
+    "lead": "Dr. Andres Iriarte",
+    "status": "past"
+  },
+  {
+    "title": "UC13: Hematología e inmunología",
+    "kind": "Curso de grado (Medicina)",
+    "institution": "Facultad de Medicina, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2019–2023",
+    "role": "Docente",
+    "summary": "Curso de grado (Medicina) sobre hematología e inmunología.",
+    "lead": "Dr. Andres Iriarte",
+    "status": "past"
+  },
+  {
+    "title": "Escuela Regional de Microbiología",
+    "kind": "Curso de grado y de posgrado",
+    "institution": "Facultad de Medicina, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2022, 2025",
+    "role": "Docente",
+    "summary": "Escuela de grado y posgrado sobre resistencia antimicrobiana.",
+    "lead": "Dr. Rafael Vignoli",
+    "status": "past"
+  },
+  {
+    "title": "Taller teórico-práctico de detección fenotípica y genómica de la resistencia a los antimicrobianos en el marco de Una Salud",
+    "kind": "Curso de posgrado",
+    "institution": "Facultad de Medicina, Universidad de la República",
+    "country": "Uruguay",
+    "years": "2022",
+    "role": "Docente",
+    "summary": "Taller de posgrado sobre detección fenotípica y genómica de la resistencia a los antimicrobianos en el marco de Una Salud.",
+    "lead": "Dr. Rafael Vignoli",
+    "status": "past"
   }
 ]
