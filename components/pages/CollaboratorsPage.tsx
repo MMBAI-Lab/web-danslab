@@ -65,9 +65,8 @@ export default function CollaboratorsPage({ lang }: { lang: Lang }) {
               <p className="mt-2 text-sm text-muted">
                 {dict.collaborators.map_caption}
               </p>
-              {/* overflow visible so expanded labels can spill past the frame;
-                  widens beyond the text column on large screens */}
-              <div className="mt-8 rounded-lg border border-border bg-surface/60 p-4 pt-12 sm:p-8 sm:pt-14 xl:-mx-16 2xl:-mx-28">
+              {/* overflow visible so expanded labels can spill past the frame */}
+              <div className="mt-8 rounded-lg border border-border bg-surface/60 p-4 sm:p-8">
                 <WorldMap collaborators={items} />
               </div>
             </section>

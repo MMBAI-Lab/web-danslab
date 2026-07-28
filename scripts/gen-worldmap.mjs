@@ -17,13 +17,14 @@ if (!src) {
   process.exit(1);
 }
 
-// Projection window. Full longitude; latitude cropped to drop Antarctica and
-// the empty high Arctic. All collaborator cities fall inside this window
-// (Glasgow ~55.9 N down to Montevideo ~34.9 S).
-const LON_MIN = -180;
-const LON_MAX = 180;
-const LAT_MAX = 83.6;
-const LAT_MIN = -56;
+// Projection window, cropped to the region where DansLab actually has
+// collaborators (the Americas, Europe and the Middle East) — no empty Pacific,
+// Asia or Oceania. All collaborator cities fall inside: San Francisco (~122 W)
+// to Beer Sheva (~35 E), Glasgow (~56 N) to Montevideo (~35 S).
+const LON_MIN = -130;
+const LON_MAX = 42;
+const LAT_MAX = 60;
+const LAT_MIN = -40;
 
 // Keep degrees-per-pixel equal on both axes so continents aren't stretched.
 const W = 1000;
@@ -36,9 +37,11 @@ const r1 = (n) => Math.round(n * 10) / 10;
 const geo = JSON.parse(readFileSync(src, "utf8"));
 
 function ringToPath(ring) {
-  // Skip rings entirely south of the window (Antarctica).
-  const maxLat = Math.max(...ring.map((p) => p[1]));
-  if (maxLat < LAT_MIN) return "";
+  // Cull rings entirely outside the window (Antarctica, Asia, Oceania, …).
+  const lats = ring.map((p) => p[1]);
+  const lons = ring.map((p) => p[0]);
+  if (Math.max(...lats) < LAT_MIN) return "";
+  if (Math.max(...lons) < LON_MIN || Math.min(...lons) > LON_MAX) return "";
   let d = "";
   for (let i = 0; i < ring.length; i++) {
     const [lon, lat] = ring[i];
