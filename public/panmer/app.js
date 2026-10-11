@@ -14,10 +14,12 @@ const EXAMPLES = [
   { label: 'Hexamers (k=6, 20-mers)', tab: 'design', na: 'DNA', mods: [], k: 6, core: 16 },
   { label: 'DNA + 5mC (k=4)', tab: 'design', na: 'DNA', mods: ['M5C'], m: 'all', k: 4, core: 14 },
   { label: 'modXNA sampler (k=4, ≤1 mod)', tab: 'design', na: 'DNA', mods: ['M6A', 'M5C', 'H5C', '8OG'], m: '1', k: 4, core: 14 },
+  { label: 'hexABC-like, minimal (k=6, segments)', tab: 'design', na: 'DNA', mods: [], k: 6, core: 16, mode: 'segments' },
+  { label: "miniABC′ replica (k=4)", tab: 'design', na: 'DNA', mods: [], k: 4, core: 14, ref: MINIABC.join('\n'), cons: { maxsc: 4, maxrun: 4 }, effort: '2' },
   { label: 'Analyse miniABC (2019)', tab: 'analyze', na: 'DNA', mods: [], k: 4, oligos: MINIABC.join('\n') },
 ];
 
-const state = { tab: 'design', na: 'DNA', mods: new Set(), catalog: [], ready: false, last: null };
+const state = { tab: 'design', na: 'DNA', mods: new Set(), catalog: [], ready: false, last: null, mode: 'tiled' };
 
 // ------------------------------------------------------------------ worker
 const worker = new Worker(new URL('worker.js', import.meta.url), { type: 'module' });
@@ -59,14 +61,39 @@ function params() {
     k: +$('#k').value, clamp: $('#clamp').value.trim(),
     max_mods: state.mods.size ? $('#maxmods').value : null,
   };
-  if (state.tab === 'design') Object.assign(p, { core: +$('#core').value, seed: +$('#seed').value });
-  else p.oligos = $('#oligos').value.split(/\r?\n/);
+  if (state.tab === 'design') {
+    const num = (id) => ($(id).value === '' ? null : +$(id).value);
+    Object.assign(p, {
+      core: +$('#core').value, seed: +$('#seed').value,
+      segmented: state.mode === 'segments', effort: +$('#effort').value,
+      constraints: { gc_min: num('#gcmin'), gc_max: num('#gcmax'), max_homopolymer: num('#maxrun'), max_selfcomp: num('#maxsc') },
+    });
+    const ref = $('#refoligos').value.trim();
+    if (ref) p.replica_of = ref.split(/\r?\n/);
+  } else p.oligos = $('#oligos').value.split(/\r?\n/);
   return p;
 }
 
 function setNucleic(na) {
   state.na = na;
   for (const b of $('#nucleic').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.v === na));
+}
+
+function setMode(m) {
+  state.mode = m;
+  for (const b of $('#mode').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.v === m));
+}
+
+function syncExtras() {
+  const cons = ['#gcmin', '#gcmax', '#maxrun', '#maxsc'].filter((id) => $(id).value !== '').length;
+  $('#conscount').textContent = cons ? `${cons} active` : 'none';
+  const ref = $('#refoligos').value.trim();
+  $('#repcount').textContent = ref ? `${ref.split(/\r?\n/).filter((l) => l.trim() && !l.startsWith('>')).length} reference oligos` : 'off';
+  // both force the segment strategy; show that rather than letting it look ignored
+  if (cons || ref) setMode('segments');
+  $('#modehint').textContent = (cons || ref)
+    ? 'Constraints and replica mode need the segment strategy, so it is selected automatically.'
+    : 'One reverse-complement-complete master cut into overlapping cores. Segments recombine the master into independent walks and can reach the absolute minimum number of oligos.';
 }
 
 function setTab(tab) {
@@ -149,7 +176,12 @@ function toURL(run) {
   const u = new URLSearchParams();
   u.set('tab', state.tab); u.set('na', state.na); u.set('k', $('#k').value); u.set('clamp', $('#clamp').value.trim());
   if (state.mods.size) { u.set('mods', [...state.mods].join(',')); u.set('m', $('#maxmods').value); }
-  if (state.tab === 'design') { u.set('core', $('#core').value); u.set('seed', $('#seed').value); }
+  if (state.tab === 'design') {
+    u.set('core', $('#core').value); u.set('seed', $('#seed').value);
+    if (state.mode === 'segments') u.set('mode', 'segments');
+    if ($('#effort').value !== '1') u.set('effort', $('#effort').value);
+    for (const [key, id] of [['gcmin', '#gcmin'], ['gcmax', '#gcmax'], ['maxrun', '#maxrun'], ['maxsc', '#maxsc']]) if ($(id).value !== '') u.set(key, $(id).value);
+  }
   if (run) u.set('run', '1');
   history.replaceState(null, '', '?' + u.toString());
   return location.href;
@@ -162,6 +194,9 @@ function applyURL() {
     tab: u.get('tab') || 'design', na: u.get('na') || 'DNA', k: u.get('k'), core: u.get('core'),
     seed: u.get('seed'), clamp: u.get('clamp'), m: u.get('m'),
     mods: (u.get('mods') || '').split(',').filter(Boolean),
+    mode: u.get('mode'), effort: u.get('effort'),
+    cons: ['gcmin', 'gcmax', 'maxrun', 'maxsc'].some((x) => u.get(x))
+      ? { gcmin: u.get('gcmin'), gcmax: u.get('gcmax'), maxrun: u.get('maxrun'), maxsc: u.get('maxsc') } : null,
   });
   if (u.get('run') === '1' && state.tab === 'design') runDesign();
 }
@@ -176,6 +211,13 @@ function applySettings(s) {
   $('#clamp').value = s.clamp ?? 'GC';
   if (s.m) $('#maxmods').value = s.m;
   if (s.oligos != null) $('#oligos').value = s.oligos;
+  setMode(s.mode || 'tiled');
+  $('#effort').value = s.effort || '1';
+  $('#refoligos').value = s.ref || '';
+  for (const [id, v] of Object.entries({ '#gcmin': s.cons?.gcmin, '#gcmax': s.cons?.gcmax, '#maxrun': s.cons?.maxrun, '#maxsc': s.cons?.maxsc })) $(id).value = v ?? '';
+  $('#consbox').open = !!s.cons;
+  $('#repbox').open = !!s.ref;
+  syncExtras();
   $('#modsbox').open = state.mods.size > 0;
   renderModList();
   estimate();
@@ -216,7 +258,7 @@ function stat(v, l, s = '') { return `<div class="stat"><div class="v">${v}</div
 
 function renderDesign(r, link) {
   const st = r.stats, p = r.params, b = st.bounds;
-  const tag = `panmer_k${p.k}_core${p.core}_seed${p.seed}`;
+  const tag = `panmer_k${p.k}_core${p.core}_seed${p.seed}${st.mode === 'segments' ? '_seg' : ''}`;
   const gap = b.tiled - b.independent;
   const rows = r.oligos.map((o) => `<tr><td>${esc(o.id)}</td><td class="seq">${esc(o.watson)}</td>` +
     `<td class="num">${o.gc_core}</td><td class="num">${o.max_homopolymer}</td>` +
@@ -229,7 +271,11 @@ function renderDesign(r, link) {
       ${stat(fmt(st.n_oligos), 'oligos', `${p.core + 2 * (p.clamp || '').length}-mers: ${esc(p.clamp)} + ${p.core}-bp core + clamp`)}
       ${stat(`${fmt(b.independent)} / ${fmt(b.tiled)}`, 'lower bounds: independent / tiled', gap ? `tiling one master costs ${gap} extra oligo${gap > 1 ? 's' : ''}` : 'both bounds coincide — this library is minimal')}
       ${stat(fmt(r.estimate.n_classes), `${p.k}-mer classes covered`, `${fmt(st.windows)} windows · ${fmt(st.redundancy)} redundant`)}
-      ${stat(fmt(st.master_kmers), 'master length (k-mers)', `${fmt(st.master_nt)} nt`)}
+      ${st.mode === 'segments'
+        ? stat(fmt(st.n_segments), 'segments', 'independent walks, recombined')
+        : stat(fmt(st.master_kmers), 'master length (k-mers)', `${fmt(st.master_nt)} nt`)}
+      ${st.violations != null ? stat(st.violations === 0 ? 'all pass' : fmt(st.violations), 'sequence constraints', st.violations === 0 ? 'every oligo satisfies them' : '<span class="flag">oligos violating the limits</span>') : ''}
+      ${st.replica_collisions != null ? stat(st.replica_collisions === 0 ? 'none' : fmt(st.replica_collisions), 'replica collisions', st.replica_collisions === 0 ? 'every k-mer in a new helical position' : '<span class="flag">k-mers keeping their position</span>') : ''}
     </div>
     <div class="actions">
       <button class="btn small" data-dl="fasta">FASTA</button>
@@ -241,9 +287,9 @@ function renderDesign(r, link) {
     <div class="tablewrap"><table>
       <thead><tr><th>id</th><th>Watson 5′→3′</th><th>GC core %</th><th>max run</th><th>max self-compl.</th>${r.modxna ? '<th>mod. pairs</th>' : ''}</tr></thead>
       <tbody>${rows}</tbody></table></div>
-    <h3>Master sequence (${fmt(st.master_nt)} nt)</h3>
-    <div class="seqbox">${esc(r.master)}</div>
-    <p class="status">Panmer ${esc(r.version)} · seed ${p.seed} · the same link always reproduces this library. Self-complementary stretches ≥ 6 bp are highlighted.</p>
+    <h3>${st.mode === 'segments' ? `Segments (${fmt(st.n_segments)})` : `Master sequence (${fmt(st.master_nt)} nt)`}</h3>
+    <div class="seqbox">${st.mode === 'segments' ? r.segments.map((x, i) => `${i + 1}. ${esc(x)}`).join('<br>') : esc(r.master)}</div>
+    <p class="status">Panmer ${esc(r.version)} · seed ${p.seed} · self-complementary stretches ≥ 6 bp are highlighted.${p.replica_of ? ' The link carries the parameters but not the reference library, so re-running it needs the reference pasted again — download the JSON to keep the full record.' : ' The same link always reproduces this library.'}</p>
   </div>`;
   const files = {
     fasta: [`${tag}.fasta`, r.fasta], csv: [`${tag}.csv`, r.csv, 'text/csv'],
@@ -303,11 +349,16 @@ $('#examples').onclick = (ev) => {
   const i = ev.target.dataset.ex;
   if (i == null) return;
   const ex = EXAMPLES[i];
-  applySettings({ seed: 0, clamp: 'GC', ...ex });
+  applySettings({ seed: 0, clamp: 'GC', mode: 'tiled', effort: '1', ref: '', cons: null, ...ex });
   if (!state.ready) return;
   ex.tab === 'design' ? runDesign() : runAnalyze();
 };
-$('#tab-design').onclick = () => { setTab('design'); estimate(); };
+$('#mode').onclick = (ev) => { if (ev.target.dataset.v) { setMode(ev.target.dataset.v); syncExtras(); } };
+for (const id of ['#gcmin', '#gcmax', '#maxrun', '#maxsc', '#refoligos']) $(id).addEventListener('input', syncExtras);
+$('#useminiabc').onclick = () => { $('#refoligos').value = MINIABC.join('\n'); syncExtras(); };
+$('#clearref').onclick = () => { $('#refoligos').value = ''; syncExtras(); };
+$('#tab-design').onclick = () => { setTab('design');
+syncExtras(); estimate(); };
 $('#tab-analyze').onclick = () => setTab('analyze');
 $('#nucleic').onclick = (ev) => { if (ev.target.dataset.v) { setNucleic(ev.target.dataset.v); renderModList(); estimate(); } };
 $('#modlist').onchange = (ev) => {
@@ -334,3 +385,4 @@ $('#theme').onclick = () => {
   try { localStorage.setItem('theme', next); } catch (e) { /* storage blocked: theme still switches */ }
 };
 setTab('design');
+syncExtras();

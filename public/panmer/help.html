@@ -39,6 +39,8 @@ anywhere; there is no login, no cookie and no tracking.</p>
   <li>On the <a href="./">main page</a>, click the example <b>miniABC (k=4, 18-mers)</b>.
       This sets DNA, <i>k</i> = 4, core = 14 bp, clamp = GC.</li>
   <li>Panmer designs the library and shows the summary below (computed in well under a second).</li>
+  <li>Try <b>hexABC-like, minimal (k=6, segments)</b> and <b>miniABC′ replica (k=4)</b> for the
+      segment and replica strategies.</li>
   <li>Download it as FASTA or CSV, or click <b>Copy reproducible link</b>: opening that link
       re-runs exactly the same design.</li>
 </ol>
@@ -85,8 +87,45 @@ k-mers force extra steps, so the two bounds can differ:</p>
 <tr><td>8</td><td>20</td><td>13</td><td>32896</td><td>33262</td><td>2531</td><td>2559</td></tr>
 </tbody>
 </table>
-<p>The current version produces tiled libraries; when the bounds differ, the summary says how
-many extra oligos tiling costs.</p>
+<p>The <i>Single master</i> strategy pays the tiled bound; <i>Segments</i> reaches the
+independent one. When the two differ, the summary says how many extra oligos tiling costs.</p>
+
+<h3>Single master or segments</h3>
+<p>The <b>Strategy</b> panel chooses how the master is turned into oligos.</p>
+<ul>
+<li><b>Single master</b> — the master is cut into overlapping cores. Simple and fast, but it
+pays the tiling price: it needs ⌈L*/σ⌉ oligos.</li>
+<li><b>Segments</b> — the master is cut at its repeated windows into independent walks, each
+containing every class at most once; simulated annealing then recombines them (merging at
+shared (<i>k</i>−1)-mers, exchanging tails, reverse-complementing, splitting) so that their
+lengths fit the core size. This reaches the <i>independent</i> bound.</li>
+</ul>
+<p>For <i>k</i> = 6 with 16-bp cores, segments give <b>190 oligos in about 31 segments with 10
+redundant windows</b> — the figures of the deposited hexABC library, which a single master
+cannot produce. Segments are selected automatically whenever constraints or replica mode are
+in use, because a single master cannot be re-cut to satisfy them.</p>
+
+<h3>Sequence constraints</h3>
+<p>Hard limits applied to every oligo: GC range of the core, longest homopolymer run and
+longest self-complementary stretch (clamps included). They are enforced during the search, not
+filtered afterwards, so the library still covers every class. The result reports whether all
+oligos pass.</p>
+
+<h3>Replica mode</h3>
+<p>Paste a reference library and Panmer designs an equivalent one in which <b>no k-mer keeps a
+helical position it occupies in the reference</b>. Inside a core with σ windows, a k-mer at
+offset <i>j</i> on Watson is its reverse complement at offset σ−1−<i>j</i> on Crick, so the
+strand-invariant descriptor is the distance to the centre; replica mode requires the two
+libraries to use disjoint sets of that descriptor for every k-mer. Simulating a replica
+alongside the original separates sequence effects from position-in-the-oligo effects.</p>
+<p>Example: a replica of miniABC with no self-complementary stretch longer than 4 bp gives 13
+oligos, 136/136 tetranucleotides, redundancy 7 and zero positional collisions. The reference
+library is not carried in the page address, so a replica link needs the reference pasted again;
+download the JSON to keep the full record.</p>
+
+<h3>Search effort</h3>
+<p>Scales the annealing budget (quick, normal, thorough, exhaustive). Restarts matter more
+than long single runs, so raise it when a result sits a few oligos above the bound.</p>
 
 <h3>Units</h3>
 <p>Lengths of the master are given in <b>k-mers</b> and in nucleotides: a sequence of
@@ -179,7 +218,9 @@ lower bound for that core length and the per-oligo metrics. Example
 version. The same engine is available as a command-line tool and Python package:</p>
 <pre>panmer design -k 4 --core 14 --format fasta
 panmer estimate -k 4 --core 14 --mods M6A,M5C --max-mods 1
-panmer analyze -k 4 --clamp GC my_library.fasta</pre>
+panmer analyze -k 4 --clamp GC my_library.fasta
+panmer design -k 6 --core 16 --segments
+panmer design -k 4 --core 14 --replica-of miniABC.fasta --max-selfcomp 4 --effort 2</pre>
 
 <h2 id="cite">Citation and licence</h2>
 <p>A manuscript describing Panmer is in preparation. Please cite
