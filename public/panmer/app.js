@@ -19,25 +19,58 @@ const EXAMPLES = [
   { label: 'analyse miniABC', title: 'Analyse the published miniABC library (2019)', tab: 'analyze', na: 'DNA', mods: [], k: 4, oligos: MINIABC.join('\n') },
 ];
 
+// captured before anything renders, so Reset can put the parameter guide back
+const GUIDE_HTML = document.getElementById('results').innerHTML;
+const DEFAULTS = {
+  tab: 'design', na: 'DNA', mods: [], k: 4, core: 14, seed: 0, clamp: 'GC',
+  m: '1', mode: 'tiled', effort: '1', ref: '', cons: null, oligos: '',
+};
+
 const state = { tab: 'design', na: 'DNA', mods: new Set(), catalog: [], ready: false, last: null, mode: 'tiled' };
 
 // ------------------------------------------------------------------ worker
-const worker = new Worker(new URL('worker.js?v=0.2.0', import.meta.url), { type: 'module' });
+// Pyodide runs Python synchronously, and interrupting it would need a SharedArrayBuffer,
+// which in turn needs cross-origin isolation headers that static hosting cannot set.
+// So Stop terminates the worker outright and boots a fresh one.
+const STOPPED = 'STOPPED';
+let worker = null;
 let seq = 0;
 const pending = new Map();
-worker.onmessage = (ev) => {
-  const d = ev.data;
-  if (d.status) return onStatus(d);
-  const p = pending.get(d.id);
-  if (!p) return;
-  pending.delete(d.id);
-  d.ok ? p.resolve(d.result) : p.reject(new Error(d.error));
-};
+
+function spawnWorker() {
+  if (worker) worker.terminate();
+  worker = new Worker(new URL('worker.js?v=0.2.0', import.meta.url), { type: 'module' });
+  worker.onmessage = (ev) => {
+    const d = ev.data;
+    if (d.status) return onStatus(d);
+    const p = pending.get(d.id);
+    if (!p) return;
+    pending.delete(d.id);
+    d.ok ? p.resolve(d.result) : p.reject(new Error(d.error));
+  };
+}
+
 const call = (name, payload = {}) => new Promise((resolve, reject) => {
   const id = ++seq;
   pending.set(id, { resolve, reject });
   worker.postMessage({ id, name, payload });
 });
+
+function setRunning(on) {
+  $('#stop').classList.toggle('hidden', !on);
+  $('#run').classList.toggle('hidden', on && state.tab === 'design');
+  $('#runan').classList.toggle('hidden', on || state.tab !== 'analyze');
+}
+
+function stopRun() {
+  for (const p of pending.values()) p.reject(new Error(STOPPED));
+  pending.clear();
+  state.ready = false;
+  $('#run').disabled = $('#runan').disabled = true;
+  setRunning(false);
+  $('#status').textContent = $('#status2').textContent = 'Stopped. Restarting the engine\u2026';
+  spawnWorker();
+}
 
 function onStatus(d) {
   if (d.status === 'ready') {
@@ -46,7 +79,7 @@ function onStatus(d) {
     $('#run').disabled = false;
     $('#runan').disabled = false;
     $('#status').textContent = $('#status2').textContent = '';
-    loadCatalog().then(() => { applyURL(); estimate(); });
+    loadCatalog().then(() => { if (!state.started) { state.started = true; applyURL(); } estimate(); });
   } else if (d.status === 'error') {
     $('#estimate').innerHTML = `<span class="error">Could not start the engine: ${esc(d.error)}</span>`;
   } else {
@@ -140,7 +173,7 @@ const visibleMods = () => state.catalog.filter((b) =>
   ($('#incprot').checked || !b.protected) && ($('#incdup').checked || !b.duplicate_of));
 
 async function loadCatalog() {
-  state.catalog = await call('catalog');
+  if (!state.catalog.length) state.catalog = await call('catalog');
   $('#fams').innerHTML = FAMS.map((f) =>
     `<label><input type="checkbox" data-fam="${f}"><span>${f}*</span></label>`).join('');
   renderModList();
@@ -177,7 +210,7 @@ function estimate() {
       else if (e.min_oligos > 2000) { cls = 'bad'; msg = 'beyond typical MD budgets (> 2000 oligos)'; }
       else if (e.min_oligos > 200) { cls = 'warn'; msg = 'feasible but large (200–2000 oligos)'; }
       box.className = 'estimate ' + cls;
-      box.innerHTML = `<b>${fmt(e.min_oligos)}</b> oligos at least · ${fmt(e.n_classes)} double-stranded ${+$('#k').value}-mer classes · σ = ${e.sigma} windows per core<br><span>${msg}</span>`;
+      box.innerHTML = `<b>${fmt(e.min_oligos)}</b> oligos at least · ${fmt(e.n_classes)} double-stranded ${+$('#k').value}-mer classes · σ = ${e.sigma} windows per core<br><span class="verdict">${msg}</span>`;
       $('#run').disabled = !e.feasible;
     } catch (err) {
       box.className = 'estimate bad';
@@ -250,8 +283,7 @@ function download(name, text, type = 'text/plain') {
 
 // ------------------------------------------------------------------ design
 async function runDesign() {
-  const btn = $('#run');
-  btn.disabled = true;
+  setRunning(true);
   $('#status').innerHTML = '<span class="spinner"></span>Designing…';
   const t0 = performance.now();
   try {
@@ -262,9 +294,10 @@ async function runDesign() {
     showResults();
     $('#status').textContent = `Done in ${r.elapsed.toFixed(2)} s.`;
   } catch (e) {
+    if (e.message === STOPPED) return;          // stopRun already set the status
     $('#results').innerHTML = `<div class="panel"><p class="error">${esc(e.message)}</p></div>`;
     $('#status').textContent = '';
-  } finally { btn.disabled = false; }
+  } finally { if (state.ready) setRunning(false); }
 }
 
 // on narrow screens the results sit below the form: bring them into view
@@ -324,8 +357,7 @@ function renderDesign(r, link) {
 
 // ------------------------------------------------------------------ analyse
 async function runAnalyze() {
-  const btn = $('#runan');
-  btn.disabled = true;
+  setRunning(true);
   $('#status2').innerHTML = '<span class="spinner"></span>Analysing…';
   try {
     const r = await call('analyze', params());
@@ -334,9 +366,10 @@ async function runAnalyze() {
     showResults();
     $('#status2').textContent = '';
   } catch (e) {
+    if (e.message === STOPPED) return;
     $('#results').innerHTML = `<div class="panel"><p class="error">${esc(e.message)}</p></div>`;
     $('#status2').textContent = '';
-  } finally { btn.disabled = false; }
+  } finally { if (state.ready) setRunning(false); }
 }
 
 function renderAnalyze(r) {
@@ -406,6 +439,19 @@ $('#incprot').onchange = $('#incdup').onchange = renderModList;
 $('#clearmods').onclick = () => { state.mods.clear(); syncModUI(); estimate(); };
 for (const id of ['#k', '#core', '#clamp', '#maxmods']) $(id).addEventListener('input', estimate);
 $('#run').onclick = runDesign;
+$('#stop').onclick = stopRun;
+$('#reset').onclick = () => {
+  applySettings(DEFAULTS);
+  for (const n of DRAWERS) setDrawer(n, false);
+  $('#modfilter').value = '';
+  $('#incprot').checked = $('#incdup').checked = false;
+  renderModList();
+  state.last = null;
+  $('#results').innerHTML = GUIDE_HTML;
+  $('#status').textContent = $('#status2').textContent = '';
+  history.replaceState(null, '', location.pathname);
+  estimate();
+};
 $('#runan').onclick = runAnalyze;
 // The theme is owned by the surrounding danslab.xyz page. Its toggle writes the shared
 // localStorage key, and because the two documents are same-origin the storage event reaches
@@ -417,3 +463,4 @@ addEventListener('storage', (ev) => {
 });
 setTab('design');
 syncExtras();
+spawnWorker();
