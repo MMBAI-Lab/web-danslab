@@ -1,23 +1,18 @@
-import Link from "next/link";
 import { COMMON } from "@/data/content/common";
 import type { LabApp } from "@/lib/apps";
-import { localizePath, type Lang } from "@/lib/i18n";
+import type { Lang } from "@/lib/i18n";
 
 // Host page for an app deployed from its own repo. When `embed` is on, the
 // app is framed full-width below a slim header; otherwise we link out.
+// No back link here: the main nav already carries Apps, and the embedded app
+// wants every pixel of height it can get.
 export default function AppDetailPage({ lang, app }: { lang: Lang; app: LabApp }) {
   const dict = COMMON[lang].apps;
   const live = app.url.length > 0;
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-10">
-      <Link
-        href={localizePath(lang, "/apps")}
-        className="text-sm font-medium text-muted hover:text-accent"
-      >
-        {dict.back}
-      </Link>
-      <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-mono text-3xl font-semibold tracking-tight text-ink md:text-4xl">
             {app.name}
