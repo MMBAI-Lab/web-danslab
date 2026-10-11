@@ -28,7 +28,9 @@ export default function AppFrame({ src, title }: { src: string; title: string })
       src={src}
       title={title}
       scrolling={height ? "no" : undefined}
-      style={height ? { height: `${height}px` } : undefined}
+      // content-box: the reported height is the app's document height, and the frame
+      // carries a 1px border that would otherwise eat into it and bring the scrollbar back
+      style={height ? { height: `${height}px`, boxSizing: "content-box" } : undefined}
       className={
         "mt-6 w-full rounded-lg border border-border bg-surface" +
         (height ? "" : " h-[calc(100vh-200px)] min-h-[560px]")
