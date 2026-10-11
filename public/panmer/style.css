@@ -84,6 +84,10 @@ nav.tabs button[aria-selected="true"]:hover { color: #fff; }
 /* give the results card real height even when the library is short, and let it keep
    growing with the content below the fold */
 #results { margin-top: 14px; min-height: 74vh; display: flex; flex-direction: column; }
+/* embedded: the frame is sized from our own height, so viewport units would chase
+   themselves. Fixed pixels keep the measurement stable. */
+:root.embedded #results { min-height: 460px; }
+:root.embedded body { overflow-x: hidden; }
 #results > .panel { flex: 1 1 auto; }
 .drawer { max-height: none; }
 

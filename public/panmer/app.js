@@ -461,6 +461,25 @@ addEventListener('storage', (ev) => {
     document.documentElement.setAttribute('data-theme', ev.newValue);
   }
 });
+// ------------------------------------------------------------------ embedding
+// On danslab.xyz the app runs in a same-origin iframe. Reporting our height lets the
+// host grow the frame, so the page has one scrollbar instead of two. Viewport units
+// would feed back into that measurement, so they are swapped for pixels while embedded.
+if (window.parent !== window) {
+  document.documentElement.classList.add('embedded');
+  let last = 0;
+  const report = () => {
+    const h = Math.ceil(document.documentElement.scrollHeight);
+    if (Math.abs(h - last) < 4) return;
+    last = h;
+    parent.postMessage({ type: 'app:height', height: h }, location.origin);
+  };
+  if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+  addEventListener('load', report);
+  setInterval(report, 1000);      // catches growth the observer misses (fonts, images)
+  report();
+}
+
 setTab('design');
 syncExtras();
 spawnWorker();
