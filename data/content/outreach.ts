@@ -31,6 +31,18 @@ const indexEN: OutreachIndexContent = {
       body:
         "Translating molecular dynamics of DNA into music. A pilot composition mapping DNA–ion interactions to piano and violin notes, in collaboration with composer Nicolás Molla.",
     },
+    {
+      href: "/outreach/m-ont",
+      title: "M-ONT 2027",
+      body:
+        "Co-organization of the Montevideo Workshop in OligoNucleotide and RNA Therapeutics — from choosing the program and invited speakers to building the workshop website.",
+    },
+    {
+      href: "/outreach/web-dcb",
+      title: "DCB website",
+      body:
+        "Development of the new bilingual website of the Department of Biological Sciences at CENUR Litoral Norte (Universidad de la República). Preliminary version online.",
+    },
   ],
 };
 
@@ -57,6 +69,18 @@ const indexES: OutreachIndexContent = {
       title: "Sonification",
       body:
         "Traducimos la dinámica molecular del ADN en música. Una composición piloto que mapea interacciones ADN–iones a notas de piano y violín, en colaboración con el compositor Nicolás Molla.",
+    },
+    {
+      href: "/outreach/m-ont",
+      title: "M-ONT 2027",
+      body:
+        "Co-organización del Montevideo Workshop in OligoNucleotide and RNA Therapeutics — desde la elección del programa y los conferencistas invitados hasta el desarrollo del sitio web del workshop.",
+    },
+    {
+      href: "/outreach/web-dcb",
+      title: "Sitio web del DCB",
+      body:
+        "Desarrollo del nuevo sitio web bilingüe del Departamento de Ciencias Biológicas del CENUR Litoral Norte (Universidad de la República). Versión preliminar en línea.",
     },
   ],
 };
@@ -702,3 +726,166 @@ const sonES: SonifContent = {
 };
 
 export const SONIF: Record<Lang, SonifContent> = { en: sonEN, es: sonES };
+
+// Web & event projects (M-ONT, DCB website) -----------------------------
+
+export type WebProjectContent = {
+  back: string;
+  title: string;
+  eyebrow: string;
+  intro: string[];
+  highlights_heading: string;
+  highlights: string[];
+  sections: { heading: string; paragraphs: string[] }[];
+  links: { label: string; href: string }[];
+};
+
+const montEN: WebProjectContent = {
+  back: "← Outreach",
+  title: "M-ONT 2027",
+  eyebrow: "Montevideo Workshop in OligoNucleotide and RNA Therapeutics · Co-organization",
+  intro: [
+    "M-ONT is a four-day international workshop on the chemistry, biology and clinical use of oligonucleotide and RNA therapeutics — antisense oligonucleotides, siRNAs, aptamers, splice-switching ASOs and emerging RNA therapies. It takes place in Montevideo, Uruguay, on 23–26 February 2027, and is aimed at graduate students, postdocs, clinicians and industry professionals.",
+    "Pablo D. Dans is part of the national organizing committee together with Victoria Calzada and Juan Pablo Tosar, working alongside an international committee formed by Isabel Aznarez, Alberto Kornblihtt, Adrián R. Krainer and Laura Sepp-Lorenzino. The workshop is supported by the Oligonucleotide Therapeutics Society, ICGEB, Universidad de la República and Institut Pasteur de Montevideo.",
+  ],
+  highlights_heading: "What our role involved",
+  highlights: [
+    "Shaping the scientific program and the day-by-day schedule",
+    "Selecting and inviting the speakers",
+    "Designing and building the workshop website",
+    "Keeping program, speakers and registration information up to date",
+  ],
+  sections: [
+    {
+      heading: "Building the program",
+      paragraphs: [
+        "As co-organizers we took part in defining the scientific program: choosing the invited speakers — from academia and from companies developing approved oligonucleotide drugs — and organizing the content around four axes: chemistry (backbones, modifications, conjugates), biology (mechanisms, targets, delivery), the clinic (from bench to approved therapies) and bioinformatics (in silico prediction and design).",
+        "The schedule combines introductory lectures by the organizing committee, research talks by the invited speakers, poster sessions and case-study discussions on landmark approved therapies.",
+      ],
+    },
+    {
+      heading: "The website",
+      paragraphs: [
+        "DansLab designed, developed and maintains the workshop website, m-ont.org. It is a bilingual (English/Spanish) static site built with Next.js, TypeScript and Tailwind CSS, deployed automatically to GitHub Pages from our group's repository.",
+        "It brings together the day-by-day program, speaker profiles with their talks, registration, fees and fellowship information, venue and travel details, and sponsors.",
+      ],
+    },
+  ],
+  links: [
+    { label: "Visit m-ont.org", href: "https://www.m-ont.org" },
+    { label: "Source code on GitHub", href: "https://github.com/MMBAI-Lab/M-ONT-web" },
+  ],
+};
+
+const montES: WebProjectContent = {
+  back: "← Divulgación",
+  title: "M-ONT 2027",
+  eyebrow: "Montevideo Workshop in OligoNucleotide and RNA Therapeutics · Co-organización",
+  intro: [
+    "M-ONT es un workshop internacional de cuatro días sobre la química, la biología y el uso clínico de las terapias basadas en oligonucleótidos y ARN — oligonucleótidos antisentido, siRNAs, aptámeros, ASOs moduladores del splicing y nuevas terapias de ARN. Se realiza en Montevideo, Uruguay, del 23 al 26 de febrero de 2027, y está dirigido a estudiantes de posgrado, posdocs y profesionales de la clínica y de la industria.",
+    "Pablo D. Dans integra el comité organizador nacional junto a Victoria Calzada y Juan Pablo Tosar, en conjunto con un comité internacional formado por Isabel Aznarez, Alberto Kornblihtt, Adrián R. Krainer y Laura Sepp-Lorenzino. El workshop cuenta con el apoyo de la Oligonucleotide Therapeutics Society, el ICGEB, la Universidad de la República y el Institut Pasteur de Montevideo.",
+  ],
+  highlights_heading: "Qué implicó nuestro rol",
+  highlights: [
+    "Definir el programa científico y la grilla día por día",
+    "Seleccionar e invitar a los conferencistas",
+    "Diseñar y desarrollar el sitio web del workshop",
+    "Mantener actualizada la información del programa, los conferencistas y la inscripción",
+  ],
+  sections: [
+    {
+      heading: "La construcción del programa",
+      paragraphs: [
+        "Como co-organizadores participamos en la definición del programa científico: la elección de los conferencistas invitados — de la academia y de empresas que desarrollan fármacos oligonucleotídicos aprobados — y la organización de los contenidos en cuatro ejes: química (esqueletos, modificaciones, conjugados), biología (mecanismos, blancos, vehiculización), clínica (del laboratorio a las terapias aprobadas) y bioinformática (predicción y diseño in silico).",
+        "La grilla combina clases introductorias a cargo del comité organizador, charlas de investigación de los conferencistas invitados, sesiones de pósters y discusiones de casos sobre terapias aprobadas emblemáticas.",
+      ],
+    },
+    {
+      heading: "El sitio web",
+      paragraphs: [
+        "DansLab diseñó, desarrolló y mantiene el sitio web del workshop, m-ont.org. Es un sitio estático bilingüe (inglés/español) hecho con Next.js, TypeScript y Tailwind CSS, que se publica automáticamente en GitHub Pages desde el repositorio del grupo.",
+        "Reúne el programa día por día, los perfiles de los conferencistas con sus charlas, la información de inscripción, costos y becas, los datos de la sede y de viaje, y los auspiciantes.",
+      ],
+    },
+  ],
+  links: [
+    { label: "Visitar m-ont.org", href: "https://www.m-ont.org" },
+    { label: "Código fuente en GitHub", href: "https://github.com/MMBAI-Lab/M-ONT-web" },
+  ],
+};
+
+export const MONT: Record<Lang, WebProjectContent> = { en: montEN, es: montES };
+
+const dcbEN: WebProjectContent = {
+  back: "← Outreach",
+  title: "DCB website",
+  eyebrow: "Department of Biological Sciences · CENUR Litoral Norte · Web development",
+  intro: [
+    "We are developing the new website of the Department of Biological Sciences (DCB) at CENUR Litoral Norte, Universidad de la República. It replaces the department's previous site with an open, bilingual and easy-to-maintain codebase.",
+    "A preliminary version is currently served from our group's GitHub repository while the department's final hosting is set up.",
+  ],
+  highlights_heading: "What the project involves",
+  highlights: [
+    "Designing the site around the department's visual identity",
+    "Migrating and reorganizing the content of the previous site",
+    "Bilingual Spanish/English content",
+    "A data model that lets each research group keep its own information current",
+  ],
+  sections: [
+    {
+      heading: "What the site covers",
+      paragraphs: [
+        "The site presents the department as a whole — its institutional information, research groups, teaching, outreach activities, recognitions and contact details — in a single, consistent place.",
+      ],
+    },
+    {
+      heading: "How it is built",
+      paragraphs: [
+        "It is a static site built with Next.js, TypeScript and Tailwind CSS, with Spanish as the default language and an English version, plus light and dark themes based on the colors of the department's logo. Research-group data lives in simple JSON files, so updating a group's information automatically updates the related sections.",
+        "Every change pushed to the repository is published automatically to GitHub Pages through GitHub Actions — no server is needed.",
+      ],
+    },
+  ],
+  links: [
+    { label: "Preliminary site", href: "https://mmbai-lab.github.io/web-dcb/" },
+    { label: "Source code on GitHub", href: "https://github.com/MMBAI-Lab/web-dcb" },
+  ],
+};
+
+const dcbES: WebProjectContent = {
+  back: "← Divulgación",
+  title: "Sitio web del DCB",
+  eyebrow: "Departamento de Ciencias Biológicas · CENUR Litoral Norte · Desarrollo web",
+  intro: [
+    "Estamos desarrollando el nuevo sitio web del Departamento de Ciencias Biológicas (DCB) del CENUR Litoral Norte, Universidad de la República. Reemplaza al sitio anterior del departamento con un código abierto, bilingüe y fácil de mantener.",
+    "Por ahora se publica una versión preliminar desde el repositorio de GitHub de nuestro grupo, mientras se define el alojamiento definitivo del departamento.",
+  ],
+  highlights_heading: "Qué implica el proyecto",
+  highlights: [
+    "Diseñar el sitio en torno a la identidad visual del departamento",
+    "Migrar y reorganizar los contenidos del sitio anterior",
+    "Contenidos bilingües en español e inglés",
+    "Un modelo de datos que permite a cada grupo de investigación mantener su información al día",
+  ],
+  sections: [
+    {
+      heading: "Qué abarca el sitio",
+      paragraphs: [
+        "El sitio presenta al departamento en su conjunto — información institucional, grupos de investigación, enseñanza, actividades de extensión, reconocimientos y datos de contacto — en un único lugar coherente.",
+      ],
+    },
+    {
+      heading: "Cómo está hecho",
+      paragraphs: [
+        "Es un sitio estático hecho con Next.js, TypeScript y Tailwind CSS, con el español como idioma por defecto y una versión en inglés, además de temas claro y oscuro basados en los colores del logo del departamento. Los datos de los grupos de investigación están en archivos JSON simples, de modo que al actualizar la información de un grupo se actualizan automáticamente las secciones relacionadas.",
+        "Cada cambio que se sube al repositorio se publica automáticamente en GitHub Pages mediante GitHub Actions, sin necesidad de un servidor.",
+      ],
+    },
+  ],
+  links: [
+    { label: "Sitio preliminar", href: "https://mmbai-lab.github.io/web-dcb/" },
+    { label: "Código fuente en GitHub", href: "https://github.com/MMBAI-Lab/web-dcb" },
+  ],
+};
+
+export const DCB: Record<Lang, WebProjectContent> = { en: dcbEN, es: dcbES };

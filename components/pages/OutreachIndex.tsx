@@ -18,6 +18,14 @@ const CARD_ICON: Record<string, { src: string; alt: string }> = {
     src: "/figures/icon_SON.png",
     alt: "Music notes",
   },
+  "/outreach/m-ont": {
+    src: "/figures/icon_MONT.svg",
+    alt: "Workshop calendar with an RNA strand",
+  },
+  "/outreach/web-dcb": {
+    src: "/figures/icon_DCB.svg",
+    alt: "Browser window with a cell",
+  },
 };
 
 export default function OutreachIndex({ lang }: { lang: Lang }) {
