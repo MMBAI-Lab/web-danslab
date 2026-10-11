@@ -297,6 +297,7 @@ function renderDesign(r, link) {
       ${st.replica_collisions != null ? stat(st.replica_collisions === 0 ? 'none' : fmt(st.replica_collisions), 'replica collisions', st.replica_collisions === 0 ? 'every k-mer in a new helical position' : '<span class="flag">k-mers keeping their position</span>') : ''}
     </div>
     <div class="actions">
+      <span class="actlabel">Download</span>
       <button class="btn small" data-dl="fasta">FASTA</button>
       <button class="btn ghost small" data-dl="csv">CSV</button>
       <button class="btn ghost small" data-dl="json">JSON (all results)</button>

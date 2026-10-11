@@ -63,11 +63,26 @@ header.top .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4
   box-shadow: inset 0 1px 0 var(--bevel-hi); padding: 2px 8px; cursor: pointer; font: inherit; }
 .iconbtn:hover { color: var(--accent); border-color: var(--accent); }
 
-nav.tabs { display: flex; gap: 4px; margin: 18px 0 0; border-bottom: 1px solid var(--border); }
-nav.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); padding: 8px 14px; font: 600 14px var(--sans); cursor: pointer; }
-nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+nav.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding-bottom: 2px; }
+nav.tabs button {
+  border: 1px solid var(--panel-edge); border-radius: 6px;
+  background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom));
+  box-shadow: 0 2px 4px rgba(0,0,0,.25), inset 0 1px 0 var(--bevel-hi);
+  color: var(--muted); padding: 9px 18px; font: 600 14px var(--sans); cursor: pointer;
+}
+nav.tabs button:hover { color: var(--ink); border-color: var(--subtle); }
+nav.tabs button[aria-selected="true"] {
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent));
+  border-color: var(--accent-dark); color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
+}
+nav.tabs button[aria-selected="true"]:hover { color: #fff; }
 
 #workbench { padding: 14px 0 32px; }
+/* the documentation pane and the results both flow with the page, so a long oligo
+   table or a long figure simply continues downwards instead of being boxed in */
+#results { margin-top: 14px; }
+.drawer { max-height: none; }
 
 .panel {
   position: relative;
@@ -155,18 +170,21 @@ details.mods .inner { padding: 0 10px 10px; }
 .stat .l { font-size: 12px; color: var(--muted); }
 .stat .s { font-size: 12px; color: var(--subtle); }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
-.tablewrap { overflow: auto; max-height: 560px; border: 1px solid var(--recess-edge);
-  border-radius: 4px; box-shadow: var(--recess); }
+/* no overflow on wide screens, so the sticky column headers can anchor to the page;
+   narrow screens get horizontal scrolling instead */
+.tablewrap { border: 1px solid var(--recess-edge); border-radius: 4px; box-shadow: var(--recess); }
+@media (max-width: 900px) { .tablewrap { overflow-x: auto; } }
 table { border-collapse: collapse; width: 100%; font-size: 13px; }
 th, td { padding: 5px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
-th { position: sticky; top: 0; color: var(--muted); font-weight: 600;
-  background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom)); }
+/* the only sticky thing left: column headers while a long table flows past */
+th { position: sticky; top: 0; z-index: 1; color: var(--muted); font-weight: 600;
+  background: var(--panel-top); box-shadow: inset 0 -1px 0 var(--panel-edge); }
 td.seq { font-family: var(--mono); }
 td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .flag { color: var(--warn); }
 .seqbox { font: 12px/1.6 var(--mono); word-break: break-all; background: var(--recess-bg);
   border: 1px solid var(--recess-edge); box-shadow: var(--recess); border-radius: 4px;
-  padding: 10px; max-height: 200px; overflow: auto; }
+  padding: 10px; max-height: 320px; overflow: auto; }
 .empty { color: var(--subtle); text-align: center; padding: 48px 12px; border: 1px dashed var(--border); border-radius: var(--radius); }
 .error { color: var(--bad); white-space: pre-wrap; }
 .status { font-size: 12px; color: var(--subtle); }
@@ -201,38 +219,8 @@ footer a { color: var(--muted); }
 #params::-webkit-scrollbar-track, #results::-webkit-scrollbar-track,
 #view-docs::-webkit-scrollbar-track { background: transparent; }
 
-/* ---- app shell (desktop): the page itself does not scroll on the workbench tabs.
-       Header, tabs and footer are fixed by the flex column; each column scrolls on its
-       own, so choosing parameters never pushes the results out of view and the licence
-       in the footer is always visible. Below 901px everything falls back to normal flow. */
-@media (min-width: 901px) {
-  html, body { height: 100%; }
-  body { display: flex; flex-direction: column; overflow: hidden; }
-  header.top, nav.tabs, footer { flex: none; }
-  main.wrap { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; width: 100%; }
-  #workbench { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
-               gap: 0; padding: 14px 0 16px; }
-  #params, .drawer { flex: none; }
-  #results { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
-             margin-top: 14px; }
-  .drawer { max-height: 46vh; overflow-y: auto; }
-  #view-docs { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
-}
-
 
 /* ---- results stay readable while scrolling a long table ---- */
-/* the summary stays in view while a long oligo table scrolls under it, so it needs an
-   opaque background of its own and negative margins to cover the panel's padding */
-.stats {
-  position: sticky; top: 0; z-index: 2;
-  margin: -16px -16px 12px; padding: 16px 16px 12px;
-  background: var(--panel-top);
-  border-bottom: 1px solid var(--panel-edge);
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-@media (max-width: 900px) {
-  .stats { position: static; margin: 0 0 12px; padding: 0; background: none; border-bottom: 0; }
-}
 
 /* ---- parameter guide ---- */
 .guide .fig { width: 100%; height: auto; display: block; margin: 4px 0 18px; }
@@ -380,3 +368,4 @@ td.seq { color: var(--c-seq); }
 .card .estimate { margin-bottom: 8px; }
 /* the figure is drawn at 760 units wide; past that it just magnifies the type */
 .guide .fig { max-width: 880px; margin-inline: auto; }
+.actlabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; align-self: center; margin-right: 2px; }
