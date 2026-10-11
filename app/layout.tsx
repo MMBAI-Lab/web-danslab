@@ -44,6 +44,14 @@ export default function RootLayout({
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+        {/* Umami Cloud analytics (cookieless). data-domains keeps local dev
+            and preview hosts out of the stats. */}
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="8594d692-37a5-43e4-9212-96955ecfe515"
+          data-domains="danslab.xyz,www.danslab.xyz"
+        />
       </head>
       <body className="flex min-h-screen flex-col">
         <Nav />
