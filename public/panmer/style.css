@@ -85,9 +85,10 @@ nav.tabs button[aria-selected="true"]:hover { color: #fff; }
    growing with the content below the fold */
 #results { margin-top: 14px; min-height: 74vh; display: flex; flex-direction: column; }
 /* embedded: the frame is sized from our own height, so viewport units would chase
-   themselves. Fixed pixels keep the measurement stable. */
+   themselves. Fixed pixels keep the measurement stable. Nothing here may set overflow
+   on body: hiding one axis makes the other compute to auto, which gives the body its
+   own scrollbar inside the frame -- exactly the second scrollbar we are removing. */
 :root.embedded #results { min-height: 460px; }
-:root.embedded body { overflow-x: hidden; }
 #results > .panel { flex: 1 1 auto; }
 .drawer { max-height: none; }
 

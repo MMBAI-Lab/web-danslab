@@ -470,7 +470,7 @@ if (window.parent !== window) {
   let last = 0;
   const report = () => {
     const h = Math.ceil(document.documentElement.scrollHeight);
-    if (Math.abs(h - last) < 4) return;
+    if (Math.abs(h - last) < 2) return;
     last = h;
     parent.postMessage({ type: 'app:height', height: h }, location.origin);
   };
