@@ -1,3 +1,4 @@
+import AppFrame from "@/components/AppFrame";
 import { COMMON } from "@/data/content/common";
 import type { LabApp } from "@/lib/apps";
 import type { Lang } from "@/lib/i18n";
@@ -44,12 +45,7 @@ export default function AppDetailPage({ lang, app }: { lang: Lang; app: LabApp }
       </div>
 
       {live && app.embed ? (
-        <iframe
-          src={app.url}
-          title={app.name}
-          className="mt-6 h-[calc(100vh-200px)] min-h-[560px] w-full rounded-lg border border-border bg-surface"
-          allow="clipboard-write; fullscreen"
-        />
+        <AppFrame src={app.url} title={app.name} />
       ) : (
         <div className="mt-8 rounded-lg border border-dashed border-border bg-surface p-10 text-center text-sm text-subtle">
           {live ? (
