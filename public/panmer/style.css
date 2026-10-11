@@ -81,7 +81,10 @@ nav.tabs button[aria-selected="true"]:hover { color: #fff; }
 #workbench { padding: 14px 0 32px; }
 /* the documentation pane and the results both flow with the page, so a long oligo
    table or a long figure simply continues downwards instead of being boxed in */
-#results { margin-top: 14px; }
+/* give the results card real height even when the library is short, and let it keep
+   growing with the content below the fold */
+#results { margin-top: 14px; min-height: 74vh; display: flex; flex-direction: column; }
+#results > .panel { flex: 1 1 auto; }
 .drawer { max-height: none; }
 
 .panel {
@@ -134,6 +137,9 @@ input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px s
   box-shadow: 0 1px 2px rgba(0,0,0,.25), inset 0 1px 0 var(--bevel-hi); }
 .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
 .btn.small { padding: 5px 10px; font-size: 13px; }
+.btn.stop { background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom));
+  color: var(--bad); border: 1px solid var(--bad); }
+.btn.stop:hover { background: var(--bad); color: #fff; }
 .examples { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* modXNA picker */
@@ -154,12 +160,14 @@ details.mods .inner { padding: 0 10px 10px; }
   background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom)); font-size: 12px; color: var(--muted); padding: 3px 8px; border-bottom: 1px solid var(--border); }
 
 /* estimate */
-.estimate { border-left: 3px solid var(--subtle); padding: 8px 10px;
+.estimate { border-left: 3px solid var(--accent); padding: 8px 10px;
   background: var(--recess-bg); box-shadow: var(--recess);
   border-radius: 0 4px 4px 0; font-size: 13px; }
-.estimate.ok { border-left-color: var(--ok); }
-.estimate.warn { border-left-color: var(--warn); }
-.estimate.bad { border-left-color: var(--bad); }
+/* feasibility now shows in the verdict text, so the accent line stays the card's red */
+.estimate .verdict { font-weight: 600; }
+.estimate.ok   .verdict { color: var(--c-seq); }
+.estimate.warn .verdict { color: var(--c-pos); }
+.estimate.bad  .verdict { color: var(--bad); }
 .estimate b { font-size: 15px; }
 
 /* results */
@@ -330,7 +338,7 @@ footer a { color: var(--muted); }
 .stat:nth-child(5) { --key: var(--c-mod); }
 .stat:nth-child(6) { --key: var(--c-mod); }
 .stat .v { color: var(--key, var(--ink)); }
-.estimate.ok { border-left-color: var(--c-seq); }
+
 .chip { border-color: var(--c-pos); color: var(--ink); }
 td.seq { color: var(--c-seq); }
 .flag { color: var(--c-pos); font-weight: 600; }

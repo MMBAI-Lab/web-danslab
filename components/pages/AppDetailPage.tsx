@@ -47,7 +47,7 @@ export default function AppDetailPage({ lang, app }: { lang: Lang; app: LabApp }
         <iframe
           src={app.url}
           title={app.name}
-          className="mt-8 h-[80vh] w-full rounded-lg border border-border bg-surface"
+          className="mt-6 h-[calc(100vh-200px)] min-h-[560px] w-full rounded-lg border border-border bg-surface"
           allow="clipboard-write; fullscreen"
         />
       ) : (
