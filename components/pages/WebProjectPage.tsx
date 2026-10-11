@@ -3,6 +3,7 @@ import FadeIn from "@/components/FadeIn";
 import NeuralNetwork from "@/components/NeuralNetwork";
 import type { WebProjectContent } from "@/data/content/outreach";
 import { localizePath, type Lang } from "@/lib/i18n";
+import { asset } from "@/lib/asset";
 
 // Shared layout for outreach entries that are events/websites we built
 // (M-ONT, DCB website): intro, outbound links, highlights and sections.
@@ -32,8 +33,15 @@ export default function WebProjectPage({
           </p>
         </FadeIn>
 
+        <div
+          className={
+            c.image
+              ? "mt-10 grid items-start gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]"
+              : "mt-10"
+          }
+        >
         <FadeIn delay={0.05}>
-          <div className="mt-10 max-w-prose space-y-5 text-lg leading-relaxed text-muted">
+          <div className="max-w-prose space-y-5 text-lg leading-relaxed text-muted">
             {c.intro.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
@@ -56,6 +64,26 @@ export default function WebProjectPage({
             ))}
           </div>
         </FadeIn>
+        {c.image && (
+          <FadeIn delay={0.1}>
+            <figure>
+              <a href={asset(c.image.src)} target="_blank" rel="noopener noreferrer">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={asset(c.image.src)}
+                  alt={c.image.alt}
+                  className="w-full rounded-lg border border-border shadow-lg transition hover:border-accent"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+              <figcaption className="mt-2 text-center text-xs text-subtle">
+                {c.image.caption}
+              </figcaption>
+            </figure>
+          </FadeIn>
+        )}
+        </div>
 
         <FadeIn>
           <section className="mt-16 rounded-lg border border-border bg-surface p-7">

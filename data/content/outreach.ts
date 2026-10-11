@@ -43,6 +43,12 @@ const indexEN: OutreachIndexContent = {
       body:
         "Development of the new bilingual website of the Department of Biological Sciences at CENUR Litoral Norte (Universidad de la República). Preliminary version online.",
     },
+    {
+      href: "/outreach/emb-web",
+      title: "EMB 2027 website & flyer",
+      body:
+        "Website and promotional artwork for the 2027 Biomolecular Modeling School (UBA–UDELAR) — program, instructors, pre-registration and the official flyer.",
+    },
   ],
 };
 
@@ -81,6 +87,12 @@ const indexES: OutreachIndexContent = {
       title: "Sitio web del DCB",
       body:
         "Desarrollo del nuevo sitio web bilingüe del Departamento de Ciencias Biológicas del CENUR Litoral Norte (Universidad de la República). Versión preliminar en línea.",
+    },
+    {
+      href: "/outreach/emb-web",
+      title: "Sitio web y folletería EMB 2027",
+      body:
+        "Sitio web y piezas gráficas de la Escuela de Modelado de Biomoléculas 2027 (UBA–UDELAR) — programa, docentes, preinscripción y el afiche oficial.",
     },
   ],
 };
@@ -738,6 +750,8 @@ export type WebProjectContent = {
   highlights: string[];
   sections: { heading: string; paragraphs: string[] }[];
   links: { label: string; href: string }[];
+  // Optional artwork (e.g. a flyer) shown beside the intro; path under public/.
+  image?: { src: string; alt: string; caption: string };
 };
 
 const montEN: WebProjectContent = {
@@ -889,3 +903,87 @@ const dcbES: WebProjectContent = {
 };
 
 export const DCB: Record<Lang, WebProjectContent> = { en: dcbEN, es: dcbES };
+
+const embEN: WebProjectContent = {
+  back: "← Outreach",
+  title: "EMB 2027 website & flyer",
+  eyebrow: "Biomolecular Modeling School · UBA–UDELAR · Web & graphic design",
+  intro: [
+    "The Biomolecular Modeling School (Escuela de Modelado de Biomoléculas, EMB) is an intensive two-week theoretical and hands-on postgraduate school held at the School of Exact and Natural Sciences of the University of Buenos Aires. The 2027 in-person edition runs from 22 February to 5 March, organized by Darío Estrin, Luciana Capece, Mariano González Lebrero and Uriel Morzan (UBA), and Ari Zeida and Pablo D. Dans (UDELAR).",
+    "For this edition Pablo D. Dans, PI of DansLab, designed and built the school's new website — replacing the Google Sites pages of previous editions — and designed the official flyer.",
+  ],
+  highlights_heading: "What we did",
+  highlights: [
+    "Designing and building the school website",
+    "Program, modules and instructors kept in sync from a single schedule",
+    "Pre-registration, fees and exemptions information",
+    "The official 2027 flyer, whose artwork also animates the website background",
+  ],
+  sections: [
+    {
+      heading: "The website",
+      paragraphs: [
+        "A static site built with Next.js, TypeScript and Tailwind CSS and deployed automatically to GitHub Pages from our group's repository. It gathers the program, modules and instructors — the instructor list is derived from the schedule, so the two never drift apart — together with the organizing committee, participating institutions and pre-registration.",
+        "Its animated background is built from the vector layers of the flyer — RNA sequences, a city grid, a lipid bilayer, a DNA helix and a protein — and respects reduced-motion settings.",
+      ],
+    },
+    {
+      heading: "The flyer",
+      paragraphs: [
+        "The poster brings together the topics of the school in a single image: a protein chain, a DNA double helix and a lipid membrane, in neon tones over a dark background. It lists the participating institutions from Argentina, Spain, Brazil, the United States and Uruguay, the organizers and the pre-registration link.",
+      ],
+    },
+  ],
+  links: [
+    { label: "Visit the EMB 2027 site", href: "https://mmbai-lab.github.io/emb-web/" },
+    { label: "Source code on GitHub", href: "https://github.com/MMBAI-Lab/emb-web" },
+  ],
+  image: {
+    src: "/figures/EMB2027_flyer.jpg",
+    alt: "EMB 2027 flyer — Escuela de Modelado de Biomoléculas, 22/02 to 05/03",
+    caption: "Official EMB 2027 flyer.",
+  },
+};
+
+const embES: WebProjectContent = {
+  back: "← Divulgación",
+  title: "Sitio web y folletería EMB 2027",
+  eyebrow: "Escuela de Modelado de Biomoléculas · UBA–UDELAR · Diseño web y gráfico",
+  intro: [
+    "La Escuela de Modelado de Biomoléculas (EMB) es una escuela de posgrado teórico-práctica e intensiva de dos semanas que se realiza en la Facultad de Ciencias Exactas y Naturales de la Universidad de Buenos Aires. La edición presencial 2027 va del 22 de febrero al 5 de marzo, organizada por Darío Estrin, Luciana Capece, Mariano González Lebrero y Uriel Morzan (UBA), y Ari Zeida y Pablo D. Dans (UDELAR).",
+    "Para esta edición Pablo D. Dans, investigador principal de DansLab, diseñó y desarrolló el nuevo sitio web de la escuela — que reemplaza a las páginas de Google Sites de ediciones anteriores — y diseñó el afiche oficial.",
+  ],
+  highlights_heading: "Qué hicimos",
+  highlights: [
+    "Diseño y desarrollo del sitio web de la escuela",
+    "Programa, módulos y docentes sincronizados a partir de una única grilla",
+    "Información de preinscripción, matrícula y exoneraciones",
+    "El afiche oficial 2027, cuyas ilustraciones también animan el fondo del sitio",
+  ],
+  sections: [
+    {
+      heading: "El sitio web",
+      paragraphs: [
+        "Un sitio estático hecho con Next.js, TypeScript y Tailwind CSS que se publica automáticamente en GitHub Pages desde el repositorio del grupo. Reúne el programa, los módulos y los docentes — la lista de docentes se genera a partir de la grilla, para que nunca queden desincronizadas — junto al comité organizador, las instituciones participantes y la preinscripción.",
+        "Su fondo animado está construido con las capas vectoriales del afiche — secuencias de ARN, una grilla urbana, una bicapa lipídica, una doble hélice de ADN y una proteína — y respeta la preferencia de movimiento reducido.",
+      ],
+    },
+    {
+      heading: "El afiche",
+      paragraphs: [
+        "El afiche reúne los temas de la escuela en una sola imagen: una cadena proteica, una doble hélice de ADN y una membrana lipídica, en tonos neón sobre fondo oscuro. Incluye las instituciones participantes de Argentina, España, Brasil, Estados Unidos y Uruguay, los organizadores y el enlace de preinscripción.",
+      ],
+    },
+  ],
+  links: [
+    { label: "Visitar el sitio de la EMB 2027", href: "https://mmbai-lab.github.io/emb-web/" },
+    { label: "Código fuente en GitHub", href: "https://github.com/MMBAI-Lab/emb-web" },
+  ],
+  image: {
+    src: "/figures/EMB2027_flyer.jpg",
+    alt: "Afiche de la EMB 2027 — Escuela de Modelado de Biomoléculas, del 22/02 al 05/03",
+    caption: "Afiche oficial de la EMB 2027.",
+  },
+};
+
+export const EMB: Record<Lang, WebProjectContent> = { en: embEN, es: embES };

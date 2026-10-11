@@ -26,6 +26,10 @@ const CARD_ICON: Record<string, { src: string; alt: string }> = {
     src: "/figures/icon_DCB.svg",
     alt: "Browser window with a cell",
   },
+  "/outreach/emb-web": {
+    src: "/figures/EMB2027_flyer.jpg",
+    alt: "EMB 2027 flyer",
+  },
 };
 
 export default function OutreachIndex({ lang }: { lang: Lang }) {
