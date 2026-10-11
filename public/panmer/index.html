@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panmer · k-mer covering libraries</title>
+<meta name="description" content="Design equal-length oligonucleotide libraries that cover every k-mer on both strands, with modXNA modified bases, for molecular dynamics.">
+<script>
+  // same key as danslab.xyz, so the theme follows the lab site
+  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1 class="brand">pan<span>mer</span></h1>
+    <p class="tagline">Equal-length oligonucleotide libraries that cover every k-mer on both strands — canonical or with modXNA modified bases — ready for molecular dynamics.</p>
+    <div class="toplinks">
+      <a href="help.html">Help &amp; tutorial</a>
+      <button class="iconbtn" id="theme" type="button" aria-label="Toggle light/dark theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-design" aria-selected="true" aria-controls="view-design">Design a library</button>
+    <button role="tab" id="tab-analyze" aria-selected="false" aria-controls="view-analyze">Analyse a library</button>
+  </nav>
+
+  <div class="layout">
+    <!-- ======================= parameters ======================= -->
+    <form id="params" class="panel-stack" autocomplete="off" onsubmit="return false">
+      <section class="panel">
+        <h2>Examples</h2>
+        <div class="examples" id="examples"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Alphabet</h2>
+        <div class="field">
+          <span class="label">Nucleic acid</span>
+          <div class="seg" id="nucleic">
+            <button type="button" data-v="DNA" aria-pressed="true">DNA</button>
+            <button type="button" data-v="RNA" aria-pressed="false">RNA</button>
+          </div>
+        </div>
+        <div class="field">
+          <details class="mods" id="modsbox">
+            <summary>Modified bases (modXNA): <b id="modcount">none</b></summary>
+            <div class="inner">
+              <div class="hint">Each modified base is always paired with its canonical partner (A*–T/U, C*–G, G*–C, T*–A, U*–A). Every fragment has AMBER parameters in <a href="https://modxna.chpc.utah.edu/catalog/" target="_blank" rel="noopener">modXNA</a>.</div>
+              <div class="fams" id="fams"></div>
+              <input type="search" id="modfilter" placeholder="Filter by code or name (e.g. M6A, methyl)">
+              <div class="modlist" id="modlist"><div class="status" style="padding:8px">Loading catalogue…</div></div>
+              <div class="fams">
+                <label><input type="checkbox" id="incprot"> show protected phosphoramidites</label>
+                <label><input type="checkbox" id="incdup"> show duplicates</label>
+                <button type="button" class="btn ghost small" id="clearmods">Clear</button>
+              </div>
+            </div>
+          </details>
+        </div>
+        <div class="field" id="maxmodsfield">
+          <label for="maxmods">Max modified base pairs per k-mer</label>
+          <select id="maxmods">
+            <option value="1" selected>1</option><option value="2">2</option>
+            <option value="3">3</option><option value="all">no limit</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Library</h2>
+        <div class="row">
+          <div class="field">
+            <label for="k">k (k-mer length)</label>
+            <input type="number" id="k" min="2" max="12" value="4">
+          </div>
+          <div class="field design-only">
+            <label for="core">Core length (bp)</label>
+            <input type="number" id="core" min="2" max="60" value="14">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="clamp">Clamp (5′ side)</label>
+            <input type="text" id="clamp" value="GC" spellcheck="false">
+          </div>
+          <div class="field design-only">
+            <label for="seed">Random seed</label>
+            <input type="number" id="seed" min="0" value="0">
+          </div>
+        </div>
+        <div class="hint design-only">Each oligo is clamp + core + reverse complement of the clamp, e.g. GC·core·GC.</div>
+      </section>
+
+      <section class="panel design-only">
+        <h2>Size estimate</h2>
+        <div class="estimate" id="estimate"><span class="spinner"></span>Starting the engine…</div>
+        <div class="actions"><button type="button" class="btn" id="run" disabled>Design library</button></div>
+        <div class="status" id="status"></div>
+      </section>
+
+      <section class="panel analyze-only hidden">
+        <h2>Your library</h2>
+        <div class="field">
+          <label for="oligos">Oligos, 5′→3′ Watson strand (FASTA or one per line)</label>
+          <textarea id="oligos" spellcheck="false" placeholder=">oligo_1&#10;GCAACGTGCTATGGAAGC&#10;GC[M6A]TTAGC..."></textarea>
+          <div class="hint">Modified bases: <code>[X]</code> = X on this strand, <code>{X}</code> = X on the opposite strand.</div>
+        </div>
+        <div class="actions"><button type="button" class="btn" id="runan" disabled>Analyse</button></div>
+        <div class="status" id="status2"></div>
+      </section>
+    </form>
+
+    <!-- ======================= results ======================= -->
+    <section id="results" aria-live="polite">
+      <div class="empty" id="placeholder">Choose an example or set the parameters, then run. Everything is computed in your browser — no data leave your machine.</div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Panmer <span id="ver"></span> · <a href="https://danslab.xyz">DansLab</a></span>
+    <span>Code: <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a> · Generated libraries: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span>
+    <span>Runs entirely in your browser. No login, no cookies, no tracking.</span>
+    <span>Algorithm: <a href="https://doi.org/10.1093/bioinformatics/btt230" target="_blank" rel="noopener">Orenstein &amp; Shamir 2013</a>, generalised.</span>
+  </div>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
