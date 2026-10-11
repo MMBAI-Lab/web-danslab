@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panmer · Help &amp; tutorial</title>
+<script>
+  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="brand"><a href="./" style="color:inherit;text-decoration:none">pan<span>mer</span></a></p>
+    <p class="tagline">Help &amp; tutorial</p>
+    <div class="toplinks"><a href="./">← Back to the app</a></div>
+  </div>
+</header>
+
+<main class="wrap">
+<article class="doc">
+
+<p>Panmer designs a set of equal-length oligonucleotides that, taken together, contain
+<strong>every k-mer on both strands</strong> at least once. Such libraries are used to sample
+sequence-dependent DNA/RNA structure and dynamics with molecular dynamics (MD), following the
+Ascona B-DNA Consortium libraries <a href="https://doi.org/10.1093/nar/gkz905">miniABC</a>
+(13 × 18-mers, all 136 tetranucleotides) and
+<a href="https://doi.org/10.1038/s41467-026-74390-5">hexABC</a> (190 × 20-mers, all 2080
+hexanucleotides). Panmer can include modified bases from
+<a href="https://modxna.chpc.utah.edu/catalog/">modXNA</a>, so every library can be simulated
+directly with AMBER-modXNA.</p>
+
+<p>Everything runs in your browser (Python compiled to WebAssembly). Nothing you enter is sent
+anywhere; there is no login, no cookie and no tracking.</p>
+
+<h2 id="tutorial">Tutorial: reproduce miniABC in one click</h2>
+<ol>
+  <li>On the <a href="./">main page</a>, click the example <b>miniABC (k=4, 18-mers)</b>.
+      This sets DNA, <i>k</i> = 4, core = 14 bp, clamp = GC.</li>
+  <li>Panmer designs the library and shows the summary below (computed in well under a second).</li>
+  <li>Download it as FASTA or CSV, or click <b>Copy reproducible link</b>: opening that link
+      re-runs exactly the same design.</li>
+</ol>
+<p>Sample output (first rows of the CSV):</p>
+<pre>id,watson,crick,core,length,gc_core,max_homopolymer,max_selfcomp,n_mod_pairs
+panmer_01,GCAAAGACTTAATCTCGC,GCGAGATTAAGTCTTTGC,AAAGACTTAATCTC,18,28.6,3,4,0
+panmer_02,GCCTCCACGGCGTTCTGC,GCAGAACGCCGTGGAGGC,CTCCACGGCGTTCT,18,64.3,2,2,0
+panmer_03,GCTCTGAATACTCACTGC,GCAGTGAGTATTCAGAGC,TCTGAATACTCACT,18,35.7,2,2,0
+…</pre>
+<p>and the summary: <b>13 oligos</b>; lower bounds <b>13 / 13</b>; <b>136</b> tetranucleotide
+classes covered by 143 windows (7 redundant); master length <b>142 k-mers</b> (145 nt). This is
+the same structure as the published miniABC library: the minimum number of oligos, with the
+minimum possible redundancy.</p>
+
+<h2 id="params">Parameters</h2>
+<table>
+<thead><tr><th>parameter</th><th>meaning</th></tr></thead>
+<tbody>
+<tr><td>Nucleic acid</td><td>DNA (A, C, G, T) or RNA (A, C, G, U). Sets the canonical alphabet, the partner of modified adenines (T or U) and the backbone/sugar used in the modXNA export.</td></tr>
+<tr><td>Modified bases</td><td>Any subset of the modXNA base modifications. Select whole families (A*, C*, G*, T*, U*) or individual fragments; the list can be filtered by code or name.</td></tr>
+<tr><td>Max modified base pairs per k-mer</td><td>Only k-mers with at most this many modified positions are required. Keeps libraries with many modifications at a simulable size (see <a href="#size">size</a>).</td></tr>
+<tr><td><i>k</i></td><td>Length of the words to cover (4 = tetranucleotides, 6 = hexanucleotides).</td></tr>
+<tr><td>Core length</td><td>Length of the variable part of each oligo. Each core contains σ = core − <i>k</i> + 1 k-mer windows.</td></tr>
+<tr><td>Clamp</td><td>Fixed ends: each oligo is clamp + core + reverse complement of the clamp (GC…GC by default, as in the ABC libraries). Leave empty for no clamp.</td></tr>
+<tr><td>Random seed</td><td>The design is deterministic for a given seed; different seeds give different but equally optimal libraries.</td></tr>
+</tbody>
+</table>
+
+<h2 id="results">Reading the results</h2>
+<h3>Oligos and the two lower bounds</h3>
+<p>With N<sub>k</sub> double-stranded k-mer classes and σ windows per core, no library can have
+fewer than <b>⌈N<sub>k</sub>/σ⌉ oligos</b> (the <i>independent</i> bound). Panmer builds one
+reverse-complement-complete <i>master</i> sequence
+(<a href="https://doi.org/10.1093/bioinformatics/btt230">Orenstein &amp; Shamir 2013</a>) and cuts
+it into overlapping cores; that needs <b>⌈L*/σ⌉ oligos</b>, where L* is the master length in
+k-mers (the <i>tiled</i> bound). For even <i>k</i>, L* &gt; N<sub>k</sub> because palindromic
+k-mers force extra steps, so the two bounds can differ:</p>
+<table>
+<thead><tr><th>k</th><th>core</th><th>σ</th><th>N<sub>k</sub></th><th>L* (k-mers)</th><th>independent</th><th>tiled</th></tr></thead>
+<tbody>
+<tr><td>4</td><td>14</td><td>11</td><td>136</td><td>142</td><td>13</td><td>13</td></tr>
+<tr><td>6</td><td>16</td><td>11</td><td>2080</td><td>2140</td><td>190</td><td>195</td></tr>
+<tr><td>6</td><td>18</td><td>13</td><td>2080</td><td>2140</td><td>160</td><td>165</td></tr>
+<tr><td>8</td><td>20</td><td>13</td><td>32896</td><td>33262</td><td>2531</td><td>2559</td></tr>
+</tbody>
+</table>
+<p>The current version produces tiled libraries; when the bounds differ, the summary says how
+many extra oligos tiling costs.</p>
+
+<h3>Units</h3>
+<p>Lengths of the master are given in <b>k-mers</b> and in nucleotides: a sequence of
+<i>t</i> k-mers has <i>t</i> + <i>k</i> − 1 nucleotides.</p>
+
+<h3>Redundancy</h3>
+<p>Windows minus classes: how many k-mer windows repeat a class already present. miniABC has
+7; hexABC has 10.</p>
+
+<h3>Per-oligo columns</h3>
+<table>
+<tbody>
+<tr><td>GC core %</td><td>GC content of the core (a modified base counts by its canonical pair).</td></tr>
+<tr><td>max run</td><td>Longest homopolymer run in the oligo.</td></tr>
+<tr><td>max self-compl.</td><td>Longest self-complementary (palindromic) stretch. Values ≥ 6 are highlighted: such stretches can favour hairpins or alternative pairings.</td></tr>
+<tr><td>mod. pairs</td><td>Number of modified base pairs in the oligo (only with modifications).</td></tr>
+</tbody>
+</table>
+
+<h2 id="mods">Modified bases</h2>
+<h3>Pairing rule and notation</h3>
+<p>A modified base is always placed opposite its canonical partner: A*–T (A*–U in RNA), C*–G,
+G*–C, T*–A, U*–A. Sequences are written 5′→3′ on one strand:</p>
+<table>
+<tbody>
+<tr><td><code>A C G T U</code></td><td>canonical base pair</td></tr>
+<tr><td><code>[M6A]</code></td><td>M6A on this strand, its canonical partner on the other</td></tr>
+<tr><td><code>{M6A}</code></td><td>the canonical partner on this strand, M6A on the other</td></tr>
+</tbody>
+</table>
+<p>The reverse complement swaps the brackets: <code>GC[M6A]T{8OG}AGC</code> ↔
+<code>GCT[8OG]A{M6A}GC</code>. A k-mer containing <code>[X]</code> and one containing
+<code>{X}</code> at the same position are different double-stranded contexts, and both are
+covered.</p>
+
+<h3>Catalogue</h3>
+<p>Panmer ships a snapshot of the A, C, G, T and U base modifications of the
+<a href="https://modxna.chpc.utah.edu/catalog/">modXNA catalogue</a>. Two kinds of entries are
+hidden by default and can be shown with the checkboxes under the list:</p>
+<ul>
+  <li><b>protected phosphoramidites</b> (<code>-CE</code> entries): synthesis building blocks
+      that still carry protecting groups (benzoyl, acetyl, dmf…) absent from a deprotected
+      oligo;</li>
+  <li><b>duplicates</b>: entries whose structure is identical to another entry of the same
+      family.</li>
+</ul>
+
+<h3>modXNA export</h3>
+<p>With modifications, <b>modXNA build script</b> downloads a shell script that builds one
+AMBER residue library per modified base (modXNA input <code>BACKBONE SUGAR BASE</code>, e.g.
+<code>DPO DC2 M6A</code>) and lists the residue sequence of both strands of every oligo:</p>
+<pre>echo "DPO DC2 M6A" &gt; M6A.in
+$MODXNA -i M6A.in -m M6A
+…
+# panmer_001 W: DG5 DC DA DA DA DC DT DC DG DT M5C DG DG DT H5C DC DG DC3</pre>
+<p>With a GC clamp, modified bases never sit at the oligo ends.</p>
+
+<h2 id="size">How large can a library be?</h2>
+<p>With M selected modifications and at most m per k-mer, the number of k-mers is
+Σ<sub>j≤m</sub> C(k,j)·4<sup>k−j</sup>·(2M)<sup>j</sup>. The <b>Size estimate</b> box updates
+as you change parameters: green ≤ 200 oligos, amber 200–2000, red &gt; 2000. Largest M that keeps
+the library under 2000 oligos (in brackets: under 200):</p>
+<table>
+<thead><tr><th>k</th><th>core 14</th><th>core 16</th><th>core 18</th><th>core 20</th><th>core 22</th></tr></thead>
+<tbody>
+<tr><th colspan="6">≤ 1 modification per k-mer</th></tr>
+<tr><td>3</td><td>all</td><td>all</td><td>all</td><td>all</td><td>all</td></tr>
+<tr><td>4</td><td>85 (8)</td><td>101 (9)</td><td>116 (11)</td><td>132 (12)</td><td>147 (14)</td></tr>
+<tr><td>5</td><td>15 (1)</td><td>18 (1)</td><td>21 (1)</td><td>24 (2)</td><td>27 (2)</td></tr>
+<tr><td>6</td><td>2 (–)</td><td>3 (0)</td><td>3 (0)</td><td>4 (0)</td><td>5 (0)</td></tr>
+<tr><th colspan="6">≤ 2 modifications per k-mer</th></tr>
+<tr><td>3</td><td>30 (8)</td><td>33 (9)</td><td>35 (10)</td><td>37 (11)</td><td>39 (11)</td></tr>
+<tr><td>4</td><td>10 (2)</td><td>10 (2)</td><td>11 (3)</td><td>12 (3)</td><td>13 (3)</td></tr>
+<tr><td>5</td><td>3 (0)</td><td>3 (0)</td><td>4 (0)</td><td>4 (1)</td><td>4 (1)</td></tr>
+</tbody>
+</table>
+<p>0 = only canonical bases fit; – = not even the canonical library fits.</p>
+
+<h2 id="analyse">Analysing an existing library</h2>
+<p>On the <b>Analyse a library</b> tab, paste oligos (FASTA or one per line, Watson strand
+5′→3′, same notation as above), set <i>k</i> and the clamp, and run. Panmer reports how many
+classes are covered and missing, the redundancy, the classes that appear more than once, the
+lower bound for that core length and the per-oligo metrics. Example
+<b>Analyse miniABC (2019)</b> gives 136/136 classes, 143 windows, 7 redundant
+(AATT, ATCG, ATGC, ATTA, CGGC, CGTA, GCTA) and 13 = minimum possible oligos.</p>
+
+<h2 id="repro">Reproducibility</h2>
+<p>Every parameter is stored in the page address; <b>Copy reproducible link</b> adds
+<code>run=1</code> so that opening the link re-runs the design. Results also carry the Panmer
+version. The same engine is available as a command-line tool and Python package:</p>
+<pre>panmer design -k 4 --core 14 --format fasta
+panmer estimate -k 4 --core 14 --mods M6A,M5C --max-mods 1
+panmer analyze -k 4 --clamp GC my_library.fasta</pre>
+
+<h2 id="cite">Citation and licence</h2>
+<p>A manuscript describing Panmer is in preparation. Please cite
+<a href="https://doi.org/10.1093/bioinformatics/btt230">Orenstein &amp; Shamir 2013</a>,
+<a href="https://doi.org/10.1093/nar/gkz905">Dans et al. 2019</a> and
+<a href="https://doi.org/10.1038/s41467-026-74390-5">Battistini et al. 2026</a>.
+Code: MIT. Generated libraries: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+</article>
+</main>
+<footer><div class="wrap"><span><a href="./">Panmer</a> · <a href="https://danslab.xyz">DansLab</a></span><span>No login, no cookies, no tracking.</span></div></footer>
+</body>
+</html>
