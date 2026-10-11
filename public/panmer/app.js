@@ -10,13 +10,13 @@ const MINIABC = ['GCAACGTGCTATGGAAGC', 'GCAATAAGTACCAGGAGC', 'GCAGAAACAGCTCTGCGC
   'GCTTGTGACGGCTAGGGC'];
 
 const EXAMPLES = [
-  { label: 'miniABC (k=4, 18-mers)', tab: 'design', na: 'DNA', mods: [], k: 4, core: 14 },
-  { label: 'Hexamers (k=6, 20-mers)', tab: 'design', na: 'DNA', mods: [], k: 6, core: 16 },
-  { label: 'DNA + 5mC (k=4)', tab: 'design', na: 'DNA', mods: ['M5C'], m: 'all', k: 4, core: 14 },
-  { label: 'modXNA sampler (k=4, ≤1 mod)', tab: 'design', na: 'DNA', mods: ['M6A', 'M5C', 'H5C', '8OG'], m: '1', k: 4, core: 14 },
-  { label: 'hexABC-like, minimal (k=6, segments)', tab: 'design', na: 'DNA', mods: [], k: 6, core: 16, mode: 'segments' },
-  { label: "miniABC′ replica (k=4)", tab: 'design', na: 'DNA', mods: [], k: 4, core: 14, ref: MINIABC.join('\n'), cons: { maxsc: 4, maxrun: 4 }, effort: '2' },
-  { label: 'Analyse miniABC (2019)', tab: 'analyze', na: 'DNA', mods: [], k: 4, oligos: MINIABC.join('\n') },
+  { label: 'miniABC', title: 'miniABC: k=4, 18-mers, single master', tab: 'design', na: 'DNA', mods: [], k: 4, core: 14 },
+  { label: 'hexamers', title: 'Hexamers: k=6, 20-mers, single master', tab: 'design', na: 'DNA', mods: [], k: 6, core: 16 },
+  { label: '+5mC', title: 'DNA plus 5-methylcytosine, k=4', tab: 'design', na: 'DNA', mods: ['M5C'], m: 'all', k: 4, core: 14 },
+  { label: 'modXNA', title: 'modXNA sampler: four modifications, at most one per k-mer', tab: 'design', na: 'DNA', mods: ['M6A', 'M5C', 'H5C', '8OG'], m: '1', k: 4, core: 14 },
+  { label: 'hexABC minimal', title: 'hexABC-like: k=6, segments, reaching the 190-oligo bound', tab: 'design', na: 'DNA', mods: [], k: 6, core: 16, mode: 'segments' },
+  { label: 'miniABC\u2032 replica', title: "Replica of miniABC with no k-mer in its original helical position", tab: 'design', na: 'DNA', mods: [], k: 4, core: 14, ref: MINIABC.join('\n'), cons: { maxsc: 4, maxrun: 4 }, effort: '2' },
+  { label: 'analyse miniABC', title: 'Analyse the published miniABC library (2019)', tab: 'analyze', na: 'DNA', mods: [], k: 4, oligos: MINIABC.join('\n') },
 ];
 
 const state = { tab: 'design', na: 'DNA', mods: new Set(), catalog: [], ready: false, last: null, mode: 'tiled' };
@@ -84,16 +84,26 @@ function setMode(m) {
   for (const b of $('#mode').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.v === m));
 }
 
+const DRAWERS = ['mods', 'cons', 'rep'];
+function setDrawer(name, open) {
+  const d = document.getElementById('drawer-' + name);
+  if (!d) return;
+  d.classList.toggle('hidden', !open);
+  for (const b of document.querySelectorAll(`.drawerbtn[data-drawer="${name}"]`)) b.setAttribute('aria-expanded', String(open));
+}
+const drawerOpen = (name) => !document.getElementById('drawer-' + name).classList.contains('hidden');
+
 function syncExtras() {
   const cons = ['#gcmin', '#gcmax', '#maxrun', '#maxsc'].filter((id) => $(id).value !== '').length;
-  $('#conscount').textContent = cons ? `${cons} active` : 'none';
+  $('#conscount').textContent = cons ? `${cons}` : '\u2014';
   const ref = $('#refoligos').value.trim();
-  $('#repcount').textContent = ref ? `${ref.split(/\r?\n/).filter((l) => l.trim() && !l.startsWith('>')).length} reference oligos` : 'off';
+  $('#repcount').textContent = ref ? `${ref.split(/\r?\n/).filter((l) => l.trim() && !l.startsWith('>')).length}` : '\u2014';
   // both force the segment strategy; show that rather than letting it look ignored
   if (cons || ref) setMode('segments');
-  $('#modehint').textContent = (cons || ref)
+  // constraints and replica both require segments; show that rather than silently overriding
+  $('#mode').title = (cons || ref)
     ? 'Constraints and replica mode need the segment strategy, so it is selected automatically.'
-    : 'One reverse-complement-complete master cut into overlapping cores. Segments recombine the master into independent walks and can reach the absolute minimum number of oligos.';
+    : 'Single master: one RC-complete sequence cut into overlapping cores. Segments: recombined independent walks, reaching the smallest possible number of oligos.';
 }
 
 function setTab(tab) {
@@ -105,13 +115,14 @@ function setTab(tab) {
   for (const el of document.querySelectorAll('.design-only')) el.classList.toggle('hidden', tab !== 'design');
   for (const el of document.querySelectorAll('.analyze-only')) el.classList.toggle('hidden', tab !== 'analyze');
   // each pane owns its scroll position in the app shell
+  if (tab !== 'design') for (const n of DRAWERS) setDrawer(n, false);
   const pane = tab === 'docs' ? $('#view-docs') : $('#results');
   if (pane) pane.scrollTop = 0;
 }
 
 function syncModUI() {
   const n = state.mods.size;
-  $('#modcount').textContent = n ? `${n} selected` : 'none';
+  $('#modcount').textContent = n ? `${n}` : '\u2014';
   $('#maxmodsfield').classList.toggle('hidden', !n);
   for (const cb of $('#modlist').querySelectorAll('input[data-code]')) cb.checked = state.mods.has(cb.dataset.code);
   for (const cb of $('#fams').querySelectorAll('input[data-fam]')) {
@@ -220,10 +231,10 @@ function applySettings(s) {
   $('#effort').value = s.effort || '1';
   $('#refoligos').value = s.ref || '';
   for (const [id, v] of Object.entries({ '#gcmin': s.cons?.gcmin, '#gcmax': s.cons?.gcmax, '#maxrun': s.cons?.maxrun, '#maxsc': s.cons?.maxsc })) $(id).value = v ?? '';
-  $('#consbox').open = !!s.cons;
-  $('#repbox').open = !!s.ref;
+  setDrawer('cons', !!s.cons);
+  setDrawer('rep', !!s.ref);
   syncExtras();
-  $('#modsbox').open = state.mods.size > 0;
+  setDrawer('mods', state.mods.size > 0);
   renderModList();
   estimate();
 }
@@ -352,7 +363,8 @@ function renderAnalyze(r) {
 }
 
 // ------------------------------------------------------------------ wiring
-$('#examples').innerHTML = EXAMPLES.map((e, i) => `<button type="button" class="btn ghost small" data-ex="${i}">${esc(e.label)}</button>`).join('');
+$('#examples').innerHTML = EXAMPLES.map((e, i) =>
+  `<button type="button" class="btn ghost small" data-ex="${i}" title="${esc(e.title)}">${esc(e.label)}</button>`).join('');
 $('#examples').onclick = (ev) => {
   const i = ev.target.dataset.ex;
   if (i == null) return;
@@ -387,6 +399,8 @@ $('#fams').onchange = (ev) => {
   syncModUI(); estimate();
 };
 $('#modfilter').oninput = renderModList;
+for (const b of document.querySelectorAll('.drawerbtn')) b.onclick = () => setDrawer(b.dataset.drawer, !drawerOpen(b.dataset.drawer));
+for (const b of document.querySelectorAll('.closedrawer')) b.onclick = () => setDrawer(b.dataset.drawer, false);
 $('#incprot').onchange = $('#incdup').onchange = renderModList;
 $('#clearmods').onclick = () => { state.mods.clear(); syncModUI(); estimate(); };
 for (const id of ['#k', '#core', '#clamp', '#maxmods']) $(id).addEventListener('input', estimate);

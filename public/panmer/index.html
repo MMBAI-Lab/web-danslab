@@ -6,7 +6,7 @@
 <title>Panmer · k-mer covering libraries</title>
 <meta name="description" content="Design equal-length oligonucleotide libraries that cover every k-mer on both strands, with modXNA modified bases, for molecular dynamics.">
 <script>
-  // same key as danslab.xyz, so the theme follows the lab site
+  // the theme belongs to the surrounding danslab.xyz page
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
 <link rel="stylesheet" href="style.css?v=0.2.0">
@@ -22,10 +22,193 @@
 
 <main class="wrap">
   <nav class="tabs" role="tablist">
-    <button role="tab" id="tab-design" aria-selected="true" aria-controls="view-design">Design a library</button>
-    <button role="tab" id="tab-analyze" aria-selected="false" aria-controls="view-analyze">Analyse a library</button>
-    <button role="tab" id="tab-docs" aria-selected="false" aria-controls="view-docs">Documentation</button>
+    <button role="tab" id="tab-design" aria-selected="true">Design a library</button>
+    <button role="tab" id="tab-analyze" aria-selected="false">Analyse a library</button>
+    <button role="tab" id="tab-docs" aria-selected="false">Documentation</button>
   </nav>
+
+  <div id="workbench">
+    <!-- ===================== parameter ribbon ===================== -->
+    <form id="params" class="ribbon" autocomplete="off" onsubmit="return false">
+
+      <section class="card k-ex">
+        <h2>Examples</h2>
+        <div class="examples" id="examples"></div>
+      </section>
+
+      <section class="card k-alpha">
+        <h2>Alphabet</h2>
+        <div class="seg" id="nucleic">
+          <button type="button" data-v="DNA" aria-pressed="true">DNA</button>
+          <button type="button" data-v="RNA" aria-pressed="false">RNA</button>
+        </div>
+        <button type="button" class="drawerbtn" data-drawer="mods">
+          <span>Modified bases</span><b id="modcount">—</b>
+        </button>
+        <div class="field inline hidden" id="maxmodsfield">
+          <label for="maxmods">max per k-mer</label>
+          <select id="maxmods">
+            <option value="1" selected>1</option><option value="2">2</option>
+            <option value="3">3</option><option value="all">no limit</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card k-lib">
+        <h2>Library</h2>
+        <div class="grid2">
+          <div class="field"><label for="k">k</label><input type="number" id="k" min="2" max="12" value="4"></div>
+          <div class="field design-only"><label for="core">core (bp)</label><input type="number" id="core" min="2" max="60" value="14"></div>
+          <div class="field"><label for="clamp">clamp</label><input type="text" id="clamp" value="GC" spellcheck="false"></div>
+          <div class="field design-only"><label for="seed">seed</label><input type="number" id="seed" min="0" value="0"></div>
+        </div>
+      </section>
+
+      <section class="card k-strat design-only">
+        <h2>Strategy</h2>
+        <div class="seg wide" id="mode">
+          <button type="button" data-v="tiled" aria-pressed="true">Single master</button>
+          <button type="button" data-v="segments" aria-pressed="false">Segments</button>
+        </div>
+        <div class="drawerrow">
+          <button type="button" class="drawerbtn" data-drawer="cons"><span>Constraints</span><b id="conscount">—</b></button>
+          <button type="button" class="drawerbtn" data-drawer="rep"><span>Replica</span><b id="repcount">—</b></button>
+        </div>
+        <div class="field inline">
+          <label for="effort">effort</label>
+          <select id="effort"><option value="0.5">quick</option><option value="1" selected>normal</option><option value="2">thorough</option><option value="4">exhaustive</option></select>
+        </div>
+      </section>
+
+      <section class="card k-input analyze-only hidden">
+        <h2>Your library</h2>
+        <textarea id="oligos" spellcheck="false" placeholder="&gt;oligo_1&#10;GCAACGTGCTATGGAAGC&#10;GC[M6A]TTAGC..."></textarea>
+        <div class="hint">FASTA or one per line. <code>[X]</code>/<code>{X}</code> mark a modified base on this/the other strand.</div>
+      </section>
+
+      <section class="card k-run">
+        <h2>Run</h2>
+        <div class="estimate design-only" id="estimate"><span class="spinner"></span>Starting the engine…</div>
+        <button type="button" class="btn design-only" id="run" disabled>Design library</button>
+        <button type="button" class="btn analyze-only hidden" id="runan" disabled>Analyse</button>
+        <div class="status" id="status"></div>
+        <div class="status analyze-only hidden" id="status2"></div>
+      </section>
+    </form>
+
+    <!-- ===================== full-width drawers ===================== -->
+    <div class="drawer hidden" id="drawer-mods" data-title="Modified bases">
+      <div class="drawerhead">
+        <h3>modXNA base modifications</h3>
+        <div class="fams" id="fams"></div>
+        <input type="search" id="modfilter" placeholder="Filter by code or name (e.g. M6A, methyl)">
+        <label class="chk"><input type="checkbox" id="incprot"> protected</label>
+        <label class="chk"><input type="checkbox" id="incdup"> duplicates</label>
+        <button type="button" class="btn ghost small" id="clearmods">Clear</button>
+        <button type="button" class="btn ghost small closedrawer" data-drawer="mods">Close</button>
+      </div>
+      <p class="hint">Each modified base is always paired with its canonical partner (A*–T/U, C*–G, G*–C, T*–A, U*–A). Every fragment has AMBER parameters in <a href="https://modxna.chpc.utah.edu/catalog/" target="_blank" rel="noopener">modXNA</a>.</p>
+      <div class="modlist" id="modlist"><div class="status">Loading catalogue…</div></div>
+    </div>
+
+    <div class="drawer hidden" id="drawer-cons" data-title="Constraints">
+      <div class="drawerhead">
+        <h3>Sequence constraints</h3>
+        <span class="hint">Hard limits on every oligo. They force the segment strategy.</span>
+        <button type="button" class="btn ghost small closedrawer" data-drawer="cons">Close</button>
+      </div>
+      <div class="grid4">
+        <div class="field"><label for="gcmin">GC core min %</label><input type="number" id="gcmin" min="0" max="100" placeholder="any"></div>
+        <div class="field"><label for="gcmax">GC core max %</label><input type="number" id="gcmax" min="0" max="100" placeholder="any"></div>
+        <div class="field"><label for="maxrun">max homopolymer run</label><input type="number" id="maxrun" min="1" max="20" placeholder="any"></div>
+        <div class="field"><label for="maxsc">max self-complementary</label><input type="number" id="maxsc" min="2" max="20" placeholder="any"></div>
+      </div>
+    </div>
+
+    <div class="drawer hidden" id="drawer-rep" data-title="Replica">
+      <div class="drawerhead">
+        <h3>Replica mode</h3>
+        <span class="hint">Panmer places every k-mer in a <b>different helical position</b> from the one it occupies in this reference.</span>
+        <button type="button" class="btn ghost small" id="useminiabc">Use miniABC (2019)</button>
+        <button type="button" class="btn ghost small" id="clearref">Clear</button>
+        <button type="button" class="btn ghost small closedrawer" data-drawer="rep">Close</button>
+      </div>
+      <textarea id="refoligos" spellcheck="false" placeholder="&gt;miniABC_01&#10;GCAACGTGCTATGGAAGC&#10;..."></textarea>
+    </div>
+
+    <!-- ===================== results ===================== -->
+    <section id="results" aria-live="polite">
+      <div class="panel guide" id="guide">
+        <h2>What the parameters mean</h2>
+        <!-- FIG:oligo -->
+<svg class="fig" viewBox="0 0 760 300" role="img" aria-labelledby="figtitle figdesc">
+<title id="figtitle">Anatomy of a Panmer oligonucleotide</title>
+<desc id="figdesc">A double-stranded 18-base-pair oligo: a two-base GC clamp at each end and a 14-base-pair core between them. The core holds eleven overlapping 4-mer windows, one per starting offset j; sigma equals the core length minus k plus one. The positional class d of a window is its distance from the centre of the core, and the same k-mer sits at offset sigma minus one minus j on the opposite strand.</desc>
+<rect class="band core" x="120.2" y="41" width="519.6" height="66" rx="6"/>
+<rect class="band clamp" x="46.0" y="41" width="74.2" height="66" rx="6"/>
+<rect class="band clamp" x="639.8" y="41" width="74.2" height="66" rx="6"/>
+<line class="rung clampbp" x1="64.6" y1="65.0" x2="64.6" y2="83.0"/>
+<line class="rung clampbp" x1="101.7" y1="57.1" x2="101.7" y2="90.9"/>
+<line class="rung corebp" x1="138.8" y1="68.4" x2="138.8" y2="79.6"/>
+<line class="rung corebp" x1="175.9" y1="86.0" x2="175.9" y2="62.0"/>
+<line class="rung corebp" x1="213.0" y1="90.0" x2="213.0" y2="58.0"/>
+<line class="rung corebp" x1="250.1" y1="75.9" x2="250.1" y2="72.1"/>
+<line class="rung corebp" x1="287.2" y1="59.6" x2="287.2" y2="88.4"/>
+<line class="rung corebp" x1="324.3" y1="59.6" x2="324.3" y2="88.4"/>
+<line class="rung corebp" x1="361.4" y1="75.9" x2="361.4" y2="72.1"/>
+<line class="rung corebp" x1="398.6" y1="90.0" x2="398.6" y2="58.0"/>
+<line class="rung corebp" x1="435.7" y1="86.0" x2="435.7" y2="62.0"/>
+<line class="rung corebp" x1="472.8" y1="68.4" x2="472.8" y2="79.6"/>
+<line class="rung corebp" x1="509.9" y1="57.1" x2="509.9" y2="90.9"/>
+<line class="rung corebp" x1="547.0" y1="65.0" x2="547.0" y2="83.0"/>
+<line class="rung corebp" x1="584.1" y1="83.0" x2="584.1" y2="65.0"/>
+<line class="rung corebp" x1="621.2" y1="90.9" x2="621.2" y2="57.1"/>
+<line class="rung clampbp" x1="658.3" y1="79.6" x2="658.3" y2="68.4"/>
+<line class="rung clampbp" x1="695.4" y1="62.0" x2="695.4" y2="86.0"/>
+<path class="strand w" d="M46.0,74.0 L48.5,72.7 L51.0,71.4 L53.5,70.2 L56.0,68.9 L58.5,67.7 L61.0,66.6 L63.5,65.4 L66.0,64.3 L68.5,63.3 L71.0,62.3 L73.5,61.4 L76.0,60.6 L78.5,59.9 L81.0,59.2 L83.5,58.6 L86.0,58.1 L88.5,57.7 L91.0,57.4 L93.5,57.2 L96.0,57.0 L98.5,57.0 L101.0,57.1 L103.5,57.2 L106.0,57.5 L108.5,57.9 L111.0,58.3 L113.5,58.8 L116.0,59.5 L118.5,60.2 L121.0,61.0 L123.5,61.8 L126.0,62.8 L128.5,63.7 L131.0,64.8 L133.5,65.9 L136.0,67.1 L138.5,68.3 L141.0,69.5 L143.5,70.7 L146.0,72.0 L148.5,73.3 L151.0,74.6 L153.5,75.8 L156.0,77.1 L158.5,78.4 L161.0,79.6 L163.5,80.8 L166.0,81.9 L168.5,83.1 L171.0,84.1 L173.5,85.1 L176.0,86.1 L178.5,86.9 L181.0,87.7 L183.5,88.4 L186.0,89.1 L188.5,89.6 L191.0,90.1 L193.5,90.5 L196.0,90.7 L198.5,90.9 L201.0,91.0 L203.5,91.0 L206.0,90.9 L208.5,90.7 L211.0,90.4 L213.5,90.0 L216.0,89.5 L218.5,88.9 L221.0,88.2 L223.5,87.5 L226.0,86.7 L228.5,85.8 L231.0,84.8 L233.5,83.8 L236.0,82.7 L238.5,81.6 L241.0,80.4 L243.5,79.2 L246.0,78.0 L248.5,76.7 L251.0,75.4 L253.5,74.2 L256.0,72.9 L258.5,71.6 L261.0,70.3 L263.5,69.1 L266.0,67.9 L268.5,66.7 L271.0,65.6 L273.5,64.5 L276.0,63.4 L278.5,62.5 L281.0,61.6 L283.5,60.7 L286.0,59.9 L288.5,59.3 L291.0,58.7 L293.5,58.2 L296.0,57.7 L298.5,57.4 L301.0,57.2 L303.5,57.0 L306.0,57.0 L308.5,57.1 L311.0,57.2 L313.5,57.5 L316.0,57.8 L318.5,58.2 L321.0,58.8 L323.5,59.4 L326.0,60.1 L328.5,60.9 L331.0,61.7 L333.5,62.6 L336.0,63.6 L338.5,64.7 L341.0,65.8 L343.5,66.9 L346.0,68.1 L348.5,69.3 L351.0,70.6 L353.5,71.8 L356.0,73.1 L358.5,74.4 L361.0,75.7 L363.5,76.9 L366.0,78.2 L368.5,79.4 L371.0,80.6 L373.5,81.8 L376.0,82.9 L378.5,84.0 L381.0,85.0 L383.5,85.9 L386.0,86.8 L388.5,87.6 L391.0,88.4 L393.5,89.0 L396.0,89.6 L398.5,90.0 L401.0,90.4 L403.5,90.7 L406.0,90.9 L408.5,91.0 L411.0,91.0 L413.5,90.9 L416.0,90.7 L418.5,90.4 L421.0,90.0 L423.5,89.5 L426.0,89.0 L428.5,88.3 L431.0,87.6 L433.5,86.8 L436.0,85.9 L438.5,84.9 L441.0,83.9 L443.5,82.9 L446.0,81.7 L448.5,80.6 L451.0,79.4 L453.5,78.1 L456.0,76.9 L458.5,75.6 L461.0,74.3 L463.5,73.0 L466.0,71.8 L468.5,70.5 L471.0,69.3 L473.5,68.0 L476.0,66.9 L478.5,65.7 L481.0,64.6 L483.5,63.6 L486.0,62.6 L488.5,61.7 L491.0,60.8 L493.5,60.0 L496.0,59.4 L498.5,58.7 L501.0,58.2 L503.5,57.8 L506.0,57.4 L508.5,57.2 L511.0,57.1 L513.5,57.0 L516.0,57.0 L518.5,57.2 L521.0,57.4 L523.5,57.8 L526.0,58.2 L528.5,58.7 L531.0,59.3 L533.5,60.0 L536.0,60.8 L538.5,61.6 L541.0,62.5 L543.5,63.5 L546.0,64.5 L548.5,65.6 L551.0,66.8 L553.5,67.9 L556.0,69.2 L558.5,70.4 L561.0,71.7 L563.5,72.9 L566.0,74.2 L568.5,75.5 L571.0,76.8 L573.5,78.0 L576.0,79.3 L578.5,80.5 L581.0,81.7 L583.5,82.8 L586.0,83.9 L588.5,84.9 L591.0,85.8 L593.5,86.7 L596.0,87.5 L598.5,88.3 L601.0,88.9 L603.5,89.5 L606.0,90.0 L608.5,90.4 L611.0,90.7 L613.5,90.9 L616.0,91.0 L618.5,91.0 L621.0,90.9 L623.5,90.7 L626.0,90.4 L628.5,90.1 L631.0,89.6 L633.5,89.1 L636.0,88.4 L638.5,87.7 L641.0,86.9 L643.5,86.0 L646.0,85.1 L648.5,84.1 L651.0,83.0 L653.5,81.9 L656.0,80.7 L658.5,79.5 L661.0,78.3 L663.5,77.1 L666.0,75.8 L668.5,74.5 L671.0,73.2 L673.5,71.9 L676.0,70.7 L678.5,69.4 L681.0,68.2 L683.5,67.0 L686.0,65.9 L688.5,64.7 L691.0,63.7 L693.5,62.7 L696.0,61.8 L698.5,60.9 L701.0,60.1 L703.5,59.4 L706.0,58.8 L708.5,58.3 L711.0,57.8 L713.5,57.5"/>
+<path class="strand c" d="M46.0,74.0 L48.5,75.3 L51.0,76.6 L53.5,77.8 L56.0,79.1 L58.5,80.3 L61.0,81.4 L63.5,82.6 L66.0,83.7 L68.5,84.7 L71.0,85.7 L73.5,86.6 L76.0,87.4 L78.5,88.1 L81.0,88.8 L83.5,89.4 L86.0,89.9 L88.5,90.3 L91.0,90.6 L93.5,90.8 L96.0,91.0 L98.5,91.0 L101.0,90.9 L103.5,90.8 L106.0,90.5 L108.5,90.1 L111.0,89.7 L113.5,89.2 L116.0,88.5 L118.5,87.8 L121.0,87.0 L123.5,86.2 L126.0,85.2 L128.5,84.3 L131.0,83.2 L133.5,82.1 L136.0,80.9 L138.5,79.7 L141.0,78.5 L143.5,77.3 L146.0,76.0 L148.5,74.7 L151.0,73.4 L153.5,72.2 L156.0,70.9 L158.5,69.6 L161.0,68.4 L163.5,67.2 L166.0,66.1 L168.5,64.9 L171.0,63.9 L173.5,62.9 L176.0,61.9 L178.5,61.1 L181.0,60.3 L183.5,59.6 L186.0,58.9 L188.5,58.4 L191.0,57.9 L193.5,57.5 L196.0,57.3 L198.5,57.1 L201.0,57.0 L203.5,57.0 L206.0,57.1 L208.5,57.3 L211.0,57.6 L213.5,58.0 L216.0,58.5 L218.5,59.1 L221.0,59.8 L223.5,60.5 L226.0,61.3 L228.5,62.2 L231.0,63.2 L233.5,64.2 L236.0,65.3 L238.5,66.4 L241.0,67.6 L243.5,68.8 L246.0,70.0 L248.5,71.3 L251.0,72.6 L253.5,73.8 L256.0,75.1 L258.5,76.4 L261.0,77.7 L263.5,78.9 L266.0,80.1 L268.5,81.3 L271.0,82.4 L273.5,83.5 L276.0,84.6 L278.5,85.5 L281.0,86.4 L283.5,87.3 L286.0,88.1 L288.5,88.7 L291.0,89.3 L293.5,89.8 L296.0,90.3 L298.5,90.6 L301.0,90.8 L303.5,91.0 L306.0,91.0 L308.5,90.9 L311.0,90.8 L313.5,90.5 L316.0,90.2 L318.5,89.8 L321.0,89.2 L323.5,88.6 L326.0,87.9 L328.5,87.1 L331.0,86.3 L333.5,85.4 L336.0,84.4 L338.5,83.3 L341.0,82.2 L343.5,81.1 L346.0,79.9 L348.5,78.7 L351.0,77.4 L353.5,76.2 L356.0,74.9 L358.5,73.6 L361.0,72.3 L363.5,71.1 L366.0,69.8 L368.5,68.6 L371.0,67.4 L373.5,66.2 L376.0,65.1 L378.5,64.0 L381.0,63.0 L383.5,62.1 L386.0,61.2 L388.5,60.4 L391.0,59.6 L393.5,59.0 L396.0,58.4 L398.5,58.0 L401.0,57.6 L403.5,57.3 L406.0,57.1 L408.5,57.0 L411.0,57.0 L413.5,57.1 L416.0,57.3 L418.5,57.6 L421.0,58.0 L423.5,58.5 L426.0,59.0 L428.5,59.7 L431.0,60.4 L433.5,61.2 L436.0,62.1 L438.5,63.1 L441.0,64.1 L443.5,65.1 L446.0,66.3 L448.5,67.4 L451.0,68.6 L453.5,69.9 L456.0,71.1 L458.5,72.4 L461.0,73.7 L463.5,75.0 L466.0,76.2 L468.5,77.5 L471.0,78.7 L473.5,80.0 L476.0,81.1 L478.5,82.3 L481.0,83.4 L483.5,84.4 L486.0,85.4 L488.5,86.3 L491.0,87.2 L493.5,88.0 L496.0,88.6 L498.5,89.3 L501.0,89.8 L503.5,90.2 L506.0,90.6 L508.5,90.8 L511.0,90.9 L513.5,91.0 L516.0,91.0 L518.5,90.8 L521.0,90.6 L523.5,90.2 L526.0,89.8 L528.5,89.3 L531.0,88.7 L533.5,88.0 L536.0,87.2 L538.5,86.4 L541.0,85.5 L543.5,84.5 L546.0,83.5 L548.5,82.4 L551.0,81.2 L553.5,80.1 L556.0,78.8 L558.5,77.6 L561.0,76.3 L563.5,75.1 L566.0,73.8 L568.5,72.5 L571.0,71.2 L573.5,70.0 L576.0,68.7 L578.5,67.5 L581.0,66.3 L583.5,65.2 L586.0,64.1 L588.5,63.1 L591.0,62.2 L593.5,61.3 L596.0,60.5 L598.5,59.7 L601.0,59.1 L603.5,58.5 L606.0,58.0 L608.5,57.6 L611.0,57.3 L613.5,57.1 L616.0,57.0 L618.5,57.0 L621.0,57.1 L623.5,57.3 L626.0,57.6 L628.5,57.9 L631.0,58.4 L633.5,58.9 L636.0,59.6 L638.5,60.3 L641.0,61.1 L643.5,62.0 L646.0,62.9 L648.5,63.9 L651.0,65.0 L653.5,66.1 L656.0,67.3 L658.5,68.5 L661.0,69.7 L663.5,70.9 L666.0,72.2 L668.5,73.5 L671.0,74.8 L673.5,76.1 L676.0,77.3 L678.5,78.6 L681.0,79.8 L683.5,81.0 L686.0,82.1 L688.5,83.3 L691.0,84.3 L693.5,85.3 L696.0,86.2 L698.5,87.1 L701.0,87.9 L703.5,88.6 L706.0,89.2 L708.5,89.7 L711.0,90.2 L713.5,90.5"/>
+<text class="end" x="38" y="51" text-anchor="end">5′</text>
+<text class="end" x="722" y="51" text-anchor="start">3′</text>
+<text class="end" x="38" y="107" text-anchor="end">3′</text>
+<text class="end" x="722" y="107" text-anchor="start">5′</text>
+<text class="tick" x="83" y="18">clamp</text>
+<text class="tick strong" x="380" y="18">core — what Panmer designs (p = 14 bp)</text>
+<text class="tick" x="677" y="18">rc(clamp)</text>
+<text class="tick dim" x="380" y="125">one oligo = clamp + core + rc(clamp) = 18 bp</text>
+<rect class="win" x="120.2" y="139" width="148.4" height="22" rx="3"/>
+<text class="tick onwin" x="194" y="154">j = 0</text>
+<rect class="win mid" x="305.8" y="139" width="148.4" height="22" rx="3"/>
+<text class="tick onwin" x="380" y="154">j = 5 · centre</text>
+<line class="dots" x1="268.7" y1="150" x2="305.8" y2="150"/>
+<rect class="win" x="491.3" y="139" width="148.4" height="22" rx="3"/>
+<text class="tick onwin" x="566" y="154">j = 10</text>
+<line class="dots" x1="454.2" y1="150" x2="491.3" y2="150"/>
+<text class="tick" x="380" y="183">every window is one k-mer (k = 4); windows shift by 1 bp</text>
+<text class="tick strong" x="380" y="202">σ = p − k + 1 = 11 windows per core</text>
+<line class="axis" x1="380.0" y1="213" x2="380.0" y2="237"/>
+<line class="axis d" x1="194.4" y1="225" x2="380.0" y2="225"/>
+<line class="axis" x1="194.4" y1="219" x2="194.4" y2="231"/>
+<text class="tick pos" x="287" y="217">positional class d</text>
+<text class="tick dim" x="287" y="245">distance from the centre — what replica mode changes</text>
+<text class="tick dim" x="547" y="223">on the other strand the same k-mer</text>
+<text class="tick dim" x="547" y="241">sits at offset σ − 1 − j</text>
+</svg>
+<!-- /FIG:oligo -->
+        <dl class="gloss">
+    <dt>k</dt><dd>Length of the words to cover. Every k-mer must appear at least once, counting a k-mer and its reverse complement as the same double-stranded class. k = 4 gives the 136 tetranucleotides, k = 6 the 2080 hexanucleotides.</dd>
+    <dt>core length (p)</dt><dd>Length of the variable stretch. A longer core carries more windows per oligo (σ = p − k + 1), so fewer oligos are needed.</dd>
+    <dt>clamp</dt><dd>Fixed ends added to every oligo, as its reverse complement on the 3′ side. GC…GC, as in the ABC libraries, keeps the duplex ends stable and keeps modified bases away from the termini.</dd>
+    <dt>seed</dt><dd>The design is random but reproducible: the same seed always gives the same library, a different seed gives a different library that is just as good.</dd>
+    <dt>strategy</dt><dd><b>Single master</b> cuts one reverse-complement-complete sequence into overlapping cores — simple, but it pays a tiling penalty. <b>Segments</b> cuts that sequence at its repeated windows and recombines the pieces, reaching the smallest possible number of oligos.</dd>
+    <dt>modified bases · max per k-mer</dt><dd>Which modXNA modifications enter the alphabet, and how many may appear in a single k-mer. The cap is what keeps the library small enough to simulate.</dd>
+    <dt>constraints</dt><dd>Hard limits every oligo must satisfy: GC range, longest homopolymer run, longest self-complementary stretch. Enforced while searching, so coverage stays complete.</dd>
+    <dt>replica mode</dt><dd>Builds a library in which no k-mer occupies a positional class d it occupies in a reference library — an independent replica that separates sequence effects from position effects.</dd>
+    <dt>effort</dt><dd>How long the search runs. Raise it when the result sits a few oligos above the lower bound.</dd>
+  </dl>
+        <p class="hint">Everything is computed in your browser — your sequences never leave your machine.</p>
+      </div>
+    </section>
+  </div>
 
   <article class="doc docs-only hidden" id="view-docs">
 
@@ -65,55 +248,60 @@ the same structure as the published miniABC library: the minimum number of oligo
 minimum possible redundancy.</p>
 
 <h2 id="doc-params">Parameters</h2>
-<div class="guide"><svg class="fig" viewBox="0 0 660 232" role="img" aria-labelledby="docfigtitle docfigdesc">
-    <title id="docfigtitle">Anatomy of a Panmer oligonucleotide</title>
-    <desc id="docfigdesc">An 18-bp oligo made of a GC clamp, a 14-bp core and the reverse-complement clamp. The core holds eleven overlapping 4-mer windows; sigma equals core minus k plus one. Each window sits at an offset j from the left, and its positional class d is its distance from the centre.</desc>
-
-    <!-- the oligo -->
-    <g>
-      <rect class="clamp" x="20"  y="26" width="56" height="30" rx="3"/>
-      <rect class="core"  x="76"  y="26" width="392" height="30"/>
-      <rect class="clamp" x="468" y="26" width="56" height="30" rx="3"/>
-      <text class="lbl on-clamp" x="48"  y="46">GC</text>
-      <text class="lbl on-core"  x="272" y="46">core — the variable part Panmer designs</text>
-      <text class="lbl on-clamp" x="496" y="46">GC</text>
-      <text class="tick" x="48"  y="20">clamp</text>
-      <text class="tick" x="272" y="20">core length p = 14 bp</text>
-      <text class="tick" x="496" y="20">rc(clamp)</text>
-    </g>
-
-    <!-- total length brace -->
-    <g class="dim">
-      <line x1="20" y1="66" x2="524" y2="66"/>
-      <line x1="20" y1="61" x2="20" y2="71"/><line x1="524" y1="61" x2="524" y2="71"/>
-      <text class="tick" x="272" y="80">one oligo = clamp + core + rc(clamp) = 18 bp</text>
-    </g>
-
-    <!-- k-mer windows -->
-    <g>
-      <rect class="win first" x="76"  y="98" width="112" height="20" rx="2"/>
-      <text class="tick on-win" x="132" y="112">window 1 (j = 0)</text>
-      <rect class="win" x="216" y="98" width="112" height="20" rx="2"/>
-      <text class="tick on-win" x="272" y="112">j = 5 · centre</text>
-      <rect class="win last" x="356" y="98" width="112" height="20" rx="2"/>
-      <text class="tick on-win" x="412" y="112">j = 10</text>
-      <line class="dot" x1="188" y1="108" x2="216" y2="108"/>
-      <line class="dot" x1="328" y1="108" x2="356" y2="108"/>
-      <text class="tick" x="272" y="136">each window is one k-mer (k = 4); consecutive windows shift by 1 bp</text>
-      <text class="tick strong" x="272" y="153">σ = p − k + 1 = 11 windows per core</text>
-    </g>
-
-    <!-- positional class -->
-    <g class="dim">
-      <line x1="272" y1="170" x2="272" y2="196"/>
-      <line x1="132" y1="184" x2="272" y2="184"/>
-      <line x1="132" y1="179" x2="132" y2="189"/>
-      <text class="tick" x="202" y="176">distance to the centre</text>
-      <text class="tick strong" x="202" y="210">positional class d — what replica mode changes</text>
-      <text class="tick" x="500" y="184">on Crick the same k-mer</text>
-      <text class="tick" x="500" y="198">sits at σ − 1 − j</text>
-    </g>
-  </svg></div>
+<!-- FIG:oligodoc -->
+<svg class="fig" viewBox="0 0 760 300" role="img" aria-labelledby="dfigtitle dfigdesc">
+<title id="dfigtitle">Anatomy of a Panmer oligonucleotide</title>
+<desc id="dfigdesc">A double-stranded 18-base-pair oligo: a two-base GC clamp at each end and a 14-base-pair core between them. The core holds eleven overlapping 4-mer windows, one per starting offset j; sigma equals the core length minus k plus one. The positional class d of a window is its distance from the centre of the core, and the same k-mer sits at offset sigma minus one minus j on the opposite strand.</desc>
+<rect class="band core" x="120.2" y="41" width="519.6" height="66" rx="6"/>
+<rect class="band clamp" x="46.0" y="41" width="74.2" height="66" rx="6"/>
+<rect class="band clamp" x="639.8" y="41" width="74.2" height="66" rx="6"/>
+<line class="rung clampbp" x1="64.6" y1="65.0" x2="64.6" y2="83.0"/>
+<line class="rung clampbp" x1="101.7" y1="57.1" x2="101.7" y2="90.9"/>
+<line class="rung corebp" x1="138.8" y1="68.4" x2="138.8" y2="79.6"/>
+<line class="rung corebp" x1="175.9" y1="86.0" x2="175.9" y2="62.0"/>
+<line class="rung corebp" x1="213.0" y1="90.0" x2="213.0" y2="58.0"/>
+<line class="rung corebp" x1="250.1" y1="75.9" x2="250.1" y2="72.1"/>
+<line class="rung corebp" x1="287.2" y1="59.6" x2="287.2" y2="88.4"/>
+<line class="rung corebp" x1="324.3" y1="59.6" x2="324.3" y2="88.4"/>
+<line class="rung corebp" x1="361.4" y1="75.9" x2="361.4" y2="72.1"/>
+<line class="rung corebp" x1="398.6" y1="90.0" x2="398.6" y2="58.0"/>
+<line class="rung corebp" x1="435.7" y1="86.0" x2="435.7" y2="62.0"/>
+<line class="rung corebp" x1="472.8" y1="68.4" x2="472.8" y2="79.6"/>
+<line class="rung corebp" x1="509.9" y1="57.1" x2="509.9" y2="90.9"/>
+<line class="rung corebp" x1="547.0" y1="65.0" x2="547.0" y2="83.0"/>
+<line class="rung corebp" x1="584.1" y1="83.0" x2="584.1" y2="65.0"/>
+<line class="rung corebp" x1="621.2" y1="90.9" x2="621.2" y2="57.1"/>
+<line class="rung clampbp" x1="658.3" y1="79.6" x2="658.3" y2="68.4"/>
+<line class="rung clampbp" x1="695.4" y1="62.0" x2="695.4" y2="86.0"/>
+<path class="strand w" d="M46.0,74.0 L48.5,72.7 L51.0,71.4 L53.5,70.2 L56.0,68.9 L58.5,67.7 L61.0,66.6 L63.5,65.4 L66.0,64.3 L68.5,63.3 L71.0,62.3 L73.5,61.4 L76.0,60.6 L78.5,59.9 L81.0,59.2 L83.5,58.6 L86.0,58.1 L88.5,57.7 L91.0,57.4 L93.5,57.2 L96.0,57.0 L98.5,57.0 L101.0,57.1 L103.5,57.2 L106.0,57.5 L108.5,57.9 L111.0,58.3 L113.5,58.8 L116.0,59.5 L118.5,60.2 L121.0,61.0 L123.5,61.8 L126.0,62.8 L128.5,63.7 L131.0,64.8 L133.5,65.9 L136.0,67.1 L138.5,68.3 L141.0,69.5 L143.5,70.7 L146.0,72.0 L148.5,73.3 L151.0,74.6 L153.5,75.8 L156.0,77.1 L158.5,78.4 L161.0,79.6 L163.5,80.8 L166.0,81.9 L168.5,83.1 L171.0,84.1 L173.5,85.1 L176.0,86.1 L178.5,86.9 L181.0,87.7 L183.5,88.4 L186.0,89.1 L188.5,89.6 L191.0,90.1 L193.5,90.5 L196.0,90.7 L198.5,90.9 L201.0,91.0 L203.5,91.0 L206.0,90.9 L208.5,90.7 L211.0,90.4 L213.5,90.0 L216.0,89.5 L218.5,88.9 L221.0,88.2 L223.5,87.5 L226.0,86.7 L228.5,85.8 L231.0,84.8 L233.5,83.8 L236.0,82.7 L238.5,81.6 L241.0,80.4 L243.5,79.2 L246.0,78.0 L248.5,76.7 L251.0,75.4 L253.5,74.2 L256.0,72.9 L258.5,71.6 L261.0,70.3 L263.5,69.1 L266.0,67.9 L268.5,66.7 L271.0,65.6 L273.5,64.5 L276.0,63.4 L278.5,62.5 L281.0,61.6 L283.5,60.7 L286.0,59.9 L288.5,59.3 L291.0,58.7 L293.5,58.2 L296.0,57.7 L298.5,57.4 L301.0,57.2 L303.5,57.0 L306.0,57.0 L308.5,57.1 L311.0,57.2 L313.5,57.5 L316.0,57.8 L318.5,58.2 L321.0,58.8 L323.5,59.4 L326.0,60.1 L328.5,60.9 L331.0,61.7 L333.5,62.6 L336.0,63.6 L338.5,64.7 L341.0,65.8 L343.5,66.9 L346.0,68.1 L348.5,69.3 L351.0,70.6 L353.5,71.8 L356.0,73.1 L358.5,74.4 L361.0,75.7 L363.5,76.9 L366.0,78.2 L368.5,79.4 L371.0,80.6 L373.5,81.8 L376.0,82.9 L378.5,84.0 L381.0,85.0 L383.5,85.9 L386.0,86.8 L388.5,87.6 L391.0,88.4 L393.5,89.0 L396.0,89.6 L398.5,90.0 L401.0,90.4 L403.5,90.7 L406.0,90.9 L408.5,91.0 L411.0,91.0 L413.5,90.9 L416.0,90.7 L418.5,90.4 L421.0,90.0 L423.5,89.5 L426.0,89.0 L428.5,88.3 L431.0,87.6 L433.5,86.8 L436.0,85.9 L438.5,84.9 L441.0,83.9 L443.5,82.9 L446.0,81.7 L448.5,80.6 L451.0,79.4 L453.5,78.1 L456.0,76.9 L458.5,75.6 L461.0,74.3 L463.5,73.0 L466.0,71.8 L468.5,70.5 L471.0,69.3 L473.5,68.0 L476.0,66.9 L478.5,65.7 L481.0,64.6 L483.5,63.6 L486.0,62.6 L488.5,61.7 L491.0,60.8 L493.5,60.0 L496.0,59.4 L498.5,58.7 L501.0,58.2 L503.5,57.8 L506.0,57.4 L508.5,57.2 L511.0,57.1 L513.5,57.0 L516.0,57.0 L518.5,57.2 L521.0,57.4 L523.5,57.8 L526.0,58.2 L528.5,58.7 L531.0,59.3 L533.5,60.0 L536.0,60.8 L538.5,61.6 L541.0,62.5 L543.5,63.5 L546.0,64.5 L548.5,65.6 L551.0,66.8 L553.5,67.9 L556.0,69.2 L558.5,70.4 L561.0,71.7 L563.5,72.9 L566.0,74.2 L568.5,75.5 L571.0,76.8 L573.5,78.0 L576.0,79.3 L578.5,80.5 L581.0,81.7 L583.5,82.8 L586.0,83.9 L588.5,84.9 L591.0,85.8 L593.5,86.7 L596.0,87.5 L598.5,88.3 L601.0,88.9 L603.5,89.5 L606.0,90.0 L608.5,90.4 L611.0,90.7 L613.5,90.9 L616.0,91.0 L618.5,91.0 L621.0,90.9 L623.5,90.7 L626.0,90.4 L628.5,90.1 L631.0,89.6 L633.5,89.1 L636.0,88.4 L638.5,87.7 L641.0,86.9 L643.5,86.0 L646.0,85.1 L648.5,84.1 L651.0,83.0 L653.5,81.9 L656.0,80.7 L658.5,79.5 L661.0,78.3 L663.5,77.1 L666.0,75.8 L668.5,74.5 L671.0,73.2 L673.5,71.9 L676.0,70.7 L678.5,69.4 L681.0,68.2 L683.5,67.0 L686.0,65.9 L688.5,64.7 L691.0,63.7 L693.5,62.7 L696.0,61.8 L698.5,60.9 L701.0,60.1 L703.5,59.4 L706.0,58.8 L708.5,58.3 L711.0,57.8 L713.5,57.5"/>
+<path class="strand c" d="M46.0,74.0 L48.5,75.3 L51.0,76.6 L53.5,77.8 L56.0,79.1 L58.5,80.3 L61.0,81.4 L63.5,82.6 L66.0,83.7 L68.5,84.7 L71.0,85.7 L73.5,86.6 L76.0,87.4 L78.5,88.1 L81.0,88.8 L83.5,89.4 L86.0,89.9 L88.5,90.3 L91.0,90.6 L93.5,90.8 L96.0,91.0 L98.5,91.0 L101.0,90.9 L103.5,90.8 L106.0,90.5 L108.5,90.1 L111.0,89.7 L113.5,89.2 L116.0,88.5 L118.5,87.8 L121.0,87.0 L123.5,86.2 L126.0,85.2 L128.5,84.3 L131.0,83.2 L133.5,82.1 L136.0,80.9 L138.5,79.7 L141.0,78.5 L143.5,77.3 L146.0,76.0 L148.5,74.7 L151.0,73.4 L153.5,72.2 L156.0,70.9 L158.5,69.6 L161.0,68.4 L163.5,67.2 L166.0,66.1 L168.5,64.9 L171.0,63.9 L173.5,62.9 L176.0,61.9 L178.5,61.1 L181.0,60.3 L183.5,59.6 L186.0,58.9 L188.5,58.4 L191.0,57.9 L193.5,57.5 L196.0,57.3 L198.5,57.1 L201.0,57.0 L203.5,57.0 L206.0,57.1 L208.5,57.3 L211.0,57.6 L213.5,58.0 L216.0,58.5 L218.5,59.1 L221.0,59.8 L223.5,60.5 L226.0,61.3 L228.5,62.2 L231.0,63.2 L233.5,64.2 L236.0,65.3 L238.5,66.4 L241.0,67.6 L243.5,68.8 L246.0,70.0 L248.5,71.3 L251.0,72.6 L253.5,73.8 L256.0,75.1 L258.5,76.4 L261.0,77.7 L263.5,78.9 L266.0,80.1 L268.5,81.3 L271.0,82.4 L273.5,83.5 L276.0,84.6 L278.5,85.5 L281.0,86.4 L283.5,87.3 L286.0,88.1 L288.5,88.7 L291.0,89.3 L293.5,89.8 L296.0,90.3 L298.5,90.6 L301.0,90.8 L303.5,91.0 L306.0,91.0 L308.5,90.9 L311.0,90.8 L313.5,90.5 L316.0,90.2 L318.5,89.8 L321.0,89.2 L323.5,88.6 L326.0,87.9 L328.5,87.1 L331.0,86.3 L333.5,85.4 L336.0,84.4 L338.5,83.3 L341.0,82.2 L343.5,81.1 L346.0,79.9 L348.5,78.7 L351.0,77.4 L353.5,76.2 L356.0,74.9 L358.5,73.6 L361.0,72.3 L363.5,71.1 L366.0,69.8 L368.5,68.6 L371.0,67.4 L373.5,66.2 L376.0,65.1 L378.5,64.0 L381.0,63.0 L383.5,62.1 L386.0,61.2 L388.5,60.4 L391.0,59.6 L393.5,59.0 L396.0,58.4 L398.5,58.0 L401.0,57.6 L403.5,57.3 L406.0,57.1 L408.5,57.0 L411.0,57.0 L413.5,57.1 L416.0,57.3 L418.5,57.6 L421.0,58.0 L423.5,58.5 L426.0,59.0 L428.5,59.7 L431.0,60.4 L433.5,61.2 L436.0,62.1 L438.5,63.1 L441.0,64.1 L443.5,65.1 L446.0,66.3 L448.5,67.4 L451.0,68.6 L453.5,69.9 L456.0,71.1 L458.5,72.4 L461.0,73.7 L463.5,75.0 L466.0,76.2 L468.5,77.5 L471.0,78.7 L473.5,80.0 L476.0,81.1 L478.5,82.3 L481.0,83.4 L483.5,84.4 L486.0,85.4 L488.5,86.3 L491.0,87.2 L493.5,88.0 L496.0,88.6 L498.5,89.3 L501.0,89.8 L503.5,90.2 L506.0,90.6 L508.5,90.8 L511.0,90.9 L513.5,91.0 L516.0,91.0 L518.5,90.8 L521.0,90.6 L523.5,90.2 L526.0,89.8 L528.5,89.3 L531.0,88.7 L533.5,88.0 L536.0,87.2 L538.5,86.4 L541.0,85.5 L543.5,84.5 L546.0,83.5 L548.5,82.4 L551.0,81.2 L553.5,80.1 L556.0,78.8 L558.5,77.6 L561.0,76.3 L563.5,75.1 L566.0,73.8 L568.5,72.5 L571.0,71.2 L573.5,70.0 L576.0,68.7 L578.5,67.5 L581.0,66.3 L583.5,65.2 L586.0,64.1 L588.5,63.1 L591.0,62.2 L593.5,61.3 L596.0,60.5 L598.5,59.7 L601.0,59.1 L603.5,58.5 L606.0,58.0 L608.5,57.6 L611.0,57.3 L613.5,57.1 L616.0,57.0 L618.5,57.0 L621.0,57.1 L623.5,57.3 L626.0,57.6 L628.5,57.9 L631.0,58.4 L633.5,58.9 L636.0,59.6 L638.5,60.3 L641.0,61.1 L643.5,62.0 L646.0,62.9 L648.5,63.9 L651.0,65.0 L653.5,66.1 L656.0,67.3 L658.5,68.5 L661.0,69.7 L663.5,70.9 L666.0,72.2 L668.5,73.5 L671.0,74.8 L673.5,76.1 L676.0,77.3 L678.5,78.6 L681.0,79.8 L683.5,81.0 L686.0,82.1 L688.5,83.3 L691.0,84.3 L693.5,85.3 L696.0,86.2 L698.5,87.1 L701.0,87.9 L703.5,88.6 L706.0,89.2 L708.5,89.7 L711.0,90.2 L713.5,90.5"/>
+<text class="end" x="38" y="51" text-anchor="end">5′</text>
+<text class="end" x="722" y="51" text-anchor="start">3′</text>
+<text class="end" x="38" y="107" text-anchor="end">3′</text>
+<text class="end" x="722" y="107" text-anchor="start">5′</text>
+<text class="tick" x="83" y="18">clamp</text>
+<text class="tick strong" x="380" y="18">core — what Panmer designs (p = 14 bp)</text>
+<text class="tick" x="677" y="18">rc(clamp)</text>
+<text class="tick dim" x="380" y="125">one oligo = clamp + core + rc(clamp) = 18 bp</text>
+<rect class="win" x="120.2" y="139" width="148.4" height="22" rx="3"/>
+<text class="tick onwin" x="194" y="154">j = 0</text>
+<rect class="win mid" x="305.8" y="139" width="148.4" height="22" rx="3"/>
+<text class="tick onwin" x="380" y="154">j = 5 · centre</text>
+<line class="dots" x1="268.7" y1="150" x2="305.8" y2="150"/>
+<rect class="win" x="491.3" y="139" width="148.4" height="22" rx="3"/>
+<text class="tick onwin" x="566" y="154">j = 10</text>
+<line class="dots" x1="454.2" y1="150" x2="491.3" y2="150"/>
+<text class="tick" x="380" y="183">every window is one k-mer (k = 4); windows shift by 1 bp</text>
+<text class="tick strong" x="380" y="202">σ = p − k + 1 = 11 windows per core</text>
+<line class="axis" x1="380.0" y1="213" x2="380.0" y2="237"/>
+<line class="axis d" x1="194.4" y1="225" x2="380.0" y2="225"/>
+<line class="axis" x1="194.4" y1="219" x2="194.4" y2="231"/>
+<text class="tick pos" x="287" y="217">positional class d</text>
+<text class="tick dim" x="287" y="245">distance from the centre — what replica mode changes</text>
+<text class="tick dim" x="547" y="223">on the other strand the same k-mer</text>
+<text class="tick dim" x="547" y="241">sits at offset σ − 1 − j</text>
+</svg>
+<!-- /FIG:oligodoc -->
 <table>
 <thead><tr><th>parameter</th><th>meaning</th></tr></thead>
 <tbody>
@@ -287,202 +475,6 @@ panmer design -k 4 --core 14 --replica-of miniABC.fasta --max-selfcomp 4 --effor
 <a href="https://doi.org/10.1038/s41467-026-74390-5">Battistini et al. 2026</a>.
 Code: MIT. Generated libraries: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
 </article>
-
-  <div class="layout" id="workbench">
-    <!-- ======================= parameters ======================= -->
-    <form id="params" class="panel-stack" autocomplete="off" onsubmit="return false">
-      <section class="panel">
-        <h2>Examples</h2>
-        <div class="examples" id="examples"></div>
-      </section>
-
-      <section class="panel">
-        <h2>Alphabet</h2>
-        <div class="field">
-          <span class="label">Nucleic acid</span>
-          <div class="seg" id="nucleic">
-            <button type="button" data-v="DNA" aria-pressed="true">DNA</button>
-            <button type="button" data-v="RNA" aria-pressed="false">RNA</button>
-          </div>
-        </div>
-        <div class="field">
-          <details class="mods" id="modsbox">
-            <summary>Modified bases (modXNA): <b id="modcount">none</b></summary>
-            <div class="inner">
-              <div class="hint">Each modified base is always paired with its canonical partner (A*–T/U, C*–G, G*–C, T*–A, U*–A). Every fragment has AMBER parameters in <a href="https://modxna.chpc.utah.edu/catalog/" target="_blank" rel="noopener">modXNA</a>.</div>
-              <div class="fams" id="fams"></div>
-              <input type="search" id="modfilter" placeholder="Filter by code or name (e.g. M6A, methyl)">
-              <div class="modlist" id="modlist"><div class="status" style="padding:8px">Loading catalogue…</div></div>
-              <div class="fams">
-                <label><input type="checkbox" id="incprot"> show protected phosphoramidites</label>
-                <label><input type="checkbox" id="incdup"> show duplicates</label>
-                <button type="button" class="btn ghost small" id="clearmods">Clear</button>
-              </div>
-            </div>
-          </details>
-        </div>
-        <div class="field" id="maxmodsfield">
-          <label for="maxmods">Max modified base pairs per k-mer</label>
-          <select id="maxmods">
-            <option value="1" selected>1</option><option value="2">2</option>
-            <option value="3">3</option><option value="all">no limit</option>
-          </select>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>Library</h2>
-        <div class="row">
-          <div class="field">
-            <label for="k">k (k-mer length)</label>
-            <input type="number" id="k" min="2" max="12" value="4">
-          </div>
-          <div class="field design-only">
-            <label for="core">Core length (bp)</label>
-            <input type="number" id="core" min="2" max="60" value="14">
-          </div>
-        </div>
-        <div class="row">
-          <div class="field">
-            <label for="clamp">Clamp (5′ side)</label>
-            <input type="text" id="clamp" value="GC" spellcheck="false">
-          </div>
-          <div class="field design-only">
-            <label for="seed">Random seed</label>
-            <input type="number" id="seed" min="0" value="0">
-          </div>
-        </div>
-        <div class="hint design-only">Each oligo is clamp + core + reverse complement of the clamp, e.g. GC·core·GC.</div>
-      </section>
-
-      <section class="panel design-only">
-        <h2>Strategy</h2>
-        <div class="field">
-          <div class="seg" id="mode">
-            <button type="button" data-v="tiled" aria-pressed="true">Single master</button>
-            <button type="button" data-v="segments" aria-pressed="false">Segments</button>
-          </div>
-          <div class="hint" id="modehint">One reverse-complement-complete master cut into overlapping cores. Segments recombine the master into independent walks and can reach the absolute minimum number of oligos.</div>
-        </div>
-        <details class="mods" id="consbox">
-          <summary>Sequence constraints: <b id="conscount">none</b></summary>
-          <div class="inner">
-            <div class="hint">Hard constraints on every oligo. They force the segment strategy.</div>
-            <div class="row">
-              <div class="field"><label for="gcmin">GC core min %</label><input type="number" id="gcmin" min="0" max="100" placeholder="any"></div>
-              <div class="field"><label for="gcmax">GC core max %</label><input type="number" id="gcmax" min="0" max="100" placeholder="any"></div>
-            </div>
-            <div class="row">
-              <div class="field"><label for="maxrun">Max homopolymer run</label><input type="number" id="maxrun" min="1" max="20" placeholder="any"></div>
-              <div class="field"><label for="maxsc">Max self-complementary</label><input type="number" id="maxsc" min="2" max="20" placeholder="any"></div>
-            </div>
-          </div>
-        </details>
-        <details class="mods" id="repbox" style="margin-top:10px">
-          <summary>Replica mode: <b id="repcount">off</b></summary>
-          <div class="inner">
-            <div class="hint">Paste a reference library. Panmer then places every k-mer in a <b>different helical position</b> from the one it occupies there — an independent replica for MD.</div>
-            <textarea id="refoligos" spellcheck="false" placeholder=">miniABC_01&#10;GCAACGTGCTATGGAAGC&#10;..." style="min-height:120px"></textarea>
-            <button type="button" class="btn ghost small" id="useminiabc">Use miniABC (2019)</button>
-            <button type="button" class="btn ghost small" id="clearref">Clear</button>
-          </div>
-        </details>
-        <div class="field" style="margin-top:10px">
-          <label for="effort">Search effort</label>
-          <select id="effort"><option value="0.5">quick</option><option value="1" selected>normal</option><option value="2">thorough</option><option value="4">exhaustive</option></select>
-        </div>
-      </section>
-
-      <section class="panel analyze-only hidden">
-        <h2>Your library</h2>
-        <div class="field">
-          <label for="oligos">Oligos, 5′→3′ Watson strand (FASTA or one per line)</label>
-          <textarea id="oligos" spellcheck="false" placeholder=">oligo_1&#10;GCAACGTGCTATGGAAGC&#10;GC[M6A]TTAGC..."></textarea>
-          <div class="hint">Modified bases: <code>[X]</code> = X on this strand, <code>{X}</code> = X on the opposite strand.</div>
-        </div>
-      </section>
-
-      <!-- pinned to the bottom of the parameter column, so running never needs a scroll -->
-      <div class="actionbar">
-        <div class="estimate design-only" id="estimate"><span class="spinner"></span>Starting the engine…</div>
-        <div class="actionrow">
-          <button type="button" class="btn design-only" id="run" disabled>Design library</button>
-          <button type="button" class="btn analyze-only hidden" id="runan" disabled>Analyse</button>
-          <span class="status" id="status"></span>
-          <span class="status analyze-only hidden" id="status2"></span>
-        </div>
-      </div>
-    </form>
-
-    <!-- ======================= results ======================= -->
-    <section id="results" aria-live="polite">
-<div class="panel guide" id="guide">
-  <h2>What the parameters mean</h2>
-  <svg class="fig" viewBox="0 0 660 232" role="img" aria-labelledby="figtitle figdesc">
-    <title id="figtitle">Anatomy of a Panmer oligonucleotide</title>
-    <desc id="figdesc">An 18-bp oligo made of a GC clamp, a 14-bp core and the reverse-complement clamp. The core holds eleven overlapping 4-mer windows; sigma equals core minus k plus one. Each window sits at an offset j from the left, and its positional class d is its distance from the centre.</desc>
-
-    <!-- the oligo -->
-    <g>
-      <rect class="clamp" x="20"  y="26" width="56" height="30" rx="3"/>
-      <rect class="core"  x="76"  y="26" width="392" height="30"/>
-      <rect class="clamp" x="468" y="26" width="56" height="30" rx="3"/>
-      <text class="lbl on-clamp" x="48"  y="46">GC</text>
-      <text class="lbl on-core"  x="272" y="46">core — the variable part Panmer designs</text>
-      <text class="lbl on-clamp" x="496" y="46">GC</text>
-      <text class="tick" x="48"  y="20">clamp</text>
-      <text class="tick" x="272" y="20">core length p = 14 bp</text>
-      <text class="tick" x="496" y="20">rc(clamp)</text>
-    </g>
-
-    <!-- total length brace -->
-    <g class="dim">
-      <line x1="20" y1="66" x2="524" y2="66"/>
-      <line x1="20" y1="61" x2="20" y2="71"/><line x1="524" y1="61" x2="524" y2="71"/>
-      <text class="tick" x="272" y="80">one oligo = clamp + core + rc(clamp) = 18 bp</text>
-    </g>
-
-    <!-- k-mer windows -->
-    <g>
-      <rect class="win first" x="76"  y="98" width="112" height="20" rx="2"/>
-      <text class="tick on-win" x="132" y="112">window 1 (j = 0)</text>
-      <rect class="win" x="216" y="98" width="112" height="20" rx="2"/>
-      <text class="tick on-win" x="272" y="112">j = 5 · centre</text>
-      <rect class="win last" x="356" y="98" width="112" height="20" rx="2"/>
-      <text class="tick on-win" x="412" y="112">j = 10</text>
-      <line class="dot" x1="188" y1="108" x2="216" y2="108"/>
-      <line class="dot" x1="328" y1="108" x2="356" y2="108"/>
-      <text class="tick" x="272" y="136">each window is one k-mer (k = 4); consecutive windows shift by 1 bp</text>
-      <text class="tick strong" x="272" y="153">σ = p − k + 1 = 11 windows per core</text>
-    </g>
-
-    <!-- positional class -->
-    <g class="dim">
-      <line x1="272" y1="170" x2="272" y2="196"/>
-      <line x1="132" y1="184" x2="272" y2="184"/>
-      <line x1="132" y1="179" x2="132" y2="189"/>
-      <text class="tick" x="202" y="176">distance to the centre</text>
-      <text class="tick strong" x="202" y="210">positional class d — what replica mode changes</text>
-      <text class="tick" x="500" y="184">on Crick the same k-mer</text>
-      <text class="tick" x="500" y="198">sits at σ − 1 − j</text>
-    </g>
-  </svg>
-
-  <dl class="gloss">
-    <dt>k</dt><dd>Length of the words to cover. Every k-mer must appear at least once, counting a k-mer and its reverse complement as the same double-stranded class. k = 4 gives the 136 tetranucleotides, k = 6 the 2080 hexanucleotides.</dd>
-    <dt>core length (p)</dt><dd>Length of the variable stretch. A longer core carries more windows per oligo (σ = p − k + 1), so fewer oligos are needed.</dd>
-    <dt>clamp</dt><dd>Fixed ends added to every oligo, as its reverse complement on the 3′ side. GC…GC, as in the ABC libraries, keeps the duplex ends stable and keeps modified bases away from the termini.</dd>
-    <dt>seed</dt><dd>The design is random but reproducible: the same seed always gives the same library, a different seed gives a different library that is just as good.</dd>
-    <dt>strategy</dt><dd><b>Single master</b> cuts one reverse-complement-complete sequence into overlapping cores — simple, but it pays a tiling penalty. <b>Segments</b> cuts that sequence at its repeated windows and recombines the pieces, reaching the smallest possible number of oligos.</dd>
-    <dt>modified bases · max per k-mer</dt><dd>Which modXNA modifications enter the alphabet, and how many may appear in a single k-mer. The cap is what keeps the library small enough to simulate.</dd>
-    <dt>constraints</dt><dd>Hard limits every oligo must satisfy: GC range, longest homopolymer run, longest self-complementary stretch. Enforced while searching, so coverage stays complete.</dd>
-    <dt>replica mode</dt><dd>Builds a library in which no k-mer occupies a positional class d it occupies in a reference library — an independent replica that separates sequence effects from position effects.</dd>
-    <dt>effort</dt><dd>How long the search runs. Raise it when the result sits a few oligos above the lower bound.</dd>
-  </dl>
-  <p class="hint">Everything is computed in your browser — your sequences never leave your machine.</p>
-</div>
-    </section>
-  </div>
 </main>
 
 <footer>

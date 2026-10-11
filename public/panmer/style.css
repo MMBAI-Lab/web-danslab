@@ -13,6 +13,10 @@
   --recess-bg: rgba(0,0,0,.55); --recess-edge: #262626;
   --recess: inset 0 2px 4px rgba(0,0,0,.6);
   --drop: 0 14px 30px -8px rgba(0,0,0,.7), 0 4px 8px rgba(0,0,0,.4);
+  --c-seq:  rgb(45 212 191);   /* sequence, coverage */
+  --c-mod:  rgb(167 139 250);  /* modified bases */
+  --c-pos:  rgb(251 191 36);   /* position, strategy, segments */
+  --c-lib:  rgb(96 165 250);   /* library geometry */
   color-scheme: dark;
 }
 :root[data-theme="light"] {
@@ -26,6 +30,10 @@
   --recess-bg: rgba(0,0,0,.035); --recess-edge: #cfcfcf;
   --recess: inset 0 2px 4px rgba(0,0,0,.10);
   --drop: 0 10px 22px -10px rgba(0,0,0,.28), 0 2px 5px rgba(0,0,0,.10);
+  --c-seq:  rgb(13 148 136);
+  --c-mod:  rgb(109 40 217);
+  --c-pos:  rgb(180 83 9);
+  --c-lib:  rgb(29 78 216);
   color-scheme: light;
 }
 :root {
@@ -59,8 +67,7 @@ nav.tabs { display: flex; gap: 4px; margin: 18px 0 0; border-bottom: 1px solid v
 nav.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); padding: 8px 14px; font: 600 14px var(--sans); cursor: pointer; }
 nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 
-.layout { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 24px; padding: 20px 0 40px; }
-@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+#workbench { padding: 14px 0 32px; }
 
 .panel {
   position: relative;
@@ -203,25 +210,15 @@ footer a { color: var(--muted); }
   body { display: flex; flex-direction: column; overflow: hidden; }
   header.top, nav.tabs, footer { flex: none; }
   main.wrap { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; width: 100%; }
-  .layout { flex: 1 1 auto; min-height: 0; padding: 16px 0; }
-  #params, #results { height: 100%; overflow-y: auto; overscroll-behavior: contain; }
-  #params { padding-right: 6px; }
+  #workbench { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+               gap: 0; padding: 14px 0 16px; }
+  #params, .drawer { flex: none; }
+  #results { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+             margin-top: 14px; }
+  .drawer { max-height: 46vh; overflow-y: auto; }
   #view-docs { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
 }
 
-/* ---- run controls, pinned to the bottom of the parameter column ---- */
-.actionbar {
-  position: sticky; bottom: 0; z-index: 3; margin-top: 16px;
-  border-radius: var(--radius);
-  border: 1px solid var(--panel-edge);
-  background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom));
-  box-shadow: var(--drop), inset 0 1px 0 var(--bevel-hi);
-  padding: 12px;
-}
-.actionbar .estimate { margin-bottom: 10px; }
-.actionrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.actionrow .btn { flex: 0 0 auto; }
-.actionrow .status { flex: 1 1 auto; min-width: 0; }
 
 /* ---- results stay readable while scrolling a long table ---- */
 /* the summary stays in view while a long oligo table scrolls under it, so it needs an
@@ -258,3 +255,128 @@ footer a { color: var(--muted); }
   .gloss { grid-template-columns: 1fr; gap: 2px; }
   .gloss dd { margin-bottom: 8px; }
 }
+
+/* ======================= parameter ribbon ======================= */
+.ribbon {
+  display: grid; gap: 12px; align-items: start;
+  grid-template-columns: minmax(150px, .85fr) minmax(165px, .9fr) minmax(190px, 1fr)
+                         minmax(215px, 1.2fr) minmax(215px, 1.2fr);
+}
+@media (max-width: 1180px) { .ribbon { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px)  { .ribbon { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px)  { .ribbon { grid-template-columns: minmax(0, 1fr); } }
+
+.card {
+  position: relative; display: flex; flex-direction: column; gap: 8px;
+  border-radius: var(--radius); border: 1px solid var(--panel-edge);
+  background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom));
+  box-shadow: var(--drop), inset 0 1px 0 var(--bevel-hi), inset 0 -1px 0 var(--bevel-lo);
+  padding: 11px 12px 12px; overflow: hidden;
+}
+/* a colour strip per card, so the eye finds the group it wants without reading */
+.card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--key, var(--subtle)); }
+.card.k-ex    { --key: var(--subtle); }
+.card.k-alpha { --key: var(--c-mod); }
+.card.k-lib   { --key: var(--c-lib); }
+.card.k-strat { --key: var(--c-pos); }
+.card.k-input { --key: var(--c-seq); }
+.card.k-run   { --key: var(--accent); }
+.card h2 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--key, var(--muted)); margin: 0; font-weight: 700;
+}
+.card .examples { gap: 5px; }
+.card.k-run .btn { width: 100%; }
+.card textarea { min-height: 86px; flex: 1 1 auto; font-size: 12px; }
+.card .hint { margin-top: auto; }
+.card .estimate { font-size: 12px; }
+.card .status { font-size: 11px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.field.inline { display: flex; align-items: center; gap: 8px; margin: 0; }
+.field.inline > label { margin: 0; white-space: nowrap; }
+.ribbon .field { margin: 0; }
+.ribbon .field > label { font-size: 11px; }
+.seg.wide { display: flex; }
+.seg.wide button { flex: 1; padding: 6px 8px; }
+
+.drawerbtn {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%;
+  border: 1px solid var(--recess-edge); background: var(--recess-bg); box-shadow: var(--recess);
+  border-radius: 4px; padding: 6px 9px; font: 13px var(--sans); color: var(--muted); cursor: pointer;
+}
+.drawerbtn b { color: var(--key, var(--ink)); font-size: 12px; }
+.drawerbtn:hover { border-color: var(--key, var(--accent)); color: var(--ink); }
+.drawerbtn[aria-expanded="true"] { border-color: var(--key); color: var(--ink); }
+.drawerrow { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+/* ======================= drawers ======================= */
+.drawer {
+  margin-top: 12px; border-radius: var(--radius);
+  border: 1px solid var(--panel-edge); border-top: 3px solid var(--key, var(--accent));
+  background: linear-gradient(180deg, var(--panel-top), var(--panel-bottom));
+  box-shadow: var(--drop); padding: 12px 14px 14px;
+}
+#drawer-mods { --key: var(--c-mod); }
+#drawer-cons, #drawer-rep { --key: var(--c-pos); }
+.drawerhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 8px; }
+.drawerhead h3 { margin: 0; font-size: 13px; color: var(--key); text-transform: uppercase; letter-spacing: .06em; }
+.drawerhead .hint { margin: 0; flex: 1 1 240px; }
+.drawerhead input[type="search"] { width: auto; flex: 1 1 200px; }
+.drawerhead .btn { margin-left: auto; }
+.drawerhead .closedrawer { margin-left: 0; }
+.chk { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+#drawer-rep textarea { min-height: 120px; }
+/* the wide drawer lets the catalogue breathe: several columns instead of one narrow list */
+#drawer-mods .modlist { max-height: 300px; columns: 3 230px; column-gap: 18px; padding: 6px 2px; }
+#drawer-mods .modlist label { break-inside: avoid; }
+#drawer-mods .modlist .grp { position: static; break-after: avoid; margin-top: 4px; border-radius: 3px; }
+
+/* ======================= colour in the results ======================= */
+.stat { border-top: 2px solid var(--key, var(--subtle)); }
+.stat:nth-child(1) { --key: var(--c-seq); }
+.stat:nth-child(2) { --key: var(--c-lib); }
+.stat:nth-child(3) { --key: var(--c-seq); }
+.stat:nth-child(4) { --key: var(--c-pos); }
+.stat:nth-child(5) { --key: var(--c-mod); }
+.stat:nth-child(6) { --key: var(--c-mod); }
+.stat .v { color: var(--key, var(--ink)); }
+.estimate.ok { border-left-color: var(--c-seq); }
+.chip { border-color: var(--c-pos); color: var(--ink); }
+td.seq { color: var(--c-seq); }
+.flag { color: var(--c-pos); font-weight: 600; }
+
+/* ======================= duplex figure ======================= */
+.guide .fig { width: 100%; height: auto; display: block; margin: 2px 0 20px; }
+.fig .band.core  { fill: var(--c-seq); fill-opacity: .07; stroke: var(--c-seq); stroke-opacity: .35; }
+.fig .band.clamp { fill: var(--subtle); fill-opacity: .07; stroke: var(--subtle); stroke-opacity: .3; }
+.fig .rung { stroke-width: 3.2; stroke-linecap: round; }
+.fig .rung.corebp  { stroke: var(--c-seq); stroke-opacity: .85; }
+.fig .rung.clampbp { stroke: var(--subtle); }
+.fig .strand { fill: none; stroke-width: 3; stroke-linecap: round; }
+.fig .strand.w { stroke: var(--c-lib); }
+.fig .strand.c { stroke: var(--c-mod); }
+.fig .win { fill: none; stroke: var(--c-pos); stroke-width: 1.4; }
+.fig .win.mid { fill: var(--c-pos); fill-opacity: .12; }
+.fig .dots { stroke: var(--subtle); stroke-width: 1; stroke-dasharray: 2 3; }
+.fig .axis { stroke: var(--c-pos); stroke-width: 1.2; }
+.fig .end { font: 600 11px var(--mono); fill: var(--muted); }
+.fig .tick { font: 11.5px var(--sans); fill: var(--ink); text-anchor: middle; }
+.fig .tick.dim { fill: var(--muted); font-size: 11px; }
+.fig .tick.strong { font-weight: 600; }
+.fig .tick.onwin { font-size: 10.5px; fill: var(--c-pos); font-weight: 600; }
+.fig .tick.pos { fill: var(--c-pos); font-weight: 600; }
+
+/* ---- ribbon density: keep the whole band short so results get the height ---- */
+.card .examples { display: flex; flex-wrap: wrap; gap: 5px; }
+.card .examples .btn { font-size: 11.5px; padding: 4px 8px; line-height: 1.3; white-space: nowrap; }
+@media (max-width: 760px) { .card.k-ex { grid-column: 1 / -1; } }
+.seg.wide button { white-space: nowrap; font-size: 12px; }
+.drawerrow { gap: 6px; }
+.drawerbtn { min-width: 0; }
+.drawerbtn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.drawerbtn b { flex: none; }
+.card .estimate { margin-bottom: 8px; }
+/* the figure is drawn at 760 units wide; past that it just magnifies the type */
+.guide .fig { max-width: 880px; margin-inline: auto; }
