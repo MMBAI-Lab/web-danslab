@@ -9,8 +9,8 @@
   // same key as danslab.xyz, so the theme follows the lab site
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
-<script defer src="https://cloud.umami.is/script.js" data-website-id="8594d692-37a5-43e4-9212-96955ecfe515" data-domains="danslab.xyz,www.danslab.xyz"></script>
 <link rel="stylesheet" href="style.css?v=0.2.0">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="8594d692-37a5-43e4-9212-96955ecfe515" data-domains="danslab.xyz,www.danslab.xyz"></script>
 </head>
 <body>
 <header class="top">
@@ -43,7 +43,8 @@ hexanucleotides). Panmer can include modified bases from
 directly with AMBER-modXNA.</p>
 
 <p>Everything runs in your browser (Python compiled to WebAssembly). Nothing you enter is sent
-anywhere; there is no login, no cookie and no tracking.</p>
+anywhere. There is no login and no registration, and the site sets no cookies; page views
+are counted anonymously with a cookieless analytics script.</p>
 
 <h2 id="doc-tutorial">Tutorial: reproduce miniABC in one click</h2>
 <ol>
@@ -376,7 +377,7 @@ Code: MIT. Generated libraries: <a href="https://creativecommons.org/licenses/by
   <div class="wrap">
     <span>Panmer <span id="ver"></span> · <a href="https://danslab.xyz">DansLab</a></span>
     <span>Code: <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a> · Generated libraries: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span>
-    <span>Runs entirely in your browser. No login, no cookies, no tracking.</span>
+    <span>Runs entirely in your browser. No login, no registration, no cookies; anonymous page counts only.</span>
     <span>Algorithm: <a href="https://doi.org/10.1093/bioinformatics/btt230" target="_blank" rel="noopener">Orenstein &amp; Shamir 2013</a>, generalised.</span>
   </div>
 </footer>
