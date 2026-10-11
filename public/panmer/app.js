@@ -104,7 +104,9 @@ function setTab(tab) {
   for (const el of document.querySelectorAll('.docs-only')) el.classList.toggle('hidden', tab !== 'docs');
   for (const el of document.querySelectorAll('.design-only')) el.classList.toggle('hidden', tab !== 'design');
   for (const el of document.querySelectorAll('.analyze-only')) el.classList.toggle('hidden', tab !== 'analyze');
-  if (tab === 'docs') scrollTo({ top: 0, behavior: 'smooth' });
+  // each pane owns its scroll position in the app shell
+  const pane = tab === 'docs' ? $('#view-docs') : $('#results');
+  if (pane) pane.scrollTop = 0;
 }
 
 function syncModUI() {
@@ -255,7 +257,10 @@ async function runDesign() {
 }
 
 // on narrow screens the results sit below the form: bring them into view
-const showResults = () => { if (matchMedia('(max-width: 900px)').matches) $('#results').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+const showResults = () => {
+  // wide screens keep the results column in view on their own; narrow ones stack, so bring it up
+  if (matchMedia('(max-width: 900px)').matches) $('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
 
 function stat(v, l, s = '') { return `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div>${s ? `<div class="s">${s}</div>` : ''}</div>`; }
 
@@ -387,10 +392,13 @@ $('#clearmods').onclick = () => { state.mods.clear(); syncModUI(); estimate(); }
 for (const id of ['#k', '#core', '#clamp', '#maxmods']) $(id).addEventListener('input', estimate);
 $('#run').onclick = runDesign;
 $('#runan').onclick = runAnalyze;
-$('#theme').onclick = () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', next);
-  try { localStorage.setItem('theme', next); } catch (e) { /* storage blocked: theme still switches */ }
-};
+// The theme is owned by the surrounding danslab.xyz page. Its toggle writes the shared
+// localStorage key, and because the two documents are same-origin the storage event reaches
+// us here, so the embedded app follows along without a reload.
+addEventListener('storage', (ev) => {
+  if (ev.key === 'theme' && (ev.newValue === 'light' || ev.newValue === 'dark')) {
+    document.documentElement.setAttribute('data-theme', ev.newValue);
+  }
+});
 setTab('design');
 syncExtras();

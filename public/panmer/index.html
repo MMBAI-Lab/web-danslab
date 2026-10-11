@@ -17,9 +17,6 @@
   <div class="wrap">
     <h1 class="brand">pan<span>mer</span></h1>
     <p class="tagline">Equal-length oligonucleotide libraries that cover every k-mer on both strands — canonical or with modXNA modified bases — ready for molecular dynamics.</p>
-    <div class="toplinks">
-      <button class="iconbtn" id="theme" type="button" aria-label="Toggle light/dark theme">◐</button>
-    </div>
   </div>
 </header>
 
@@ -68,6 +65,55 @@ the same structure as the published miniABC library: the minimum number of oligo
 minimum possible redundancy.</p>
 
 <h2 id="doc-params">Parameters</h2>
+<div class="guide"><svg class="fig" viewBox="0 0 660 232" role="img" aria-labelledby="docfigtitle docfigdesc">
+    <title id="docfigtitle">Anatomy of a Panmer oligonucleotide</title>
+    <desc id="docfigdesc">An 18-bp oligo made of a GC clamp, a 14-bp core and the reverse-complement clamp. The core holds eleven overlapping 4-mer windows; sigma equals core minus k plus one. Each window sits at an offset j from the left, and its positional class d is its distance from the centre.</desc>
+
+    <!-- the oligo -->
+    <g>
+      <rect class="clamp" x="20"  y="26" width="56" height="30" rx="3"/>
+      <rect class="core"  x="76"  y="26" width="392" height="30"/>
+      <rect class="clamp" x="468" y="26" width="56" height="30" rx="3"/>
+      <text class="lbl on-clamp" x="48"  y="46">GC</text>
+      <text class="lbl on-core"  x="272" y="46">core — the variable part Panmer designs</text>
+      <text class="lbl on-clamp" x="496" y="46">GC</text>
+      <text class="tick" x="48"  y="20">clamp</text>
+      <text class="tick" x="272" y="20">core length p = 14 bp</text>
+      <text class="tick" x="496" y="20">rc(clamp)</text>
+    </g>
+
+    <!-- total length brace -->
+    <g class="dim">
+      <line x1="20" y1="66" x2="524" y2="66"/>
+      <line x1="20" y1="61" x2="20" y2="71"/><line x1="524" y1="61" x2="524" y2="71"/>
+      <text class="tick" x="272" y="80">one oligo = clamp + core + rc(clamp) = 18 bp</text>
+    </g>
+
+    <!-- k-mer windows -->
+    <g>
+      <rect class="win first" x="76"  y="98" width="112" height="20" rx="2"/>
+      <text class="tick on-win" x="132" y="112">window 1 (j = 0)</text>
+      <rect class="win" x="216" y="98" width="112" height="20" rx="2"/>
+      <text class="tick on-win" x="272" y="112">j = 5 · centre</text>
+      <rect class="win last" x="356" y="98" width="112" height="20" rx="2"/>
+      <text class="tick on-win" x="412" y="112">j = 10</text>
+      <line class="dot" x1="188" y1="108" x2="216" y2="108"/>
+      <line class="dot" x1="328" y1="108" x2="356" y2="108"/>
+      <text class="tick" x="272" y="136">each window is one k-mer (k = 4); consecutive windows shift by 1 bp</text>
+      <text class="tick strong" x="272" y="153">σ = p − k + 1 = 11 windows per core</text>
+    </g>
+
+    <!-- positional class -->
+    <g class="dim">
+      <line x1="272" y1="170" x2="272" y2="196"/>
+      <line x1="132" y1="184" x2="272" y2="184"/>
+      <line x1="132" y1="179" x2="132" y2="189"/>
+      <text class="tick" x="202" y="176">distance to the centre</text>
+      <text class="tick strong" x="202" y="210">positional class d — what replica mode changes</text>
+      <text class="tick" x="500" y="184">on Crick the same k-mer</text>
+      <text class="tick" x="500" y="198">sits at σ − 1 − j</text>
+    </g>
+  </svg></div>
 <table>
 <thead><tr><th>parameter</th><th>meaning</th></tr></thead>
 <tbody>
@@ -347,13 +393,6 @@ Code: MIT. Generated libraries: <a href="https://creativecommons.org/licenses/by
         </div>
       </section>
 
-      <section class="panel design-only">
-        <h2>Size estimate</h2>
-        <div class="estimate" id="estimate"><span class="spinner"></span>Starting the engine…</div>
-        <div class="actions"><button type="button" class="btn" id="run" disabled>Design library</button></div>
-        <div class="status" id="status"></div>
-      </section>
-
       <section class="panel analyze-only hidden">
         <h2>Your library</h2>
         <div class="field">
@@ -361,14 +400,87 @@ Code: MIT. Generated libraries: <a href="https://creativecommons.org/licenses/by
           <textarea id="oligos" spellcheck="false" placeholder=">oligo_1&#10;GCAACGTGCTATGGAAGC&#10;GC[M6A]TTAGC..."></textarea>
           <div class="hint">Modified bases: <code>[X]</code> = X on this strand, <code>{X}</code> = X on the opposite strand.</div>
         </div>
-        <div class="actions"><button type="button" class="btn" id="runan" disabled>Analyse</button></div>
-        <div class="status" id="status2"></div>
       </section>
+
+      <!-- pinned to the bottom of the parameter column, so running never needs a scroll -->
+      <div class="actionbar">
+        <div class="estimate design-only" id="estimate"><span class="spinner"></span>Starting the engine…</div>
+        <div class="actionrow">
+          <button type="button" class="btn design-only" id="run" disabled>Design library</button>
+          <button type="button" class="btn analyze-only hidden" id="runan" disabled>Analyse</button>
+          <span class="status" id="status"></span>
+          <span class="status analyze-only hidden" id="status2"></span>
+        </div>
+      </div>
     </form>
 
     <!-- ======================= results ======================= -->
     <section id="results" aria-live="polite">
-      <div class="empty" id="placeholder">Choose an example or set the parameters, then run. Everything is computed in your browser — no data leave your machine.</div>
+<div class="panel guide" id="guide">
+  <h2>What the parameters mean</h2>
+  <svg class="fig" viewBox="0 0 660 232" role="img" aria-labelledby="figtitle figdesc">
+    <title id="figtitle">Anatomy of a Panmer oligonucleotide</title>
+    <desc id="figdesc">An 18-bp oligo made of a GC clamp, a 14-bp core and the reverse-complement clamp. The core holds eleven overlapping 4-mer windows; sigma equals core minus k plus one. Each window sits at an offset j from the left, and its positional class d is its distance from the centre.</desc>
+
+    <!-- the oligo -->
+    <g>
+      <rect class="clamp" x="20"  y="26" width="56" height="30" rx="3"/>
+      <rect class="core"  x="76"  y="26" width="392" height="30"/>
+      <rect class="clamp" x="468" y="26" width="56" height="30" rx="3"/>
+      <text class="lbl on-clamp" x="48"  y="46">GC</text>
+      <text class="lbl on-core"  x="272" y="46">core — the variable part Panmer designs</text>
+      <text class="lbl on-clamp" x="496" y="46">GC</text>
+      <text class="tick" x="48"  y="20">clamp</text>
+      <text class="tick" x="272" y="20">core length p = 14 bp</text>
+      <text class="tick" x="496" y="20">rc(clamp)</text>
+    </g>
+
+    <!-- total length brace -->
+    <g class="dim">
+      <line x1="20" y1="66" x2="524" y2="66"/>
+      <line x1="20" y1="61" x2="20" y2="71"/><line x1="524" y1="61" x2="524" y2="71"/>
+      <text class="tick" x="272" y="80">one oligo = clamp + core + rc(clamp) = 18 bp</text>
+    </g>
+
+    <!-- k-mer windows -->
+    <g>
+      <rect class="win first" x="76"  y="98" width="112" height="20" rx="2"/>
+      <text class="tick on-win" x="132" y="112">window 1 (j = 0)</text>
+      <rect class="win" x="216" y="98" width="112" height="20" rx="2"/>
+      <text class="tick on-win" x="272" y="112">j = 5 · centre</text>
+      <rect class="win last" x="356" y="98" width="112" height="20" rx="2"/>
+      <text class="tick on-win" x="412" y="112">j = 10</text>
+      <line class="dot" x1="188" y1="108" x2="216" y2="108"/>
+      <line class="dot" x1="328" y1="108" x2="356" y2="108"/>
+      <text class="tick" x="272" y="136">each window is one k-mer (k = 4); consecutive windows shift by 1 bp</text>
+      <text class="tick strong" x="272" y="153">σ = p − k + 1 = 11 windows per core</text>
+    </g>
+
+    <!-- positional class -->
+    <g class="dim">
+      <line x1="272" y1="170" x2="272" y2="196"/>
+      <line x1="132" y1="184" x2="272" y2="184"/>
+      <line x1="132" y1="179" x2="132" y2="189"/>
+      <text class="tick" x="202" y="176">distance to the centre</text>
+      <text class="tick strong" x="202" y="210">positional class d — what replica mode changes</text>
+      <text class="tick" x="500" y="184">on Crick the same k-mer</text>
+      <text class="tick" x="500" y="198">sits at σ − 1 − j</text>
+    </g>
+  </svg>
+
+  <dl class="gloss">
+    <dt>k</dt><dd>Length of the words to cover. Every k-mer must appear at least once, counting a k-mer and its reverse complement as the same double-stranded class. k = 4 gives the 136 tetranucleotides, k = 6 the 2080 hexanucleotides.</dd>
+    <dt>core length (p)</dt><dd>Length of the variable stretch. A longer core carries more windows per oligo (σ = p − k + 1), so fewer oligos are needed.</dd>
+    <dt>clamp</dt><dd>Fixed ends added to every oligo, as its reverse complement on the 3′ side. GC…GC, as in the ABC libraries, keeps the duplex ends stable and keeps modified bases away from the termini.</dd>
+    <dt>seed</dt><dd>The design is random but reproducible: the same seed always gives the same library, a different seed gives a different library that is just as good.</dd>
+    <dt>strategy</dt><dd><b>Single master</b> cuts one reverse-complement-complete sequence into overlapping cores — simple, but it pays a tiling penalty. <b>Segments</b> cuts that sequence at its repeated windows and recombines the pieces, reaching the smallest possible number of oligos.</dd>
+    <dt>modified bases · max per k-mer</dt><dd>Which modXNA modifications enter the alphabet, and how many may appear in a single k-mer. The cap is what keeps the library small enough to simulate.</dd>
+    <dt>constraints</dt><dd>Hard limits every oligo must satisfy: GC range, longest homopolymer run, longest self-complementary stretch. Enforced while searching, so coverage stays complete.</dd>
+    <dt>replica mode</dt><dd>Builds a library in which no k-mer occupies a positional class d it occupies in a reference library — an independent replica that separates sequence effects from position effects.</dd>
+    <dt>effort</dt><dd>How long the search runs. Raise it when the result sits a few oligos above the lower bound.</dd>
+  </dl>
+  <p class="hint">Everything is computed in your browser — your sequences never leave your machine.</p>
+</div>
     </section>
   </div>
 </main>
