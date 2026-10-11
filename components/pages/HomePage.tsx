@@ -5,6 +5,7 @@ import MoleculeRain from "@/components/MoleculeRain";
 import BacteriaOutline from "@/components/BacteriaOutline";
 import FadeIn from "@/components/FadeIn";
 import MemberCard from "@/components/MemberCard";
+import RandomTeam from "@/components/RandomTeam";
 import { getCurrentMembers } from "@/lib/members";
 import { localizePath, type Lang } from "@/lib/i18n";
 import { HOME } from "@/data/content/home";
@@ -233,11 +234,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
               <FadeIn delay={0.05}>
                 <MemberCard member={pi} />
               </FadeIn>
-              {team.slice(0, 3).map((m, i) => (
-                <FadeIn key={m.name} delay={0.1 + i * 0.05}>
-                  <MemberCard member={m} />
-                </FadeIn>
-              ))}
+              <RandomTeam members={team} count={3} />
             </div>
           </div>
           <style>{`
