@@ -377,3 +377,4 @@ td.seq { color: var(--c-seq); }
 /* the figure is drawn at 760 units wide; past that it just magnifies the type */
 .guide .fig { max-width: 880px; margin-inline: auto; }
 .actlabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; align-self: center; margin-right: 2px; }
+.card.k-run #reset { width: auto; align-self: flex-start; }

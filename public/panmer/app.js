@@ -19,6 +19,13 @@ const EXAMPLES = [
   { label: 'analyse miniABC', title: 'Analyse the published miniABC library (2019)', tab: 'analyze', na: 'DNA', mods: [], k: 4, oligos: MINIABC.join('\n') },
 ];
 
+// captured before anything renders, so Reset can put the parameter guide back
+const GUIDE_HTML = document.getElementById('results').innerHTML;
+const DEFAULTS = {
+  tab: 'design', na: 'DNA', mods: [], k: 4, core: 14, seed: 0, clamp: 'GC',
+  m: '1', mode: 'tiled', effort: '1', ref: '', cons: null, oligos: '',
+};
+
 const state = { tab: 'design', na: 'DNA', mods: new Set(), catalog: [], ready: false, last: null, mode: 'tiled' };
 
 // ------------------------------------------------------------------ worker
@@ -433,6 +440,18 @@ $('#clearmods').onclick = () => { state.mods.clear(); syncModUI(); estimate(); }
 for (const id of ['#k', '#core', '#clamp', '#maxmods']) $(id).addEventListener('input', estimate);
 $('#run').onclick = runDesign;
 $('#stop').onclick = stopRun;
+$('#reset').onclick = () => {
+  applySettings(DEFAULTS);
+  for (const n of DRAWERS) setDrawer(n, false);
+  $('#modfilter').value = '';
+  $('#incprot').checked = $('#incdup').checked = false;
+  renderModList();
+  state.last = null;
+  $('#results').innerHTML = GUIDE_HTML;
+  $('#status').textContent = $('#status2').textContent = '';
+  history.replaceState(null, '', location.pathname);
+  estimate();
+};
 $('#runan').onclick = runAnalyze;
 // The theme is owned by the surrounding danslab.xyz page. Its toggle writes the shared
 // localStorage key, and because the two documents are same-origin the storage event reaches
