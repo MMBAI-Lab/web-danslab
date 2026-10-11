@@ -22,7 +22,7 @@ const EXAMPLES = [
 const state = { tab: 'design', na: 'DNA', mods: new Set(), catalog: [], ready: false, last: null, mode: 'tiled' };
 
 // ------------------------------------------------------------------ worker
-const worker = new Worker(new URL('worker.js', import.meta.url), { type: 'module' });
+const worker = new Worker(new URL('worker.js?v=0.2.0', import.meta.url), { type: 'module' });
 let seq = 0;
 const pending = new Map();
 worker.onmessage = (ev) => {
