@@ -1,0 +1,47 @@
+[
+  {
+    "title": "M-ONT 2027 — Workshop & School on Oligonucleotide and RNA Therapeutics",
+    "kind": "International workshop and school",
+    "dates": "23–26 February 2027",
+    "location": "Montevideo, Uruguay",
+    "organizers": "Victoria Calzada, Juan Pablo Tosar, Pablo D. Dans",
+    "summary": "Four days on the chemistry, biology and clinical use of antisense oligonucleotides, siRNAs, aptamers and emerging RNA therapies, with introductory lectures, invited talks, posters and case studies.",
+    "url": "https://www.m-ont.org/"
+  },
+  {
+    "title": "Aptamers in Biotechnology: Principles and Applications",
+    "kind": "CABBIO regional course",
+    "dates": "28 Sep – 9 Oct 2026",
+    "location": "Facultad de Ciencias (UdelaR) & Nuclear Research Center, Montevideo, Uruguay",
+    "organizers": "Victoria Calzada, Pablo D. Dans",
+    "summary": "80-hour course (online theory followed by a week of in-person practicals) training researchers to develop and apply aptamer-based biotechnologies.",
+    "url": "https://anii.org.uy/upcms/files/llamados/documentos/cronograma-de-cursos-2026-cabbio.pdf"
+  },
+  {
+    "title": "Biomolecular Modeling School (EMB) 2027",
+    "kind": "Postgraduate intensive school",
+    "dates": "22 Feb – 5 Mar 2027",
+    "location": "FCEN, University of Buenos Aires, Argentina",
+    "organizers": "Darío Estrin, Luciana Capece, Mariano González Lebrero, Uriel Morzan, Ari Zeida, Pablo D. Dans",
+    "summary": "Two-week theoretical and hands-on school: electronic structure, force fields, molecular dynamics, QM/MM, free-energy methods, machine learning, drug design and coarse-grained models.",
+    "url": "https://mmbai-lab.github.io/emb-web/"
+  },
+  {
+    "title": "Molecular Phylogenetics and Protein Modeling",
+    "kind": "Postgraduate course",
+    "dates": "2022–present",
+    "location": "INTA Cerro Azul, Misiones, Argentina",
+    "organizers": "German Traglia, Samuel Miño, Pablo D. Dans",
+    "summary": "Postgraduate course combining molecular phylogenetics with protein structure modeling.",
+    "url": ""
+  },
+  {
+    "title": "Introduction to Microbiology",
+    "kind": "Undergraduate course",
+    "dates": "2022–present",
+    "location": "CENUR Litoral Norte, University of the Republic, Uruguay",
+    "organizers": "German Traglia, Andrea Texo, Oscar Irabuena, Alexandra Bozzo, Pablo D. Dans",
+    "summary": "Undergraduate introductory course on microbiology.",
+    "url": ""
+  }
+]

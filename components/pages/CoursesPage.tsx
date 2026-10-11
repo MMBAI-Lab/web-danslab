@@ -1,13 +1,20 @@
 import FadeIn from "@/components/FadeIn";
 import FloatingBases from "@/components/FloatingBases";
 import { COMMON } from "@/data/content/common";
-import { getCourses, partitionByStatus, type Course } from "@/lib/courses";
+import {
+  getCourses,
+  getCoorganizedCourses,
+  partitionByStatus,
+  type Course,
+  type CoorganizedCourse,
+} from "@/lib/courses";
 import type { Lang } from "@/lib/i18n";
 
 export default function CoursesPage({ lang }: { lang: Lang }) {
   const dict = COMMON[lang];
   const items = getCourses(lang);
   const { ongoing, past } = partitionByStatus(items);
+  const coorganized = getCoorganizedCourses(lang);
   const isEmpty = items.length === 0;
 
   return (
@@ -25,6 +32,29 @@ export default function CoursesPage({ lang }: { lang: Lang }) {
             {dict.courses.intro}
           </p>
         </FadeIn>
+
+        {coorganized.length > 0 && (
+          <FadeIn>
+            <section className="mt-16">
+              <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink">
+                {dict.courses.coorganized_heading}
+              </h2>
+              <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">
+                {dict.courses.coorganized_intro}
+              </p>
+              <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {coorganized.map((c) => (
+                  <CoorganizedCard
+                    key={c.title}
+                    c={c}
+                    organizersLabel={dict.courses.organizers_label}
+                    moreInfo={dict.courses.more_info}
+                  />
+                ))}
+              </ul>
+            </section>
+          </FadeIn>
+        )}
 
         {isEmpty && (
           <FadeIn delay={0.05}>
@@ -129,6 +159,46 @@ function CourseCard({
         <p className="mt-3 text-sm leading-relaxed text-muted">{c.summary}</p>
       )}
       {c.lead && <p className="mt-2 text-xs text-accent">{c.lead}</p>}
+    </li>
+  );
+}
+
+function CoorganizedCard({
+  c,
+  organizersLabel,
+  moreInfo,
+}: {
+  c: CoorganizedCourse;
+  organizersLabel: string;
+  moreInfo: string;
+}) {
+  return (
+    <li className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-surface p-5 transition hover:border-accent">
+      <span className="absolute left-0 top-0 h-0.5 w-full bg-accent opacity-60 transition group-hover:opacity-100" />
+      <p className="text-[11px] font-semibold uppercase tracking-widest text-accent">
+        {c.kind}
+      </p>
+      <h3 className="mt-2 font-serif text-base font-semibold leading-snug text-ink">
+        {c.title}
+      </h3>
+      <p className="mt-2 text-xs font-bold uppercase tracking-wider text-ink">
+        {c.dates}
+      </p>
+      <p className="mt-1 text-xs leading-relaxed text-subtle">{c.location}</p>
+      <p className="mt-3 text-sm leading-relaxed text-muted">{c.summary}</p>
+      <p className="mt-3 text-xs leading-relaxed text-muted">
+        <span className="text-ink">{organizersLabel}:</span> {c.organizers}
+      </p>
+      {c.url && (
+        <a
+          href={c.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-auto inline-block self-start pt-5 text-sm font-semibold text-accent hover:text-accent-hover"
+        >
+          {moreInfo} ↗
+        </a>
+      )}
     </li>
   );
 }

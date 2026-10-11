@@ -1,0 +1,47 @@
+[
+  {
+    "title": "M-ONT 2027 — Workshop y escuela en terapias con oligonucleótidos y ARN",
+    "kind": "Workshop y escuela internacional",
+    "dates": "23–26 de febrero de 2027",
+    "location": "Montevideo, Uruguay",
+    "organizers": "Victoria Calzada, Juan Pablo Tosar, Pablo D. Dans",
+    "summary": "Cuatro días sobre la química, la biología y el uso clínico de oligonucleótidos antisentido, siRNAs, aptámeros y nuevas terapias de ARN, con clases introductorias, charlas invitadas, pósters y estudios de caso.",
+    "url": "https://www.m-ont.org/"
+  },
+  {
+    "title": "Aptámeros en biotecnología: principios y aplicaciones",
+    "kind": "Curso regional CABBIO",
+    "dates": "28 set – 9 oct 2026",
+    "location": "Facultad de Ciencias (UdelaR) y Centro de Investigaciones Nucleares, Montevideo, Uruguay",
+    "organizers": "Victoria Calzada, Pablo D. Dans",
+    "summary": "Curso de 80 horas (teórico en línea seguido de una semana de prácticas presenciales) para formar investigadores capaces de desarrollar y aplicar biotecnologías basadas en aptámeros.",
+    "url": "https://anii.org.uy/upcms/files/llamados/documentos/cronograma-de-cursos-2026-cabbio.pdf"
+  },
+  {
+    "title": "Escuela de Modelado de Biomoléculas (EMB) 2027",
+    "kind": "Escuela intensiva de posgrado",
+    "dates": "22 feb – 5 mar 2027",
+    "location": "FCEN, Universidad de Buenos Aires, Argentina",
+    "organizers": "Darío Estrin, Luciana Capece, Mariano González Lebrero, Uriel Morzan, Ari Zeida, Pablo D. Dans",
+    "summary": "Escuela teórico-práctica de dos semanas: estructura electrónica, campos de fuerzas, dinámica molecular, QM/MM, métodos de energía libre, aprendizaje automático, diseño de fármacos y modelos coarse-grained.",
+    "url": "https://mmbai-lab.github.io/emb-web/"
+  },
+  {
+    "title": "Filogenia molecular y modelado de proteínas",
+    "kind": "Curso de posgrado",
+    "dates": "2022–presente",
+    "location": "INTA Cerro Azul, Misiones, Argentina",
+    "organizers": "German Traglia, Samuel Miño, Pablo D. Dans",
+    "summary": "Curso de posgrado que combina la filogenia molecular con el modelado de la estructura de proteínas.",
+    "url": ""
+  },
+  {
+    "title": "Introducción a la microbiología",
+    "kind": "Curso de grado",
+    "dates": "2022–presente",
+    "location": "CENUR Litoral Norte, Universidad de la República, Uruguay",
+    "organizers": "German Traglia, Andrea Texo, Oscar Irabuena, Alexandra Bozzo, Pablo D. Dans",
+    "summary": "Curso introductorio de grado sobre microbiología.",
+    "url": ""
+  }
+]

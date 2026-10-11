@@ -1,6 +1,8 @@
 import type { Lang } from "@/lib/i18n";
 import en from "@/data/courses.en.json";
 import es from "@/data/courses.es.json";
+import coEn from "@/data/courses_coorganized.en.json";
+import coEs from "@/data/courses_coorganized.es.json";
 
 export type CourseStatus = "ongoing" | "past";
 
@@ -53,4 +55,25 @@ export function partitionByStatus(items: Course[]): {
     ongoing: items.filter((c) => c.status === "ongoing"),
     past: items.filter((c) => c.status === "past"),
   };
+}
+
+// Courses co-organized by DansLab (promoted at the top of /courses) -----
+
+export type CoorganizedCourse = {
+  title: string;
+  kind: string;
+  dates: string;
+  location: string;
+  organizers: string;
+  summary: string;
+  url: string;
+};
+
+const CO: Record<Lang, CoorganizedCourse[]> = {
+  en: coEn as CoorganizedCourse[],
+  es: coEs as CoorganizedCourse[],
+};
+
+export function getCoorganizedCourses(lang: Lang): CoorganizedCourse[] {
+  return CO[lang];
 }

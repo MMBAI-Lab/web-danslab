@@ -55,6 +55,10 @@ export type CommonDict = {
   courses: {
     intro: string;
     empty: string;
+    coorganized_heading: string;
+    coorganized_intro: string;
+    organizers_label: string;
+    more_info: string;
     ongoing_heading: string;
     past_heading: string;
     role_label: string;
@@ -136,7 +140,11 @@ const en: CommonDict = {
     intro:
       "Teaching activities — undergraduate courses, postgraduate schools, short courses and seminars at home and abroad.",
     empty: "We will publish our upcoming and past courses here soon.",
-    ongoing_heading: "Ongoing courses",
+    coorganized_heading: "Courses co-organized by DansLab",
+    coorganized_intro: "Schools and courses we organize together with colleagues — open for registration when a new edition is announced.",
+    organizers_label: "Organizers",
+    more_info: "Information & registration",
+    ongoing_heading: "Participation in ongoing courses",
     past_heading: "Past courses",
     role_label: "Role",
   },
@@ -214,7 +222,11 @@ const es: CommonDict = {
     intro:
       "Actividades de docencia — cursos de grado, escuelas de posgrado, cursos breves y seminarios en el país y en el exterior.",
     empty: "Pronto vamos a publicar nuestros cursos pasados y por venir.",
-    ongoing_heading: "Cursos en curso",
+    coorganized_heading: "Cursos co-organizados por DansLab",
+    coorganized_intro: "Escuelas y cursos que organizamos junto a colegas — con inscripción abierta cuando se anuncia una nueva edición.",
+    organizers_label: "Organizan",
+    more_info: "Información e inscripción",
+    ongoing_heading: "Participación en cursos vigentes",
     past_heading: "Cursos previos",
     role_label: "Rol",
   },
