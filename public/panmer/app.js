@@ -179,20 +179,28 @@ async function loadCatalog() {
   renderModList();
 }
 
+const FAMLABEL = { A: 'A', C: 'C', G: 'G', T: 'T', U: 'U' };
+
 function renderModList() {
   const q = $('#modfilter').value.trim().toLowerCase();
   const rows = visibleMods().filter((b) => !q || b.code.toLowerCase().includes(q) || b.name.toLowerCase().includes(q));
-  let html = '';
+  const partner = (f) => (f === 'A' ? (state.na === 'DNA' ? 'T' : 'U') : { C: 'G', G: 'C', T: 'A', U: 'A' }[f]);
+  let html = '', present = [];
   for (const f of FAMS) {
     const fam = rows.filter((b) => b.parent === f);
     if (!fam.length) continue;
-    html += `<div class="grp">${f}-based · paired with ${f === 'A' ? (state.na === 'DNA' ? 'T' : 'U') : { C: 'G', G: 'C', T: 'A', U: 'A' }[f]}</div>`;
+    present.push(f);
+    html += `<div class="grp" id="grp-${f}">${f}-based · paired with ${partner(f)} · ${fam.length}</div>`;
     html += fam.map((b) => `<label title="${esc(b.name)}"><input type="checkbox" data-code="${esc(b.code)}">` +
       `<span class="code">${esc(b.code)}</span><span class="nm">${esc(b.name)}</span>` +
       (b.protected ? '<span class="tag">protected</span>' : '') +
       (b.duplicate_of ? `<span class="tag">= ${esc(b.duplicate_of)}</span>` : '') + '</label>').join('');
   }
   $('#modlist').innerHTML = html || '<div class="status" style="padding:8px">No match.</div>';
+  // with 174 entries the list is long, so offer a jump per family that is actually shown
+  $('#jump').innerHTML = present.length > 1
+    ? 'Jump to ' + present.map((f) => `<button type="button" data-jump="${f}">${FAMLABEL[f]}*</button>`).join('')
+    : '';
   syncModUI();
 }
 
@@ -433,6 +441,12 @@ $('#fams').onchange = (ev) => {
   syncModUI(); estimate();
 };
 $('#modfilter').oninput = renderModList;
+$('#jump').onclick = (ev) => {
+  const f = ev.target.dataset.jump;
+  if (!f) return;
+  const g = document.getElementById('grp-' + f);
+  if (g) $('#modlist').scrollTop = g.offsetTop - $('#modlist').offsetTop;
+};
 for (const b of document.querySelectorAll('.drawerbtn')) b.onclick = () => setDrawer(b.dataset.drawer, !drawerOpen(b.dataset.drawer));
 for (const b of document.querySelectorAll('.closedrawer')) b.onclick = () => setDrawer(b.dataset.drawer, false);
 $('#incprot').onchange = $('#incdup').onchange = renderModList;
