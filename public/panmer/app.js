@@ -61,7 +61,7 @@ function params() {
     k: +$('#k').value, clamp: $('#clamp').value.trim(),
     max_mods: state.mods.size ? $('#maxmods').value : null,
   };
-  if (state.tab === 'design') {
+  if (state.tab !== 'analyze') {
     const num = (id) => ($(id).value === '' ? null : +$(id).value);
     Object.assign(p, {
       core: +$('#core').value, seed: +$('#seed').value,
@@ -98,10 +98,13 @@ function syncExtras() {
 
 function setTab(tab) {
   state.tab = tab;
-  $('#tab-design').setAttribute('aria-selected', String(tab === 'design'));
-  $('#tab-analyze').setAttribute('aria-selected', String(tab === 'analyze'));
+  for (const t of ['design', 'analyze', 'docs']) $(`#tab-${t}`).setAttribute('aria-selected', String(tab === t));
+  // Documentation replaces the whole workbench; the other two share it
+  $('#workbench').classList.toggle('hidden', tab === 'docs');
+  for (const el of document.querySelectorAll('.docs-only')) el.classList.toggle('hidden', tab !== 'docs');
   for (const el of document.querySelectorAll('.design-only')) el.classList.toggle('hidden', tab !== 'design');
   for (const el of document.querySelectorAll('.analyze-only')) el.classList.toggle('hidden', tab !== 'analyze');
+  if (tab === 'docs') scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function syncModUI() {
@@ -191,7 +194,7 @@ function applyURL() {
   const u = new URLSearchParams(location.search);
   if (![...u.keys()].length) return;
   applySettings({
-    tab: u.get('tab') || 'design', na: u.get('na') || 'DNA', k: u.get('k'), core: u.get('core'),
+    tab: ['design', 'analyze', 'docs'].includes(u.get('tab')) ? u.get('tab') : 'design', na: u.get('na') || 'DNA', k: u.get('k'), core: u.get('core'),
     seed: u.get('seed'), clamp: u.get('clamp'), m: u.get('m'),
     mods: (u.get('mods') || '').split(',').filter(Boolean),
     mode: u.get('mode'), effort: u.get('effort'),
@@ -357,9 +360,14 @@ $('#mode').onclick = (ev) => { if (ev.target.dataset.v) { setMode(ev.target.data
 for (const id of ['#gcmin', '#gcmax', '#maxrun', '#maxsc', '#refoligos']) $(id).addEventListener('input', syncExtras);
 $('#useminiabc').onclick = () => { $('#refoligos').value = MINIABC.join('\n'); syncExtras(); };
 $('#clearref').onclick = () => { $('#refoligos').value = ''; syncExtras(); };
-$('#tab-design').onclick = () => { setTab('design');
-syncExtras(); estimate(); };
+$('#tab-design').onclick = () => { setTab('design'); syncExtras(); estimate(); };
 $('#tab-analyze').onclick = () => setTab('analyze');
+$('#tab-docs').onclick = () => setTab('docs');
+// links inside the documentation that point back at the app
+$('#view-docs').addEventListener('click', (ev) => {
+  const a = ev.target.closest('a[href="#design"]');
+  if (a) { ev.preventDefault(); setTab('design'); syncExtras(); estimate(); }
+});
 $('#nucleic').onclick = (ev) => { if (ev.target.dataset.v) { setNucleic(ev.target.dataset.v); renderModList(); estimate(); } };
 $('#modlist').onchange = (ev) => {
   const c = ev.target.dataset.code;
