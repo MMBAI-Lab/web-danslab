@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "dsxnabuilder",
+    "name": "dsXNAbuilder",
+    "tagline": "Constructor de ADN, ARN y ADN/ARN de doble cadena con la química de modXNA.",
+    "description": "Genera secuencias canónicas de doble cadena (ds) de ADN, ARN e híbridos ADN/ARN, combinando las bases canónicas con los nucleótidos modificados disponibles en modXNA, la biblioteca de ácidos nucleicos modificados de la que somos co-desarrolladores.",
+    "features": [
+      "dsADN, dsARN e híbridos ADN/ARN",
+      "Nucleótidos canónicos y modificados de modXNA",
+      "Entradas listas para simulaciones moleculares"
+    ],
+    "repo": "",
+    "url": "",
+    "embed": true
+  },
+  {
+    "slug": "panmer",
+    "name": "panmer",
+    "tagline": "Generador de librerías de secuencias para dinámica molecular, con el alfabeto ampliado de modXNA.",
+    "description": "Diseña librerías de secuencias de ADN y ARN para simulaciones de dinámica molecular (MD), con soporte para el alfabeto ampliado de modXNA. Está basado en el algoritmo de Orenstein y Shamir para diseñar secuencias compactas que cubren todos los k-meros.",
+    "features": [
+      "Librerías de secuencias de ADN y ARN",
+      "Alfabeto ampliado de modXNA",
+      "Basado en el algoritmo de Orenstein y Shamir"
+    ],
+    "repo": "",
+    "url": "",
+    "embed": true
+  }
+]

@@ -6,6 +6,7 @@ export type CommonDict = {
     research: string;
     members: string;
     publications: string;
+    apps: string;
     collaborators: string;
     courses: string;
     outreach: string;
@@ -31,6 +32,15 @@ export type CommonDict = {
   };
   publications: {
     intro: string;
+  };
+  apps: {
+    intro: string;
+    launch: string;
+    open_new_tab: string;
+    repo: string;
+    coming_soon: string;
+    not_deployed: string;
+    back: string;
   };
   collaborators: {
     intro: string;
@@ -70,6 +80,7 @@ const en: CommonDict = {
     research: "Research",
     members: "Members",
     publications: "Publications",
+    apps: "Apps",
     collaborators: "Collaborators",
     courses: "Courses",
     outreach: "Outreach",
@@ -99,6 +110,16 @@ const en: CommonDict = {
   publications: {
     intro:
       "Peer-reviewed work from DansLab and collaborators.",
+  },
+  apps: {
+    intro:
+      "Open tools we develop for building and designing nucleic-acid systems for molecular simulations. Each app lives in its own GitHub repository.",
+    launch: "Launch app",
+    open_new_tab: "Open in a new tab",
+    repo: "GitHub repository",
+    coming_soon: "Coming soon",
+    not_deployed: "This app is not deployed yet. Check back soon.",
+    back: "← Apps",
   },
   collaborators: {
     intro:
@@ -138,6 +159,7 @@ const es: CommonDict = {
     research: "Investigación",
     members: "Integrantes",
     publications: "Publicaciones",
+    apps: "Apps",
     collaborators: "Colaboradores",
     courses: "Cursos",
     outreach: "Divulgación",
@@ -166,6 +188,16 @@ const es: CommonDict = {
   },
   publications: {
     intro: "Trabajos arbitrados de DansLab y colaboradores.",
+  },
+  apps: {
+    intro:
+      "Herramientas abiertas que desarrollamos para construir y diseñar sistemas de ácidos nucleicos para simulaciones moleculares. Cada app tiene su propio repositorio en GitHub.",
+    launch: "Abrir la app",
+    open_new_tab: "Abrir en una pestaña nueva",
+    repo: "Repositorio en GitHub",
+    coming_soon: "Próximamente",
+    not_deployed: "Esta app todavía no está publicada. Vuelve a visitarnos pronto.",
+    back: "← Apps",
   },
   collaborators: {
     intro:

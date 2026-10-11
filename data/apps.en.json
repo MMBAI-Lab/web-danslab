@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "dsxnabuilder",
+    "name": "dsXNAbuilder",
+    "tagline": "Double-stranded DNA, RNA and DNA/RNA builder with modXNA chemistry.",
+    "description": "Generates canonical double-stranded (ds) DNA, RNA and DNA/RNA hybrid sequences, combining the canonical bases with the modified nucleotides available in modXNA, the modified-nucleic-acid library we co-develop.",
+    "features": [
+      "dsDNA, dsRNA and DNA/RNA hybrids",
+      "Canonical and modXNA-modified nucleotides",
+      "Ready-to-use input for molecular simulations"
+    ],
+    "repo": "",
+    "url": "",
+    "embed": true
+  },
+  {
+    "slug": "panmer",
+    "name": "panmer",
+    "tagline": "Sequence-library generator for molecular dynamics, with the expanded modXNA alphabet.",
+    "description": "Designs libraries of DNA and RNA sequences for molecular dynamics (MD) simulations, supporting the expanded alphabet of modXNA. It is based on the Orenstein & Shamir algorithm for designing compact sequences that cover every k-mer.",
+    "features": [
+      "DNA and RNA sequence libraries",
+      "Expanded modXNA alphabet",
+      "Based on the Orenstein & Shamir algorithm"
+    ],
+    "repo": "",
+    "url": "",
+    "embed": true
+  }
+]
