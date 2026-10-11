@@ -8,6 +8,7 @@ import MemberCard from "@/components/MemberCard";
 import { getCurrentMembers } from "@/lib/members";
 import { localizePath, type Lang } from "@/lib/i18n";
 import { HOME } from "@/data/content/home";
+import { COMMON } from "@/data/content/common";
 import { asset } from "@/lib/asset";
 
 function GitHubMark() {
@@ -72,6 +73,15 @@ export default function HomePage({ lang }: { lang: Lang }) {
               >
                 {c.cta_research}
               </Link>
+              {(["apps", "publications", "outreach"] as const).map((key) => (
+                <Link
+                  key={key}
+                  href={localizePath(lang, `/${key}`)}
+                  className="rounded-md border border-border px-5 py-3 text-sm font-medium text-ink transition hover:border-accent hover:text-accent"
+                >
+                  {COMMON[lang].nav[key]}
+                </Link>
+              ))}
               <Link
                 href={localizePath(lang, "/members")}
                 className="rounded-md border border-border px-5 py-3 text-sm font-medium text-ink transition hover:border-accent hover:text-accent"
