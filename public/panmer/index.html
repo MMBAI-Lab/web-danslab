@@ -97,6 +97,44 @@
       </section>
 
       <section class="panel design-only">
+        <h2>Strategy</h2>
+        <div class="field">
+          <div class="seg" id="mode">
+            <button type="button" data-v="tiled" aria-pressed="true">Single master</button>
+            <button type="button" data-v="segments" aria-pressed="false">Segments</button>
+          </div>
+          <div class="hint" id="modehint">One reverse-complement-complete master cut into overlapping cores. Segments recombine the master into independent walks and can reach the absolute minimum number of oligos.</div>
+        </div>
+        <details class="mods" id="consbox">
+          <summary>Sequence constraints: <b id="conscount">none</b></summary>
+          <div class="inner">
+            <div class="hint">Hard constraints on every oligo. They force the segment strategy.</div>
+            <div class="row">
+              <div class="field"><label for="gcmin">GC core min %</label><input type="number" id="gcmin" min="0" max="100" placeholder="any"></div>
+              <div class="field"><label for="gcmax">GC core max %</label><input type="number" id="gcmax" min="0" max="100" placeholder="any"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="maxrun">Max homopolymer run</label><input type="number" id="maxrun" min="1" max="20" placeholder="any"></div>
+              <div class="field"><label for="maxsc">Max self-complementary</label><input type="number" id="maxsc" min="2" max="20" placeholder="any"></div>
+            </div>
+          </div>
+        </details>
+        <details class="mods" id="repbox" style="margin-top:10px">
+          <summary>Replica mode: <b id="repcount">off</b></summary>
+          <div class="inner">
+            <div class="hint">Paste a reference library. Panmer then places every k-mer in a <b>different helical position</b> from the one it occupies there — an independent replica for MD.</div>
+            <textarea id="refoligos" spellcheck="false" placeholder=">miniABC_01&#10;GCAACGTGCTATGGAAGC&#10;..." style="min-height:120px"></textarea>
+            <button type="button" class="btn ghost small" id="useminiabc">Use miniABC (2019)</button>
+            <button type="button" class="btn ghost small" id="clearref">Clear</button>
+          </div>
+        </details>
+        <div class="field" style="margin-top:10px">
+          <label for="effort">Search effort</label>
+          <select id="effort"><option value="0.5">quick</option><option value="1" selected>normal</option><option value="2">thorough</option><option value="4">exhaustive</option></select>
+        </div>
+      </section>
+
+      <section class="panel design-only">
         <h2>Size estimate</h2>
         <div class="estimate" id="estimate"><span class="spinner"></span>Starting the engine…</div>
         <div class="actions"><button type="button" class="btn" id="run" disabled>Design library</button></div>
