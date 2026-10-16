@@ -45,8 +45,8 @@ const state = {
 // ------------------------------------------------------------------ worker
 // The deployment stamps PAGE_VERSION and the ?v= of every asset with the version it
 // ships (scripts/deploy_danslab.sh); locally they stay "dev".
-const PAGE_VERSION = '0.2.0-dev.gacfc4bd';
-const worker = new Worker(new URL('worker.js?v=0.2.0-dev.gacfc4bd', import.meta.url), { type: 'module' });
+const PAGE_VERSION = '0.2.0';
+const worker = new Worker(new URL('worker.js?v=0.2.0', import.meta.url), { type: 'module' });
 let seq = 0;
 const pending = new Map();
 worker.onmessage = (ev) => {
