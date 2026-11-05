@@ -1,3 +1,5 @@
+// Copyright (C) 2026 Pablo D. Dans
+// SPDX-License-Identifier: GPL-3.0-or-later
 // dsXNAbuilder front end. All computation runs in worker.js (Pyodide); this file is UI only.
 // Issue messages come in English from the Python package, each with a stable code.
 
@@ -45,8 +47,8 @@ const state = {
 // ------------------------------------------------------------------ worker
 // The deployment stamps PAGE_VERSION and the ?v= of every asset with the version it
 // ships (scripts/deploy_danslab.sh); locally they stay "dev".
-const PAGE_VERSION = '0.2.0';
-const worker = new Worker(new URL('worker.js?v=0.2.0', import.meta.url), { type: 'module' });
+const PAGE_VERSION = '0.2.1';
+const worker = new Worker(new URL('worker.js?v=0.2.1', import.meta.url), { type: 'module' });
 let seq = 0;
 const pending = new Map();
 worker.onmessage = (ev) => {
