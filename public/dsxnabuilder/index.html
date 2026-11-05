@@ -1,15 +1,19 @@
 <!doctype html>
+<!-- Copyright (C) 2026 Pablo D. Dans
+     SPDX-License-Identifier: GPL-3.0-or-later -->
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>dsXNAbuilder · nucleic acid duplex builder</title>
 <meta name="description" content="Build canonical DNA, RNA and DNA:RNA duplexes from the 3DNA fiber models, with modXNA sugar, backbone and base modifications on either strand, ready for modeling and simulation.">
+<!-- visit counts on danslab.xyz only; exclude-search: the URL query holds the user's strands -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="8594d692-37a5-43e4-9212-96955ecfe515" data-domains="danslab.xyz,www.danslab.xyz" data-exclude-search="true"></script>
 <script>
   // the theme belongs to the surrounding danslab.xyz page (same localStorage key)
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
-<link rel="stylesheet" href="style.css?v=0.2.0">
+<link rel="stylesheet" href="style.css?v=0.2.1">
 </head>
 <body>
 <header class="top">
@@ -261,8 +265,10 @@
       <p>The <b>High-throughput</b> tab builds up to 50 duplexes at once from a FASTA-like list
       (<a href="#batch-format">format below</a>).</p>
       <p>Everything runs in your browser (Python compiled to WebAssembly). Nothing you enter is sent
-      anywhere; there is no login, no cookie and no tracking, and nothing is stored in your
-      browser.</p>
+      anywhere; there is no login and no cookie, and nothing is stored in your browser. On
+      danslab.xyz, visits are counted with <a href="https://umami.is/">Umami</a>, which sets no
+      cookie and records anonymous page views only (page, referrer, browser, device and country);
+      the page address is sent without the part that holds your strands.</p>
 
       <h2>Tutorial: the Dickerson dodecamer in one click</h2>
       <ol>
@@ -496,11 +502,11 @@ GCGCTTAAGCGC</pre>
     <span>dsXNAbuilder <span id="ver"></span></span>
     <span>Dans Lab · CENUR Litoral Norte, Universidad de la República</span>
     <span>GPL-3.0 · fiber data CC BY-NC 4.0 (3DNA) · modXNA GPL-3.0</span>
-    <span>Runs in your browser: no data leaves your computer, no cookies.</span>
+    <span>Runs in your browser: your sequences never leave your computer. No cookies.</span>
   </div>
 </footer>
 
 <script src="vendor/ngl.js"></script>
-<script type="module" src="app.js?v=0.2.0"></script>
+<script type="module" src="app.js?v=0.2.1"></script>
 </body>
 </html>
