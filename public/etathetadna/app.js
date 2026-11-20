@@ -32,8 +32,8 @@ function newBm() {
 // ------------------------------------------------------------------ worker
 // The deployment stamps PAGE_VERSION and the ?v= of every asset (scripts/deploy_danslab.sh);
 // locally they stay "dev".
-const PAGE_VERSION = '1.0.0.g09053f0';
-const worker = new Worker(new URL('worker.js?v=1.0.0.g09053f0', import.meta.url), { type: 'module' });
+const PAGE_VERSION = '1.0.0.g4d07145';
+const worker = new Worker(new URL('worker.js?v=1.0.0.g4d07145', import.meta.url), { type: 'module' });
 let seq = 0;
 const pending = new Map();
 worker.onmessage = (ev) => {
