@@ -34,8 +34,8 @@ function newBm() {
 // ------------------------------------------------------------------ worker
 // The deployment stamps PAGE_VERSION and the ?v= of every asset (scripts/deploy_danslab.sh);
 // locally they stay "dev".
-const PAGE_VERSION = '1.0.0.g3220831';
-const worker = new Worker(new URL('worker.js?v=1.0.0.g3220831', import.meta.url), { type: 'module' });
+const PAGE_VERSION = '1.0.0.gb5a3b95';
+const worker = new Worker(new URL('worker.js?v=1.0.0.gb5a3b95', import.meta.url), { type: 'module' });
 let seq = 0;
 const pending = new Map();
 worker.onmessage = (ev) => {
@@ -272,6 +272,14 @@ function setBmMode(mode) {
   $('#bm-prmin').classList.toggle('hidden', mode !== 'prmtop');
   updateAvail();
 }
+// A new CG PDB is on its way (fetched or read): forget the previous one at once, so that Backmap
+// stays disabled until the new one is read, instead of running the old input.
+function clearBmPdb(name) {
+  const s = bm();
+  Object.assign(s, { pdb: '', pdbName: '', pdbInfo: null });
+  $('#bm-pdb-fname').textContent = name ? `${name} · reading…` : '';
+  updateAvail();
+}
 async function setBmPdb(text, name) {
   const s = bm();
   s.pdb = text;
@@ -287,6 +295,7 @@ async function openBmPdb(file) {
   if (!file) return;
   if (file.size > MAX_FILE) return showError($('#bm-issues'), `${file.name} is too large`);
   setBmMode('pdb');
+  clearBmPdb(file.name);
   await setBmPdb(await file.text(), file.name);
 }
 async function openPrmtop(file) {
@@ -687,6 +696,7 @@ $('#bm-examples').addEventListener('click', async (ev) => {
   const ex = BM_EXAMPLES.find((e) => e.id === b.dataset.bmex);
   try {
     setBmMode('pdb');
+    clearBmPdb(ex.file.split('/').pop());
     await setBmPdb(await fetchText(ex.file), ex.file.split('/').pop());
   } catch (e) { showError($('#bm-issues'), e.message); }
 });
