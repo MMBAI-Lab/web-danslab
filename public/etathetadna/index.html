@@ -9,7 +9,7 @@
   // the theme belongs to the surrounding danslab.xyz page (same localStorage key)
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
-<link rel="stylesheet" href="style.css?v=1.0.0.g4d07145">
+<link rel="stylesheet" href="style.css?v=1.0.0.g3220831">
 </head>
 <body>
 <header class="top">
@@ -23,9 +23,12 @@
 </header>
 
 <main class="wrap">
+  <p class="notice" id="notice">This app works on <b>DNA only</b> (with the K⁺/Na⁺ of G-quadruplex channels). To map and
+  backmap a complex with proteins, run the ηθDNA scripts in a terminal (<a href="#" data-go="cli">Command line</a> tab),
+  with <a href="https://ambermd.org/" target="_blank" rel="noopener">AMBER</a> and <a href="https://www.sirahff.com/" target="_blank" rel="noopener">SIRAH</a>. AA = all-atom.</p>
   <nav class="tabs" role="tablist">
-    <button role="tab" id="tab-map" aria-selected="true" aria-controls="view-map">Map: atomistic → CG</button>
-    <button role="tab" id="tab-backmap" aria-selected="false" aria-controls="view-backmap">Backmap: CG → atomistic</button>
+    <button role="tab" id="tab-map" aria-selected="true" aria-controls="view-map">Map: AA → CG</button>
+    <button role="tab" id="tab-backmap" aria-selected="false" aria-controls="view-backmap">Backmap: CG → AA</button>
     <button role="tab" id="tab-model" aria-selected="false" aria-controls="view-model">The model</button>
     <button role="tab" id="tab-cli" aria-selected="false" aria-controls="view-cli">Command line</button>
     <button role="tab" id="tab-docs" aria-selected="false" aria-controls="view-docs">Documentation</button>
@@ -42,7 +45,7 @@
   <section id="view-map" class="layout">
     <div class="controls">
       <div class="panel" id="map-drop">
-        <h2>Atomistic structure</h2>
+        <h2>AA structure</h2>
         <div class="drop" id="map-dropzone">
           Drop a PDB file here, or
           <button class="btn ghost small" id="map-open" type="button">Open PDB…</button>
@@ -54,7 +57,8 @@
           <textarea id="map-paste" spellcheck="false" placeholder="ATOM      1  P    DC A   1 ..."></textarea>
         </details>
         <p class="hint">DNA chains (DA/DC/DG/DT) are mapped; water and crystal ions are dropped, except
-        the K⁺/Na⁺ in a G-quadruplex channel. Protein chains are built by <code>build_dna_protein.py</code> on your computer.</p>
+        the K⁺/Na⁺ in a G-quadruplex channel. Protein chains are not mapped: complexes are built with
+        <code>build_dna_protein.py</code> in a terminal.</p>
       </div>
 
       <div class="panel">
@@ -101,7 +105,7 @@
             <button type="button" data-v="bead" aria-pressed="true">bead</button>
             <button type="button" data-v="base" aria-pressed="false">base</button>
           </span>
-          <label class="check"><input type="checkbox" id="map-showaa" checked> atomistic</label>
+          <label class="check"><input type="checkbox" id="map-showaa" checked> AA</label>
           <button class="iconbtn" id="map-spin" type="button">spin</button>
           <button class="iconbtn" id="map-recenter" type="button">reset view</button>
         </div>
@@ -153,6 +157,8 @@ bash system/run_md.sh system</pre><button class="btn ghost small copy" type="but
           <input type="file" id="bm-crd-file" accept=".nc,.rst7,.inpcrd,.rst,.ncrst,.pdb" hidden>
           <p class="hint">Only the solute part of each trajectory frame is read from the file, so long trajectories are fine.</p>
         </div>
+        <p class="hint">DNA and G-quadruplex channel cations are rebuilt. SIRAH protein residues are skipped:
+        <code>backmap_dna.py</code> rebuilds them, in a terminal.</p>
         <div class="hint" id="bm-inputinfo"></div>
       </div>
 
@@ -182,7 +188,7 @@ bash system/run_md.sh system</pre><button class="btn ghost small copy" type="but
 
     <div class="results">
       <div class="panel">
-        <h2>All-atom structure (heavy atoms)</h2>
+        <h2>AA structure (heavy atoms)</h2>
         <div id="bm-viewer" class="viewer"><div class="empty">The reconstructed structure appears here.</div></div>
         <div class="viewerbar">
           <span class="seg" id="bm-repr" role="group" aria-label="Representation">
@@ -206,7 +212,7 @@ bash system/run_md.sh system</pre><button class="btn ghost small copy" type="but
           <div class="tablewrap"><table id="bm-residues"></table></div>
         </details>
         <div class="actions">
-          <button class="btn" id="bm-dlpdb" type="button" disabled>Download all-atom PDB</button>
+          <button class="btn" id="bm-dlpdb" type="button" disabled>Download AA PDB</button>
           <button class="btn ghost" id="bm-dlzip" type="button" disabled>Download hydrogenation package</button>
         </div>
         <label class="check"><input type="checkbox" id="bm-resolvate"> In the package, also re-solvate frame 1 (TIP3P box)</label>
@@ -224,7 +230,7 @@ bash system/run_md.sh system</pre><button class="btn ghost small copy" type="but
   <section id="view-model" class="hidden">
     <div class="doc">
       <p><b>ηθDNA</b> is a coarse-grained (CG) DNA force field with near-atomic resolution and explicit
-      electrostatics, compatible with the <a href="http://www.sirahff.com/" target="_blank" rel="noopener">SIRAH</a>
+      electrostatics, compatible with the <a href="https://www.sirahff.com/" target="_blank" rel="noopener">SIRAH</a>
       force field and the <a href="https://ambermd.org/" target="_blank" rel="noopener">AMBER</a> engine
       (<code>pmemd.cuda</code>).</p>
       <ul>
@@ -278,8 +284,9 @@ bash system/run_md.sh system</pre><button class="btn ghost small copy" type="but
       <h2>Backmapping</h2>
       <p>The CG beads give the base atoms, C4′ and P of every nucleotide. The rest of the sugar and backbone is
       placed by internal coordinates (NeRF) from a template. Each nucleotide is built with every template and keeps
-      the one that best fits the beads it does not copy. G-quadruplex channel cations come back as K⁺/Na⁺ and
-      SIRAH proteins with SIRAH's own recipe; water and bulk ions are not reconstructed.</p>
+      the one that best fits the beads it does not copy. G-quadruplex channel cations come back as K⁺/Na⁺; water and
+      bulk ions are not reconstructed. In a terminal, <code>backmap_dna.py</code> also rebuilds SIRAH proteins with
+      SIRAH's own recipe (this app skips them).</p>
       <div class="tablewrap"><table id="model-templates"></table></div>
 
       <h2>References</h2>
@@ -312,9 +319,9 @@ export SIRAH_HOME=/path/to/sirah        # SIRAH (www.sirahff.com), not bundled
 .venv/bin/pip install pytest &amp;&amp; SIRAH_HOME=... .venv/bin/python -m pytest tests   # optional check</pre>
       <table class="legend"><tbody>
         <tr><td><b>Python 3.8 or later</b> with NumPy and ParmEd</td><td>every tool</td></tr>
-        <tr><td><b>AmberTools</b></td><td>tleap (build, hydrogens), cpptraj (frames of a trajectory), sander (backmap minimization);
+        <tr><td><b><a href="https://ambermd.org/" target="_blank" rel="noopener">AMBER</a>Tools</b></td><td>tleap (build, hydrogens), cpptraj (frames of a trajectory), sander (backmap minimization);
           pmemd or pmemd.cuda for the simulations</td></tr>
-        <tr><td><b>SIRAH</b> (<code>--sirah-dir</code> or <code>SIRAH_HOME</code>)</td><td>build_dna.py and build_dna_protein.py:
+        <tr><td><b><a href="https://www.sirahff.com/" target="_blank" rel="noopener">SIRAH</a></b> (<code>--sirah-dir</code> or <code>SIRAH_HOME</code>)</td><td>build_dna.py and build_dna_protein.py:
           water, ions and, for complexes, the protein</td></tr>
         <tr><td><b>pdb2pqr</b></td><td>build_dna_protein.py only (protonation states of the protein)</td></tr>
       </tbody></table>
@@ -339,10 +346,11 @@ python build_dna_protein.py complex.pdb -o out/complex/complex     # DNA + SIRAH
       WebAssembly with Pyodide). Your files are read on your computer and never sent anywhere. The steps that need
       AmberTools or SIRAH are handed over as small packages to run on your computer.</p>
       <table class="legend"><tbody>
-        <tr><td><b>In the browser</b></td><td>atomistic → CG mapping, G-quadruplex channel cations, heavy-atom backmapping
-          (DNA, SIRAH protein, channel cations), reading AMBER trajectories</td></tr>
+        <tr><td><b>In the browser</b></td><td>DNA only: AA → CG mapping, G-quadruplex channel cations, heavy-atom backmapping
+          (DNA and channel cations), reading AMBER trajectories</td></tr>
         <tr><td><b>On your computer</b></td><td>the CG topology (tleap + SIRAH + the ηθDNA parameters), the simulation,
-          the hydrogens and minimization of a backmapped frame (tleap + sander), re-solvation</td></tr>
+          the hydrogens and minimization of a backmapped frame (tleap + sander), re-solvation, and everything with
+          proteins: <code>build_dna_protein.py</code> and <code>backmap_dna.py</code></td></tr>
       </tbody></table>
 
       <h2>Tutorial: from a crystal to a CG simulation and back</h2>
@@ -353,28 +361,30 @@ python build_dna_protein.py complex.pdb -o out/complex/complex     # DNA + SIRAH
           <code>bash 1bna/build.sh</code>: it writes the topology, the AMBER decks and <code>run_md.sh</code>.</li>
         <li>Run the simulation with <code>bash 1bna/run_md.sh 1bna</code> (it resumes where it stopped).</li>
         <li>In <b>Backmap</b>, choose <b>prmtop + coordinates</b> and give it <code>1bna.prmtop</code> and <code>md.nc</code>.
-          Pick how many frames, press <b>Backmap</b>, and download the all-atom PDB, or the package that adds the hydrogens.</li>
+          Pick how many frames, press <b>Backmap</b>, and download the AA PDB, or the package that adds the hydrogens.</li>
       </ol>
 
-      <h2>Map: atomistic → CG</h2>
+      <h2>Map: AA → CG</h2>
       <ul>
         <li>Input: a PDB with DNA in <code>ATOM</code> records (DA/DC/DG/DT). Each chain becomes a strand; a TER record
           also ends one. Modified nucleotides (<code>HETATM</code>, e.g. 5-bromo-dU) are not mapped and break the strand:
           rename them to the parent base first.</li>
         <li>G-quadruplexes: tetrads are found by their Hoogsteen pairs; the channel gets one cation per site
           (between tetrads by default) unless the input already has K⁺/Na⁺ in it.</li>
-        <li>Protein–DNA complexes: here only the DNA is mapped. The protein needs SIRAH's own mapping
-          (<code>build_dna_protein.py</code>, with pdb2pqr and SIRAH's <code>cgconv.pl</code>).</li>
+        <li>Protein–DNA complexes: the app works on DNA only, and only the DNA of a complex would be mapped. Build them
+          with <code>build_dna_protein.py</code> in a terminal (pdb2pqr protonation and SIRAH's <code>cgconv.pl</code> for
+          the protein).</li>
       </ul>
 
-      <h2>Backmap: CG → atomistic</h2>
+      <h2>Backmap: CG → AA</h2>
       <ul>
         <li><b>CG PDB</b>: from the Map tab, from <code>convert_dna.py</code>, or frames written by cpptraj
           (one <code>MODEL</code> per frame). The links between residues are found as tleap makes them, within each TER segment.</li>
         <li><b>prmtop + coordinates</b>: the CG topology of the run and an AMBER NetCDF trajectory (<code>md.nc</code>), a restart
           (<code>.rst7</code>/<code>.inpcrd</code>) or a PDB in the same atom order. This is the exact route of
           <code>backmap_dna.py</code>.</li>
-        <li>Output: one PDB with the heavy atoms of every frame (DNA, protein, channel cations), and the template each
+        <li>Output: one PDB with the heavy atoms of every frame (DNA and channel cations; SIRAH protein residues are
+          skipped, <code>backmap_dna.py</code> rebuilds them), and the template each
           nucleotide took. The hydrogenation package adds hydrogens and runs the same 150-step vacuum minimization
           as <code>backmap_dna.py</code>, then writes one prmtop and one trajectory.</li>
       </ul>
@@ -386,7 +396,7 @@ python build_dna_protein.py complex.pdb -o out/complex/complex     # DNA + SIRAH
       <h2>Limits of the web app</h2>
       <ul>
         <li>Up to 100 frames per backmap run, and files that fit in the browser's memory (the trajectory is read frame by frame).</li>
-        <li>The mapping covers DNA; proteins are mapped by SIRAH's tools on your computer.</li>
+        <li>DNA only: complexes with proteins are mapped and backmapped with the scripts, in a terminal.</li>
         <li>Backmapped frames have heavy atoms only, unminimized: they are a starting point for the hydrogenation package or for
           your own minimization.</li>
       </ul>
@@ -398,12 +408,13 @@ python build_dna_protein.py complex.pdb -o out/complex/complex     # DNA + SIRAH
 <footer>
   <div class="wrap">
     <span>ηθDNA tools <span id="ver"></span></span>
+    <span>For <a href="https://ambermd.org/" target="_blank" rel="noopener">AMBER</a> and <a href="https://www.sirahff.com/" target="_blank" rel="noopener">SIRAH</a></span>
     <span>Dans Lab · CENUR Litoral Norte, Universidad de la República</span>
     <span>Runs in your browser: your files never leave your computer. No cookies.</span>
   </div>
 </footer>
 
 <script src="vendor/ngl.js"></script>
-<script type="module" src="app.js?v=1.0.0.g4d07145"></script>
+<script type="module" src="app.js?v=1.0.0.g3220831"></script>
 </body>
 </html>

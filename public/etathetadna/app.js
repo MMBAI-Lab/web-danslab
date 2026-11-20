@@ -11,13 +11,15 @@ const MAP_EXAMPLES = [
   { id: '116d', label: '116D · A-DNA', file: 'examples/116d.pdb' },
   { id: '181d', label: '181D · Z-DNA', file: 'examples/181d.pdb' },
   { id: '1kf1', label: '1KF1 · G-quadruplex + K⁺', file: 'examples/1kf1.pdb' },
-  { id: '7x7q', label: '7X7Q · protein–DNA (DNA part)', file: 'examples/7x7q_trun.pdb' },
+  { id: '1jve', label: '1JVE · hairpin (NMR)', file: 'examples/1jve.pdb' },
+  { id: '1m6g', label: '1M6G · Holliday junction', file: 'examples/1m6g.pdb' },
 ];
 const BM_EXAMPLES = [
   { id: '4ocb', label: '4OCB · Z-DNA, 3 M NaCl', file: 'examples/cg_frames/4ocb_cg_md.pdb' },
   { id: '1jpq', label: '1JPQ · G4 + channel K⁺', file: 'examples/cg_frames/1jpq_cg_md.pdb' },
   { id: '116d', label: '116D · A-DNA, 3 M', file: 'examples/cg_frames/116d_3M_cg_md.pdb' },
-  { id: '7x7q', label: '7X7Q · protein–DNA (SIRAH)', file: 'examples/cg_frames/7x7q_cg_md.pdb' },
+  { id: '1jve', label: '1JVE · hairpin', file: 'examples/cg_frames/1jve_cg_md.pdb' },
+  { id: '1nqs', label: '1NQS · Holliday junction', file: 'examples/cg_frames/1nqs_cg_md.pdb' },
 ];
 const STATUS = { loading_python: 'Loading Python runtime…', loading_numpy: 'Loading numpy…', loading_app: 'Loading the ηθDNA tools…' };
 const MAX_FILE = 300e6;          // bytes read whole (PDB, prmtop, restart); trajectories are read frame by frame
@@ -32,8 +34,8 @@ function newBm() {
 // ------------------------------------------------------------------ worker
 // The deployment stamps PAGE_VERSION and the ?v= of every asset (scripts/deploy_danslab.sh);
 // locally they stay "dev".
-const PAGE_VERSION = '1.0.0.g4d07145';
-const worker = new Worker(new URL('worker.js?v=1.0.0.g4d07145', import.meta.url), { type: 'module' });
+const PAGE_VERSION = '1.0.0.g3220831';
+const worker = new Worker(new URL('worker.js?v=1.0.0.g3220831', import.meta.url), { type: 'module' });
 let seq = 0;
 const pending = new Map();
 worker.onmessage = (ev) => {
@@ -456,7 +458,7 @@ function renderBackmap(r) {
   const tmpl = total ? ['B', 'A', 'syn', 'Z'].filter((k) => r.templates[k]).map((k) => `<span class="tmpl ${k}">${k}</span> ${fmt((100 * r.templates[k]) / total)}%`).join(' &nbsp;') : '';
   $('#bm-stats').innerHTML = stat(fmt(r.frames), r.frames === 1 ? 'frame' : 'frames', r.source) +
     stat(fmt(sm.nucleotides), 'nucleotides', `${sm.dna_chains} strand${sm.dna_chains === 1 ? '' : 's'}`) +
-    (sm.protein_residues ? stat(fmt(sm.protein_residues), 'protein residues', 'SIRAH recipe') : '') +
+    (sm.protein_skipped ? stat(fmt(sm.protein_skipped), 'protein residues skipped', 'DNA only: use backmap_dna.py') : '') +
     (sm.channel_ions ? stat(fmt(sm.channel_ions), 'channel cations', 'K⁺/Na⁺') : '') +
     stat(fmt(sm.heavy_atoms), 'heavy atoms per frame') +
     (total ? `<div class="stat" style="grid-column: span 2"><div class="l">templates, all frames${r.conformers ? '' : ' (B only)'}</div><div class="s">${tmpl}</div>${bar}</div>` : '');
@@ -535,8 +537,8 @@ function applyBmRepr() {
     v.comp.addRepresentation('licorice', { sele: `${model} and not ion`, colorScheme: color, radiusSize: 0.18 });
   }
   v.comp.addRepresentation('spacefill', { sele: `${model} and ion`, colorScheme: color, radiusScale: 0.7 });
-  if (by === 'template') legend('#bm-legend', [[TEMPLATE_COLORS.B, 'B (1BNA)'], [TEMPLATE_COLORS.A, 'A (116D)'], [TEMPLATE_COLORS.syn, 'syn (1JPQ)'], [TEMPLATE_COLORS.Z, 'Z (181D)'], [OTHER, 'protein'], [ION_COLOR, 'K⁺/Na⁺']]);
-  else if (by === 'base') legend('#bm-legend', [[BASE_COLORS.A, 'A'], [BASE_COLORS.C, 'C'], [BASE_COLORS.G, 'G'], [BASE_COLORS.T, 'T'], [OTHER, 'protein'], [ION_COLOR, 'K⁺/Na⁺']]);
+  if (by === 'template') legend('#bm-legend', [[TEMPLATE_COLORS.B, 'B (1BNA)'], [TEMPLATE_COLORS.A, 'A (116D)'], [TEMPLATE_COLORS.syn, 'syn (1JPQ)'], [TEMPLATE_COLORS.Z, 'Z (181D)'], [ION_COLOR, 'K⁺/Na⁺']]);
+  else if (by === 'base') legend('#bm-legend', [[BASE_COLORS.A, 'A'], [BASE_COLORS.C, 'C'], [BASE_COLORS.G, 'G'], [BASE_COLORS.T, 'T'], [ION_COLOR, 'K⁺/Na⁺']]);
   else $('#bm-legend').innerHTML = '';
 }
 
@@ -746,6 +748,7 @@ if (window.parent !== window) {
 }
 
 $('#go-cli').onclick = (ev) => { ev.preventDefault(); selectTab('cli'); };
+for (const a of $$('[data-go]')) a.onclick = (ev) => { ev.preventDefault(); selectTab(a.dataset.go); };
 
 renderMapExamples();
 renderBmExamples();

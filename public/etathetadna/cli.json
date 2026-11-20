@@ -1,5 +1,5 @@
 {
- "version": "1.0.0.g4d07145",
+ "version": "1.0.0.g3220831",
  "tools": [
   {
    "name": "build_dna.py",
@@ -33,7 +33,7 @@
    "name": "build_dna_protein.py",
    "kind": "build",
    "usage": "build_dna_protein.py [-h] [--cg-input] [--ph PH] [--pdb2pqr-bin PDB2PQR_BIN] -o PREFIX [--sirah-dir SIRAH_DIR] [--salt M] [--cation {NaW,KW}] [--no-ztype] [--g4-cation {KW4,NW4}] [--g4-site {between,plane}] [--g4-tips] [--no-g4-cations] [--ring-bond RES.ATOM:RES.ATOM] [--no-end-restraint] [--no-decks] [--tleap-bin TLEAP_BIN] input_pdb",
-   "doc": "Build an AMBER-ready ηθDNA 1.0 + SIRAH-protein CG system from one\nall-atom PDB of a DNA-protein complex.\n\n    python build_dna_protein.py input.pdb -o outdir/name --sirah-dir /path/to/sirah\n\nPipeline: split the input into DNA and protein -> DNA via cg_dna.convert_dna\n(this model's mapping) -> protein via pdb2pqr (protonation) + SIRAH's\ncgconv.pl -> merged CG PDB -> tleap (`source leaprc.sirah` + this model's\nDNA parameters on top; neutralize with NaW and ClW, NaCl 0.15 M by\ndefault) -> the v18 topology chain (DNA residues only; SIRAH's protein\nforce field is untouched) -> WC end restraint on the DNA + the SIRAH\nmulti-stage decks (em1, em2, eq1, eq2, md, md2) + run_md.sh.\n\nRequirements beyond build_dna.py's: `pdb2pqr` on PATH (pip install pdb2pqr)\nand `perl` on PATH (to run SIRAH's bundled cgconv.pl).",
+   "doc": "Build an AMBER-ready ηθDNA 1.0 + SIRAH-protein CG system from one\nall-atom PDB of a DNA-protein complex.\n\n    python build_dna_protein.py input.pdb -o outdir/name --sirah-dir /path/to/sirah\n\nPipeline: split the input into DNA and protein -> DNA via cg_dna.convert_dna\n(this model's mapping) -> protein via pdb2pqr (protonation) + SIRAH's\ncgconv.pl -> merged CG PDB -> tleap (`source leaprc.sirah` + this model's\nDNA parameters on top; neutralize with NaW and ClW, NaCl 0.15 M by\ndefault) -> the ηθDNA 1.0 topology chain (DNA residues only; SIRAH's protein\nforce field is untouched) -> WC end restraint on the DNA + the SIRAH\nmulti-stage decks (em1, em2, eq1, eq2, md, md2) + run_md.sh.\n\nRequirements beyond build_dna.py's: `pdb2pqr` on PATH (pip install pdb2pqr)\nand `perl` on PATH (to run SIRAH's bundled cgconv.pl).",
    "options": [
     {
      "flags": "input_pdb",

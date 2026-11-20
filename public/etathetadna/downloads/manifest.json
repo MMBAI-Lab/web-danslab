@@ -1,18 +1,18 @@
 {
- "version": "1.0.0.g4d07145",
+ "version": "1.0.0.g3220831",
  "downloads": [
   {
    "file": "etathetadna-tools.zip",
-   "size": 583477,
-   "sha256": "89dc56494f02789fa10bf8312d9c1d4bd6dfeb548c89eae71de86394b9a05382",
-   "files": 74,
+   "size": 780024,
+   "sha256": "b3b7f02384b8d6713bf7e5784660c990ae6663406bb57af68f0a5a62346f5701",
+   "files": 78,
    "title": "ηθDNA tools",
    "what": "build_dna.py, build_dna_protein.py, backmap_dna.py, the cg_dna and cg_backmap packages, the ηθDNA 1.0 parameters, examples and tests"
   },
   {
    "file": "etathetadna-params.zip",
    "size": 88471,
-   "sha256": "6f0051e4e354c7055b3864f30445e2f76b3bfab559c72e85620f59f422afd7f9",
+   "sha256": "0ee4c0e9c11f87b98f250d79fc5e97d74bcb22f812f851432f75470aa4586e24",
    "files": 25,
    "title": "ηθDNA 1.0 parameters",
    "what": "residue libraries, the frcmod stack in load order, the CMAP grids, run_md.sh and the backmap recipes, with a README"
