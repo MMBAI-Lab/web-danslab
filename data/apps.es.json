@@ -26,5 +26,19 @@
     "repo": "",
     "url": "https://danslab.xyz/panmer/",
     "embed": true
+  },
+  {
+    "slug": "etathetadna",
+    "name": "ηθDNA: modelo y herramientas",
+    "tagline": "ADN de grano grueso: de estructuras atomísticas al modelo ηθDNA y de vuelta.",
+    "description": "Mapea ADN atomístico, con los cationes del canal de los G-cuádruplex, a ηθDNA, nuestro campo de fuerza de ADN de grano grueso para AMBER y SIRAH, y reconstruye estructuras atomísticas a partir de frames y trayectorias CG con plantillas según la conformación (B, A, syn y Z).",
+    "features": [
+      "Mapeo atomístico → ηθDNA, con los cationes del canal de los G-cuádruplex",
+      "Reconstrucción atomística de frames y trayectorias AMBER de grano grueso",
+      "Paquetes listos para correr con tleap/SIRAH y AmberTools"
+    ],
+    "repo": "",
+    "url": "https://danslab.xyz/etathetadna/",
+    "embed": true
   }
 ]

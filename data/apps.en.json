@@ -26,5 +26,19 @@
     "repo": "",
     "url": "https://danslab.xyz/panmer/",
     "embed": true
+  },
+  {
+    "slug": "etathetadna",
+    "name": "ηθDNA model & tools",
+    "tagline": "Coarse-grained DNA: from atomistic structures to the ηθDNA model and back.",
+    "description": "Maps atomistic DNA, with the cations of G-quadruplex channels, to ηθDNA, our coarse-grained DNA force field for AMBER and SIRAH, and rebuilds all-atom structures from CG frames and trajectories with conformation-aware templates (B, A, syn and Z).",
+    "features": [
+      "Atomistic → ηθDNA mapping, G-quadruplex channel cations included",
+      "CG → all-atom backmapping of frames and AMBER trajectories",
+      "Ready-to-run packages for tleap/SIRAH and AmberTools"
+    ],
+    "repo": "",
+    "url": "https://danslab.xyz/etathetadna/",
+    "embed": true
   }
 ]

@@ -1,0 +1,418 @@
+{
+ "version": "1.0.0.g2006883",
+ "tools": [
+  {
+   "name": "build_dna.py",
+   "kind": "build",
+   "usage": "build_dna.py [-h] [--cg-input] -o PREFIX [--sirah-dir SIRAH_DIR] [--salt M] [--cation {NaW,KW}] [--no-ztype] [--g4-cation {KW4,NW4}] [--g4-site {between,plane}] [--g4-tips] [--no-g4-cations] [--ring-bond RES.ATOM:RES.ATOM] [--no-end-restraint] [--no-decks] [--tleap-bin TLEAP_BIN] input_pdb",
+   "doc": "Build an AMBER-ready ηθDNA 1.0 CG system from an all-atom, DNA-only PDB.\n\n    python build_dna.py input.pdb -o outdir/name --sirah-dir /path/to/sirah\n\nPipeline: all-atom PDB -> CG PDB (cg_dna.convert_dna: repeated-base\nretyping, 5'/3' caps) -> G-quadruplex channel cations if the structure has\ntetrads (cg_dna.g4) -> tleap (SIRAH WT4 water, neutralization, NaCl 0.15 M\nby default) -> the v18 topology chain (cg_dna.cmap, cg_dna.topology) ->\nWC end restraint (DISANG) + AMBER decks + run_md.sh.\n\nOne system per output directory: outdir/ receives name.prmtop,\nname.inpcrd, the decks (em/eq/md/md2_WT4.in, plus dens_WT4.in at high\nsalt), disang.rst, run_md.sh and build_summary.json; intermediates go to\noutdir/build/. Then:  bash outdir/run_md.sh name\n\nRequirements: tleap on PATH (AmberTools), the parmed and numpy Python\npackages, and a local SIRAH installation (http://www.sirahff.com; not\nbundled, point --sirah-dir or $SIRAH_HOME at it).",
+   "options": [
+    {
+     "flags": "input_pdb",
+     "dest": "input_pdb",
+     "help": "all-atom PDB, DNA only (protein chains are skipped -- see build_dna_protein.py)",
+     "default": null,
+     "choices": null,
+     "required": true,
+     "positional": true,
+     "repeat": false
+    },
+    {
+     "flags": "--cg-input",
+     "dest": "cg_input",
+     "help": "input_pdb is already a CG PDB (ηθDNA bead names, e.g. from convert_dna.py)",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    }
+   ]
+  },
+  {
+   "name": "build_dna_protein.py",
+   "kind": "build",
+   "usage": "build_dna_protein.py [-h] [--cg-input] [--ph PH] [--pdb2pqr-bin PDB2PQR_BIN] -o PREFIX [--sirah-dir SIRAH_DIR] [--salt M] [--cation {NaW,KW}] [--no-ztype] [--g4-cation {KW4,NW4}] [--g4-site {between,plane}] [--g4-tips] [--no-g4-cations] [--ring-bond RES.ATOM:RES.ATOM] [--no-end-restraint] [--no-decks] [--tleap-bin TLEAP_BIN] input_pdb",
+   "doc": "Build an AMBER-ready ηθDNA 1.0 + SIRAH-protein CG system from one\nall-atom PDB of a DNA-protein complex.\n\n    python build_dna_protein.py input.pdb -o outdir/name --sirah-dir /path/to/sirah\n\nPipeline: split the input into DNA and protein -> DNA via cg_dna.convert_dna\n(this model's mapping) -> protein via pdb2pqr (protonation) + SIRAH's\ncgconv.pl -> merged CG PDB -> tleap (`source leaprc.sirah` + this model's\nDNA parameters on top; neutralize with NaW and ClW, NaCl 0.15 M by\ndefault) -> the v18 topology chain (DNA residues only; SIRAH's protein\nforce field is untouched) -> WC end restraint on the DNA + the SIRAH\nmulti-stage decks (em1, em2, eq1, eq2, md, md2) + run_md.sh.\n\nRequirements beyond build_dna.py's: `pdb2pqr` on PATH (pip install pdb2pqr)\nand `perl` on PATH (to run SIRAH's bundled cgconv.pl).",
+   "options": [
+    {
+     "flags": "input_pdb",
+     "dest": "input_pdb",
+     "help": "all-atom PDB containing both DNA and protein chains",
+     "default": null,
+     "choices": null,
+     "required": true,
+     "positional": true,
+     "repeat": false
+    },
+    {
+     "flags": "--cg-input",
+     "dest": "cg_input",
+     "help": "input_pdb is already a combined CG PDB (SIRAH protein + ηθDNA beads)",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--ph PH",
+     "dest": "ph",
+     "help": "pH for the PROPKA protonation states (default 7.0)",
+     "default": 7.0,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--pdb2pqr-bin PDB2PQR_BIN",
+     "dest": "pdb2pqr_bin",
+     "help": "pdb2pqr executable (default: pdb2pqr)",
+     "default": "pdb2pqr",
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    }
+   ]
+  },
+  {
+   "name": "backmap_dna.py",
+   "kind": "backmap",
+   "usage": "backmap_dna.py [-h] [--traj NC [NC ...]] -o PREFIX [--n-frames N_FRAMES] [--jobs JOBS] [--resolvate] [--keep-scratch] [--allow-unmapped] [--no-conformers] [--maxcyc MAXCYC] [--ncyc NCYC] [--cutoff CUTOFF] [--tleap-bin TLEAP_BIN] [--sander-bin SANDER_BIN] [--cpptraj-bin CPPTRAJ_BIN] cg_prmtop [traj_dir]",
+   "doc": "Recover an all-atom trajectory from a finished ηθDNA CG MD run (model\n1.0 or the v17 development model; DNA-only or DNA+protein/SIRAH) -- the\nreverse of build_dna.py / build_dna_protein.py.\n\n    python backmap_dna.py cg.prmtop traj_dir -o out/system --n-frames 50\n    python backmap_dna.py cg.prmtop --traj md.nc md2.nc -o out/x --n-frames 20\n\nPipeline, per selected frame: extract the CG frame (cpptraj) ->\ngeometrically reconstruct heavy atoms (NeRF, cg_backmap.reconstruct) ->\nadd hydrogens + a short vacuum minimization (tleap + sander, same protocol\nSIRAH's own backmapping tool uses). Frames are then combined into one\nmulti-frame AMBER NetCDF trajectory + shared prmtop.\n\nEach nucleotide's sugar and backbone come from the conformer template\n(B, A, syn or Z; params/backmap_dna.json) that best fits its CG beads,\npicked per nucleotide and per frame; --no-conformers builds them all\nwith the B template.\n\nWater and bulk-ion CG beads are dropped (never geometrically backmapped,\nmatching SIRAH's own documented behavior). G4 channel cations (KW4/NW4)\nare kept, as K+/Na+ at the bead position. The output is solute plus\nchannel cations by default; pass --resolvate to re-solvate the\n(topologically identical) frame-0 structure with real explicit water\nafterward.\n\nNo SIRAH installation needed at runtime (unlike the forward pipeline):\nSIRAH's own protein/water NeRF recipe was extracted once and is bundled\nin this repo -- only AmberTools (tleap/sander/cpptraj) + parmed + numpy\nare required.\n\nKnown limitation: protein protonation state (HID/HIE/HIP/etc., set by the\nforward pipeline's pdb2pqr step) is not recoverable from SIRAH's CG\nprotein beads -- SIRAH's own CG mapping is protonation-state-agnostic.\ntleap assigns its own default protonation state during hydrogenation.",
+   "options": [
+    {
+     "flags": "cg_prmtop",
+     "dest": "cg_prmtop",
+     "help": "the finished CG run's prmtop",
+     "default": null,
+     "choices": null,
+     "required": true,
+     "positional": true,
+     "repeat": false
+    },
+    {
+     "flags": "traj_dir",
+     "dest": "traj_dir",
+     "help": "directory containing md.nc, md2.nc, ... chunks (mutually exclusive with --traj)",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": true,
+     "repeat": false
+    },
+    {
+     "flags": "--traj NC [NC ...]",
+     "dest": "traj",
+     "help": "explicit trajectory chunk file(s), in order, instead of traj_dir",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "-o, --out PREFIX",
+     "dest": "out",
+     "help": "output path prefix, e.g. out/1bna_backmap",
+     "default": null,
+     "choices": null,
+     "required": true,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--n-frames N_FRAMES",
+     "dest": "n_frames",
+     "help": "number of evenly-spaced frames to backmap (default: 50)",
+     "default": 50,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--jobs JOBS",
+     "dest": "jobs",
+     "help": "parallel frames (each runs its own tleap+sander); default: 1 (serial)",
+     "default": 1,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--resolvate",
+     "dest": "resolvate",
+     "help": "also re-solvate frame 0's structure with explicit water",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--keep-scratch",
+     "dest": "keep_scratch",
+     "help": "keep the per-frame scratch directory instead of deleting it",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--allow-unmapped",
+     "dest": "allow_unmapped",
+     "help": "drop (with a warning) any CG residue type with no backmap recipe, instead of failing",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--no-conformers",
+     "dest": "no_conformers",
+     "help": "build every nucleotide with the B template (1BNA) instead of picking B/A/syn/Z per nucleotide",
+     "default": null,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--maxcyc MAXCYC",
+     "dest": "maxcyc",
+     "help": "sander minimization: total steps (default: 150, matches SIRAH's own default)",
+     "default": 150,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--ncyc NCYC",
+     "dest": "ncyc",
+     "help": "sander minimization: steepest-descent steps before switching to conjugate-gradient (default: 100)",
+     "default": 100,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--cutoff CUTOFF",
+     "dest": "cutoff",
+     "help": "sander minimization: electrostatic cutoff in Angstrom (default: 12.0)",
+     "default": 12.0,
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--tleap-bin TLEAP_BIN",
+     "dest": "tleap_bin",
+     "help": "tleap executable (default: tleap)",
+     "default": "tleap",
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--sander-bin SANDER_BIN",
+     "dest": "sander_bin",
+     "help": "sander executable (default: sander)",
+     "default": "sander",
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    },
+    {
+     "flags": "--cpptraj-bin CPPTRAJ_BIN",
+     "dest": "cpptraj_bin",
+     "help": "cpptraj executable (default: cpptraj)",
+     "default": "cpptraj",
+     "choices": null,
+     "required": false,
+     "positional": false,
+     "repeat": false
+    }
+   ]
+  }
+ ],
+ "common": [
+  {
+   "flags": "-o, --out PREFIX",
+   "dest": "out",
+   "help": "output prefix, e.g. out/1bna/1bna (one system per directory)",
+   "default": null,
+   "choices": null,
+   "required": true,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--sirah-dir SIRAH_DIR",
+   "dest": "sirah_dir",
+   "help": "path to a local SIRAH install (or set $SIRAH_HOME)",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--salt M",
+   "dest": "salt",
+   "help": "salt concentration on top of neutralization, SIRAH rule (default 0.15; 0 = neutralize only; the Z-DNA benchmark used 3.0)",
+   "default": 0.15,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--cation {NaW,KW}",
+   "dest": "cation",
+   "help": "bulk cation for neutralization and salt: NaW (NaCl, default) or KW (KCl)",
+   "default": "NaW",
+   "choices": [
+    "NaW",
+    "KW"
+   ],
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--no-ztype",
+   "dest": "no_ztype",
+   "help": "do not apply the Z typing (Z-DNA G/C detected in the input keep the B parameters)",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--g4-cation {KW4,NW4}",
+   "dest": "g4_cation",
+   "help": "G4 channel cation placed when the input has none in the channel (default KW4 = K+)",
+   "default": "KW4",
+   "choices": [
+    "KW4",
+    "NW4"
+   ],
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--g4-site {between,plane}",
+   "dest": "g4_site",
+   "help": "G4 cation sites: between tetrads (K+, default) or in the tetrad planes (Na+, use with NW4)",
+   "default": "between",
+   "choices": [
+    "between",
+    "plane"
+   ],
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--g4-tips",
+   "dest": "g4_tips",
+   "help": "also place a cation outside each outer tetrad",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--no-g4-cations",
+   "dest": "no_g4_cations",
+   "help": "stop instead of placing channel cations when tetrads are found",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--ring-bond RES.ATOM:RES.ATOM",
+   "dest": "ring_bond",
+   "help": "extra bond for tleap, e.g. 182.C4G:1.PA to close a circular strand (repeat per strand)",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": true
+  },
+  {
+   "flags": "--no-end-restraint",
+   "dest": "no_end_restraint",
+   "help": "no WC distance restraint on the terminal pairs",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--no-decks",
+   "dest": "no_decks",
+   "help": "only the topology and coordinates, no decks or run_md.sh",
+   "default": null,
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  },
+  {
+   "flags": "--tleap-bin TLEAP_BIN",
+   "dest": "tleap_bin",
+   "help": "tleap executable (default: tleap)",
+   "default": "tleap",
+   "choices": null,
+   "required": false,
+   "positional": false,
+   "repeat": false
+  }
+ ],
+ "run_md": "ηθDNA 1.0: runs one replica of a system built by build_dna.py / build_dna_protein.py, up to TARGET_NS of production.\nResume-safe: re-launch it and it continues from the last finished stage.\n\n  bash run_md.sh <name> [TARGET_NS=1000]       (run from anywhere; works in the directory of this script)\n\nDNA (decks em/eq/md/md2): EM on CPU with the solute restrained -> [compaction if dens_WT4.in exists, high salt;\n  a warning in run_md.log if the volume has not settled after 40 x 50 ps]\n  -> EQ 750 ps NPT with a 0->100->298 K ramp -> production in 100 ns chunks (md, md2, md3, ...).\nDNA-protein (decks em1/em2/eq1/eq2/md/md2): em1 (backbone restrained) and em2 (whole solute) on CPU\n  -> eq1 5 ns (ramp to 300 K, solute restrained) -> eq2 25 ns (backbone, wt 0.24) -> production in 100 ns chunks.\nThe EM runs on CPU (pmemd; sander if pmemd fails): on pmemd.cuda an ion placed next to a base can overflow the\nenergy accumulator (-8.59e9) and leave the minimizer in a false minimum.\n\nEnvironment: AMBER on PATH (or AMBERHOME, or /opt/amber24, /opt/amber22).\n  WAIT_GPU=1 (default) waits until no other compute process uses the GPU before each GPU stage, so two runs never\n  share it. Set WAIT_GPU=0 on a cluster that assigns GPUs for you.",
+ "api": [
+  {
+   "name": "build_dna.build",
+   "signature": "build_dna.build(input_pdb, out_prefix, sirah_dir, cg_input=False, **kw)",
+   "doc": ""
+  },
+  {
+   "name": "build_dna_protein.build",
+   "signature": "build_dna_protein.build(input_pdb, out_prefix, sirah_dir, cg_input=False, ph=7.0, pdb2pqr_bin='pdb2pqr', **kw)",
+   "doc": ""
+  },
+  {
+   "name": "cg_dna.build.build_system",
+   "signature": "cg_dna.build.build_system(cg_pdb, out_prefix, sirah_dir, protein=False, source_pdb=None, bonds=(), cation='NaW', salt=0.15, ztype=True, g4_ion='KW4', g4_site='between', g4_tips=False, g4_place=True, end_restraint=True, write_decks=True, tleap_bin='tleap', verbose=True)",
+   "doc": ""
+  },
+  {
+   "name": "cg_dna.convert_dna.convert",
+   "signature": "cg_dna.convert_dna.convert(input_pdb, output_pdb)",
+   "doc": "Convert an all-atom PDB to a CG-DNA PDB. Any non-DNA chain (protein,\nwater, ions, ...) is silently dropped -- see convert_protein.py for the\nDNA+protein pipeline."
+  },
+  {
+   "name": "backmap_dna.backmap",
+   "signature": "backmap_dna.backmap(cg_prmtop, out_prefix, traj_dir=None, traj_files=None, n_frames=50, tleap_bin='tleap', sander_bin='sander', cpptraj_bin='cpptraj', jobs=1, resolvate_output=False, keep_scratch=False, allow_unmapped=False, conformers=True, maxcyc=150, ncyc=100, cutoff=12.0, verbose=True)",
+   "doc": ""
+  }
+ ]
+}

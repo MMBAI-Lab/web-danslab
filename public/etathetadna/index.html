@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ηθDNA · model &amp; tools</title>
+<meta name="description" content="Map atomistic DNA to the ηθDNA coarse-grained model and back: CG input for AMBER/SIRAH simulations, and all-atom structures from CG frames and trajectories. Runs in your browser.">
+<script>
+  // the theme belongs to the surrounding danslab.xyz page (same localStorage key)
+  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<link rel="stylesheet" href="style.css?v=1.0.0.g2006883">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1 class="brand"><span class="eta">ηθ</span>DNA</h1>
+    <p class="tagline">Atomistic DNA to the ηθDNA coarse-grained model and back: CG input for AMBER/SIRAH simulations, and all-atom structures from CG frames and trajectories.</p>
+    <div class="toplinks">
+      <button class="btn ghost small" id="reset" type="button" title="Back to the starting state">Reset</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-map" aria-selected="true" aria-controls="view-map">Map: atomistic → CG</button>
+    <button role="tab" id="tab-backmap" aria-selected="false" aria-controls="view-backmap">Backmap: CG → atomistic</button>
+    <button role="tab" id="tab-model" aria-selected="false" aria-controls="view-model">The model</button>
+    <button role="tab" id="tab-cli" aria-selected="false" aria-controls="view-cli">Command line</button>
+    <button role="tab" id="tab-docs" aria-selected="false" aria-controls="view-docs">Documentation</button>
+  </nav>
+
+  <div class="views">
+  <!-- shown while the engine (Python in WebAssembly) loads; app.js updates and hides it -->
+  <div id="boot" class="boot" role="status" aria-live="polite">
+    <div class="helix" aria-hidden="true"><span style="--i:0"><b></b></span><span style="--i:1"><b></b></span><span style="--i:2"><b></b></span><span style="--i:3"><b></b></span><span style="--i:4"><b></b></span><span style="--i:5"><b></b></span><span style="--i:6"><b></b></span><span style="--i:7"><b></b></span><span style="--i:8"><b></b></span><span style="--i:9"><b></b></span></div>
+    <div class="msg" id="bootmsg">Loading…</div>
+  </div>
+
+  <!-- ============================================================ MAP -->
+  <section id="view-map" class="layout">
+    <div class="controls">
+      <div class="panel" id="map-drop">
+        <h2>Atomistic structure</h2>
+        <div class="drop" id="map-dropzone">
+          Drop a PDB file here, or
+          <button class="btn ghost small" id="map-open" type="button">Open PDB…</button>
+          <input type="file" id="map-file" accept=".pdb,.ent,.txt" hidden>
+          <span class="file" id="map-fname"></span>
+        </div>
+        <details class="paste" id="map-pastebox">
+          <summary>Paste a PDB instead</summary>
+          <textarea id="map-paste" spellcheck="false" placeholder="ATOM      1  P    DC A   1 ..."></textarea>
+        </details>
+        <p class="hint">DNA chains (DA/DC/DG/DT) are mapped; water and crystal ions are dropped, except
+        the K⁺/Na⁺ in a G-quadruplex channel. Protein chains are built by <code>build_dna_protein.py</code> on your computer.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Examples</h2>
+        <div class="examples" id="map-examples"></div>
+      </div>
+
+      <div class="panel">
+        <h2>G-quadruplex channel</h2>
+        <label class="check"><input type="checkbox" id="g4-place" checked> Place channel cations when there are tetrads</label>
+        <div class="inline">
+          <div class="field"><label for="g4-ion">Ion</label>
+            <select id="g4-ion"><option value="KW4">KW4 (K⁺)</option><option value="NW4">NW4 (Na⁺)</option></select></div>
+          <div class="field"><label for="g4-site">Site</label>
+            <select id="g4-site"><option value="between">between tetrads (K⁺)</option><option value="plane">tetrad plane (Na⁺)</option></select></div>
+        </div>
+        <label class="check"><input type="checkbox" id="g4-tips"> Also outside the outer tetrads</label>
+        <p class="hint">Cations in the input channel (crystal K⁺/Na⁺) are kept at their positions and nothing else is added.</p>
+      </div>
+
+      <details class="advanced" id="map-build">
+        <summary>Build options (for the command and the package)</summary>
+        <div class="inline">
+          <div class="field"><label for="b-salt">Salt (M)</label><input type="number" id="b-salt" value="0.15" min="0" max="5" step="0.05"></div>
+          <div class="field"><label for="b-cation">Bulk cation</label>
+            <select id="b-cation"><option value="NaW">NaW (NaCl)</option><option value="KW">KW (KCl)</option></select></div>
+        </div>
+        <label class="check"><input type="checkbox" id="b-ztype" checked> Z typing from the input geometry</label>
+        <label class="check"><input type="checkbox" id="b-endres" checked> Watson–Crick restraint on the terminal pairs</label>
+      </details>
+
+      <div class="buildbar">
+        <button class="btn" id="map-run" type="button" disabled>Map to ηθDNA</button>
+        <span class="status" id="map-status"></span>
+      </div>
+    </div>
+
+    <div class="results">
+      <div class="panel">
+        <h2>Coarse-grained structure</h2>
+        <div id="map-viewer" class="viewer"><div class="empty">The ηθDNA beads appear here.</div></div>
+        <div class="viewerbar">
+          <span class="seg" id="map-color" role="group" aria-label="Colour by">
+            <button type="button" data-v="bead" aria-pressed="true">bead</button>
+            <button type="button" data-v="base" aria-pressed="false">base</button>
+          </span>
+          <label class="check"><input type="checkbox" id="map-showaa" checked> atomistic</label>
+          <button class="iconbtn" id="map-spin" type="button">spin</button>
+          <button class="iconbtn" id="map-recenter" type="button">reset view</button>
+        </div>
+        <div id="map-legend" class="legend" aria-label="Colour legend"></div>
+        <div id="map-stats" class="stats hidden"></div>
+        <div id="map-strandwrap" class="hidden">
+          <h3>Strands</h3>
+          <div class="tablewrap"><table id="map-strands"></table></div>
+        </div>
+        <ul id="map-g4" class="report"></ul>
+        <ul id="map-issues" class="issues"></ul>
+        <div class="actions">
+          <button class="btn" id="map-dlpdb" type="button" disabled>Download CG PDB</button>
+          <button class="btn ghost" id="map-dlzip" type="button" disabled>Download build package</button>
+          <button class="btn ghost" id="map-tobackmap" type="button" disabled>Backmap it →</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Then, on your computer</h2>
+        <p class="lead">The topology needs tleap and SIRAH: the package holds the CG PDB and a <code>build.sh</code> that runs</p>
+        <div class="cmd"><pre id="map-cmd">python build_dna.py system/system_cg.pdb --cg-input -o system/system
+bash system/run_md.sh system</pre><button class="btn ghost small copy" type="button" data-copy="map-cmd">copy</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ BACKMAP -->
+  <section id="view-backmap" class="layout hidden">
+    <div class="controls">
+      <div class="panel">
+        <h2>CG input</h2>
+        <span class="seg" id="bm-mode" role="group" aria-label="Input">
+          <button type="button" data-v="pdb" aria-pressed="true">CG PDB</button>
+          <button type="button" data-v="prmtop" aria-pressed="false">prmtop + coordinates</button>
+        </span>
+        <div id="bm-pdbin" style="margin-top:12px">
+          <div class="drop" id="bm-dropzone">
+            Drop a CG PDB (one MODEL per frame), or
+            <button class="btn ghost small" id="bm-pdb-open" type="button">Open PDB…</button>
+            <input type="file" id="bm-pdb-file" accept=".pdb,.txt" hidden>
+            <span class="file" id="bm-pdb-fname"></span>
+          </div>
+          <div class="actions tight"><button class="btn ghost small" id="bm-from-map" type="button" disabled>Use the structure of the Map tab</button></div>
+        </div>
+        <div id="bm-prmin" class="hidden" style="margin-top:12px">
+          <div class="filerow"><button class="btn ghost small" id="bm-prm-open" type="button">prmtop…</button><span class="fname" id="bm-prm-fname">CG topology (.prmtop / .parm7)</span></div>
+          <input type="file" id="bm-prm-file" accept=".prmtop,.parm7,.top" hidden>
+          <div class="filerow"><button class="btn ghost small" id="bm-crd-open" type="button">coordinates…</button><span class="fname" id="bm-crd-fname">.nc trajectory, .rst7 / .inpcrd, or PDB</span></div>
+          <input type="file" id="bm-crd-file" accept=".nc,.rst7,.inpcrd,.rst,.ncrst,.pdb" hidden>
+          <p class="hint">Only the solute part of each trajectory frame is read from the file, so long trajectories are fine.</p>
+        </div>
+        <div class="hint" id="bm-inputinfo"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Examples: frames of ηθDNA 1.0 simulations</h2>
+        <div class="examples" id="bm-examples"></div>
+      </div>
+
+      <div class="panel" id="bm-frames-panel">
+        <h2>Frames</h2>
+        <div class="frames">
+          <div class="field"><label for="bm-nframes">How many</label><input type="number" id="bm-nframes" value="1" min="1" max="100"></div>
+          <div class="field"><label for="bm-first">From</label><input type="number" id="bm-first" value="1" min="1"></div>
+          <div class="field"><label for="bm-last">To</label><input type="number" id="bm-last" value="1" min="1"></div>
+        </div>
+        <div class="hint" id="bm-avail">Evenly spaced between the two, as <code>backmap_dna.py --n-frames</code> does; up to 100.</div>
+        <label class="check"><input type="checkbox" id="bm-conf" checked> Conformer templates (B, A, syn, Z) per nucleotide</label>
+      </div>
+
+      <div class="buildbar">
+        <button class="btn" id="bm-run" type="button" disabled>Backmap</button>
+        <button class="btn ghost small hidden" id="bm-stop" type="button">Stop</button>
+        <span class="status" id="bm-status"></span>
+      </div>
+      <div class="progress hidden" id="bm-progress"><div class="bar"><i id="bm-bar"></i></div><span class="msg" id="bm-msg"></span></div>
+    </div>
+
+    <div class="results">
+      <div class="panel">
+        <h2>All-atom structure (heavy atoms)</h2>
+        <div id="bm-viewer" class="viewer"><div class="empty">The reconstructed structure appears here.</div></div>
+        <div class="viewerbar">
+          <span class="seg" id="bm-repr" role="group" aria-label="Representation">
+            <button type="button" data-v="sticks" aria-pressed="true">sticks</button>
+            <button type="button" data-v="cartoon" aria-pressed="false">cartoon</button>
+          </span>
+          <span class="seg" id="bm-color" role="group" aria-label="Colour by">
+            <button type="button" data-v="template" aria-pressed="true">template</button>
+            <button type="button" data-v="base" aria-pressed="false">base</button>
+            <button type="button" data-v="element" aria-pressed="false">element</button>
+          </span>
+          <button class="iconbtn" id="bm-spin" type="button">spin</button>
+          <button class="iconbtn" id="bm-recenter" type="button">reset view</button>
+        </div>
+        <div class="framebar hidden" id="bm-framebar"><span>frame</span><input type="range" id="bm-frame" min="1" max="1" value="1"><span class="n" id="bm-frameno"></span></div>
+        <div id="bm-legend" class="legend" aria-label="Colour legend"></div>
+        <div id="bm-stats" class="stats hidden"></div>
+        <ul id="bm-issues" class="issues"></ul>
+        <details class="restable hidden" id="bm-restable">
+          <summary>Template of each nucleotide (frame shown)</summary>
+          <div class="tablewrap"><table id="bm-residues"></table></div>
+        </details>
+        <div class="actions">
+          <button class="btn" id="bm-dlpdb" type="button" disabled>Download all-atom PDB</button>
+          <button class="btn ghost" id="bm-dlzip" type="button" disabled>Download hydrogenation package</button>
+        </div>
+        <label class="check"><input type="checkbox" id="bm-resolvate"> In the package, also re-solvate frame 1 (TIP3P box)</label>
+      </div>
+      <div class="panel">
+        <h2>Then, on your computer</h2>
+        <p class="lead">Hydrogens and a short vacuum minimization need AmberTools. The package runs them on every
+        frame (<code>bash run.sh</code>). For a whole trajectory, the command-line tool does everything at once:</p>
+        <div class="cmd"><pre id="bm-cmd">python backmap_dna.py system.prmtop --traj md.nc -o out/system --n-frames 50</pre><button class="btn ghost small copy" type="button" data-copy="bm-cmd">copy</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ MODEL -->
+  <section id="view-model" class="hidden">
+    <div class="doc">
+      <p><b>ηθDNA</b> is a coarse-grained (CG) DNA force field with near-atomic resolution and explicit
+      electrostatics, compatible with the <a href="http://www.sirahff.com/" target="_blank" rel="noopener">SIRAH</a>
+      force field and the <a href="https://ambermd.org/" target="_blank" rel="noopener">AMBER</a> engine
+      (<code>pmemd.cuda</code>).</p>
+      <ul>
+        <li><b>Backbone.</b> The backbone conformational energy is a 2D correction map (CMAP) fitted to the
+        experimental η–θ map of DNA, mined from 3,862 X-ray structures of naked DNA and protein–DNA complexes
+        at ≤ 2.5 Å.</li>
+        <li><b>Glycosidic torsion.</b> χ is refitted per base against PDB-mined populations.</li>
+        <li><b>Base pairing.</b> Specific Lennard-Jones off-diagonal terms for Watson–Crick, Hoogsteen and
+        sugar-edge contacts.</li>
+      </ul>
+      <p>Together they reproduce canonical and non-canonical motifs: A/B-DNA, Z-DNA, G-quadruplexes, Holliday
+      junctions, hairpins, nucleosomal and circular DNA. Water and ions are SIRAH's (WT4, NaW, KW, ClW), and
+      proteins can be added with SIRAH's protein model.</p>
+      <p>The name comes from the two pseudo-torsions the all-atom backbone is contracted to (Duarte &amp; Pyle, 1998),
+      which play the role of φ/ψ for proteins:</p>
+      <ul>
+        <li><b>η</b>: C4′(i−1)–P(i)–C4′(i)–P(i+1)</li>
+        <li><b>θ</b>: P(i)–C4′(i)–P(i+1)–C4′(i+1)</li>
+      </ul>
+
+      <h2>Beads</h2>
+      <p>Each nucleotide keeps its phosphorus, its C4′ and the heavy atoms of the base that carry its pairing
+      and stacking: they keep their positions, and the bead takes the atom's name with the base letter.
+      Charges are those of the CG library (<code>params/dna_vf.lib</code>); every nucleotide carries −1 on its P bead.</p>
+      <div class="beadgrid" id="model-beads"></div>
+      <h3>Residue names</h3>
+      <table class="legend"><tbody>
+        <tr><td><code>DGX DAX DTX DCX</code></td><td>internal nucleotide</td></tr>
+        <tr><td><code>GX5 AX5 TX5 CX5</code></td><td>5′ end of a strand (no phosphate)</td></tr>
+        <tr><td><code>GX3 AX3 TX3 CX3</code></td><td>3′ end of a strand</td></tr>
+        <tr><td><code>DG1 DA1 DT1 DC1</code></td><td>"repeat" variant: the 2nd, 4th… of a run of identical internal bases. Its atom types differ,
+          so that AMBER can tell apart the η and θ torsions of the run (<code>params/repeat.lib</code>).</td></tr>
+        <tr><td><code>KW4 NW4</code></td><td>K⁺ and Na⁺ in a G-quadruplex channel (bare-ion radii towards the channel beads)</td></tr>
+      </tbody></table>
+
+      <h2>Force field (ηθDNA 1.0)</h2>
+      <p>Version 1.0 is the model developed as v18 (v18T29 + 3pB + KW4/NW4). On top of the tleap topology, the build applies, in this order:</p>
+      <ol>
+        <li>CMAP η/θ per base, and CMAP φ/χ per base; the proper torsions on the central P–K and K–N bonds are set to zero.</li>
+        <li>Junction angles K–N–base, N–K–P and K–P–K at k = 20.</li>
+        <li>Guanine: P–K–N / N–K–P(i+1) angles and the C4′–N9–N3 / C4′–N9–N7 angles of its glycosidic junction (“kn5”).</li>
+        <li>C4′ chirality improper P(i)–N–K–P(i+1).</li>
+        <li>Z typing, from the input geometry: a syn G with a Z backbone, and the C next to it, get the Z values of
+        their junction angles and the Z-specific η/θ grids.</li>
+        <li>“3pB” torsions base(i)–N(i)–K(i)–P(i+1), except on Z-typed nucleotides.</li>
+      </ol>
+      <p>The water is SIRAH's WT4, with NaCl 0.15 M on top of neutralization by default; a G-quadruplex always
+      gets channel cations. Production runs carry a flat-bottom restraint on the Watson–Crick H-bonds of the
+      terminal base pairs.</p>
+
+      <h2>Backmapping</h2>
+      <p>The CG beads give the base atoms, C4′ and P of every nucleotide. The rest of the sugar and backbone is
+      placed by internal coordinates (NeRF) from a template. Each nucleotide is built with every template and keeps
+      the one that best fits the beads it does not copy. G-quadruplex channel cations come back as K⁺/Na⁺ and
+      SIRAH proteins with SIRAH's own recipe; water and bulk ions are not reconstructed.</p>
+      <div class="tablewrap"><table id="model-templates"></table></div>
+
+      <h2>References</h2>
+      <ul>
+        <li>da Rosa G, Grille L, Dans PD. <i>J. Chem. Inf. Model.</i> (2024): the experimental η–θ map of DNA and its
+          catalogue of conformational basins, which ηθDNA is fitted to reproduce.</li>
+        <li>Grille L <i>et al.</i> <i>RNA</i> (2023): the η–θ map of RNA revisited.</li>
+        <li>Duarte CM, Pyle AM. Stepping through an RNA structure: a novel approach to conformational analysis. <i>J. Mol. Biol.</i> (1998).</li>
+        <li>SIRAH: Dans PD <i>et al.</i> <i>J. Chem. Theory Comput.</i> (2010) for DNA; Darré L <i>et al.</i> <i>J. Chem. Theory Comput.</i> (2010) for WT4 water.</li>
+      </ul>
+      <p class="hint">Authors of ηθDNA: Gabriela da Rosa, Leandro Grille and Pablo D. Dans (Dans Lab, CENUR Litoral Norte,
+      Universidad de la República, and Institut Pasteur de Montevideo), with Adrián Roitberg (University of Florida).</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ COMMAND LINE -->
+  <section id="view-cli" class="hidden">
+    <div class="doc">
+      <p>The same code runs from a terminal, with the steps that need AmberTools and SIRAH (the topology, the
+      simulation, the hydrogens of a backmapped trajectory) and without the browser's limits. Download the tools,
+      or only the ηθDNA 1.0 parameters for a pipeline of your own.</p>
+      <div class="dlgrid" id="cli-downloads"><p class="hint">Loading…</p></div>
+
+      <h2>Install</h2>
+      <pre>unzip etathetadna-tools.zip &amp;&amp; cd etathetadna-tools
+python -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt   # numpy, parmed, pdb2pqr
+export SIRAH_HOME=/path/to/sirah        # SIRAH (www.sirahff.com), not bundled
+# AmberTools on PATH: tleap and cpptraj to build and backmap, sander for the backmap minimization,
+# pmemd / pmemd.cuda to run the simulations (run_md.sh)
+.venv/bin/pip install pytest &amp;&amp; SIRAH_HOME=... .venv/bin/python -m pytest tests   # optional check</pre>
+      <table class="legend"><tbody>
+        <tr><td><b>Python ≥ 3.10</b> with NumPy and ParmEd</td><td>every tool</td></tr>
+        <tr><td><b>AmberTools</b></td><td>tleap (build, hydrogens), cpptraj (frames of a trajectory), sander (backmap minimization);
+          pmemd or pmemd.cuda for the simulations</td></tr>
+        <tr><td><b>SIRAH</b> (<code>--sirah-dir</code> or <code>SIRAH_HOME</code>)</td><td>build_dna.py and build_dna_protein.py:
+          water, ions and, for complexes, the protein</td></tr>
+        <tr><td><b>pdb2pqr</b></td><td>build_dna_protein.py only (protonation states of the protein)</td></tr>
+      </tbody></table>
+
+      <h2>Quick start</h2>
+      <pre>python build_dna.py examples/1bna.pdb -o out/1bna/1bna             # map + topology + decks + run_md.sh
+bash out/1bna/run_md.sh 1bna                                       # EM -> EQ -> 10 x 100 ns, resume-safe
+python backmap_dna.py out/1bna/1bna.prmtop out/1bna -o out/1bna_aa/1bna --n-frames 50
+python build_dna.py examples/4ocb_CG.pdb --cg-input --salt 3.0 -o out/4ocb/4ocb   # Z-DNA from a CG PDB
+python build_dna_protein.py complex.pdb -o out/complex/complex     # DNA + SIRAH protein</pre>
+      <p>One system per output directory: the deck names are fixed, and rebuilding into a directory removes the
+      decks and <code>disang.rst</code> the new build does not write.</p>
+
+      <div id="cli-ref"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ DOCS -->
+  <section id="view-docs" class="hidden">
+    <div class="doc">
+      <p>This page runs the mapping and backmapping code of the ηθDNA tools in your browser (Python compiled to
+      WebAssembly with Pyodide). Your files are read on your computer and never sent anywhere. The steps that need
+      AmberTools or SIRAH are handed over as small packages to run on your computer.</p>
+      <table class="legend"><tbody>
+        <tr><td><b>In the browser</b></td><td>atomistic → CG mapping, G-quadruplex channel cations, heavy-atom backmapping
+          (DNA, SIRAH protein, channel cations), reading AMBER trajectories</td></tr>
+        <tr><td><b>On your computer</b></td><td>the CG topology (tleap + SIRAH + the ηθDNA parameters), the simulation,
+          the hydrogens and minimization of a backmapped frame (tleap + sander), re-solvation</td></tr>
+      </tbody></table>
+
+      <h2>Tutorial: from a crystal to a CG simulation and back</h2>
+      <ol>
+        <li>In <b>Map</b>, press the <span class="kbd">1BNA</span> example, then <b>Map to ηθDNA</b>. The beads appear over the
+          crystal; the strands, the net charge and any issue are listed under it.</li>
+        <li><b>Download build package</b>. On a computer with AmberTools and SIRAH, unzip it and run
+          <code>bash 1bna/build.sh</code>: it writes the topology, the AMBER decks and <code>run_md.sh</code>.</li>
+        <li>Run the simulation with <code>bash 1bna/run_md.sh 1bna</code> (it resumes where it stopped).</li>
+        <li>In <b>Backmap</b>, choose <b>prmtop + coordinates</b> and give it <code>1bna.prmtop</code> and <code>md.nc</code>.
+          Pick how many frames, press <b>Backmap</b>, and download the all-atom PDB, or the package that adds the hydrogens.</li>
+      </ol>
+
+      <h2>Map: atomistic → CG</h2>
+      <ul>
+        <li>Input: a PDB with DNA in <code>ATOM</code> records (DA/DC/DG/DT). Each chain becomes a strand; a TER record
+          also ends one. Modified nucleotides (<code>HETATM</code>, e.g. 5-bromo-dU) are not mapped and break the strand:
+          rename them to the parent base first.</li>
+        <li>G-quadruplexes: tetrads are found by their Hoogsteen pairs; the channel gets one cation per site
+          (between tetrads by default) unless the input already has K⁺/Na⁺ in it.</li>
+        <li>Protein–DNA complexes: here only the DNA is mapped. The protein needs SIRAH's own mapping
+          (<code>build_dna_protein.py</code>, with pdb2pqr and SIRAH's <code>cgconv.pl</code>).</li>
+      </ul>
+
+      <h2>Backmap: CG → atomistic</h2>
+      <ul>
+        <li><b>CG PDB</b>: from the Map tab, from <code>convert_dna.py</code>, or frames written by cpptraj
+          (one <code>MODEL</code> per frame). The links between residues are found as tleap makes them, within each TER segment.</li>
+        <li><b>prmtop + coordinates</b>: the CG topology of the run and an AMBER NetCDF trajectory (<code>md.nc</code>), a restart
+          (<code>.rst7</code>/<code>.inpcrd</code>) or a PDB in the same atom order. This is the exact route of
+          <code>backmap_dna.py</code>.</li>
+        <li>Output: one PDB with the heavy atoms of every frame (DNA, protein, channel cations), and the template each
+          nucleotide took. The hydrogenation package adds hydrogens and runs the same 150-step vacuum minimization
+          as <code>backmap_dna.py</code>, then writes one prmtop and one trajectory.</li>
+      </ul>
+
+      <h2>Command line</h2>
+      <p>The tools, the ηθDNA 1.0 parameters and every option of <code>build_dna.py</code>, <code>build_dna_protein.py</code>,
+      <code>backmap_dna.py</code> and <code>run_md.sh</code> are in the <a href="#" id="go-cli">Command line</a> tab.</p>
+
+      <h2>Limits of the web app</h2>
+      <ul>
+        <li>Up to 100 frames per backmap run, and files that fit in the browser's memory (the trajectory is read frame by frame).</li>
+        <li>The mapping covers DNA; proteins are mapped by SIRAH's tools on your computer.</li>
+        <li>Backmapped frames have heavy atoms only, unminimized: they are a starting point for the hydrogenation package or for
+          your own minimization.</li>
+      </ul>
+    </div>
+  </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>ηθDNA tools <span id="ver"></span></span>
+    <span>Dans Lab · CENUR Litoral Norte, Universidad de la República</span>
+    <span>Runs in your browser: your files never leave your computer. No cookies.</span>
+  </div>
+</footer>
+
+<script src="vendor/ngl.js"></script>
+<script type="module" src="app.js?v=1.0.0.g2006883"></script>
+</body>
+</html>
